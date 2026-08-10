@@ -1,0 +1,71 @@
+If you are modding this in the future, may this list of variables set with the "setVariable" command help you on your way! 
+-Myth
+
+GMTI_Marker_Info (GLOBAL, assigned to "spotted" objects)
+	0: <MARKER> - TOI marker reference name.
+	1: <NUMBER> - TOTAL # of TOIs that have been spotted in the whole mission + this one (drives the TOI naming on map).
+	2: <NUMBER> - Time (measured from mission start) the target was last "spotted" by an MTI radar-equipped aircraft. This index is heavily used in MM_fnc_fadeMTI.
+	3: <OBJECT> - The aircraft that spotted the TOI.
+	4: <OBJECT> - The target/vehicle the marker belongs to.
+
+	Ex. mrap_1 getVariable "GMTI_Marker_Info" --> Returns: ["GMTI_Marker_1",1,12.69,myGlobalHawk]
+
+
+GMTI_TOI_Counter (GLOBAL, assigned to missionNamespace)
+	0: <NUMBER> - How many total TOIs have been spotted (created) in the entire mission.
+
+
+GMTI_Fading (GLOBAL, assigned to "spotted" objects)
+	0: <NUMBER> - The percent opacity a given object's TOI marker has at that moment.
+
+	Ex. mrap_1 getVariable "GMTI_Fading" --> If the marker was just displayed on the map on mrap_1's position, this will return "100" because no fading has occurred yet for mrap_1.
+
+
+GMTI_Slew_Side (GLOBAL, assigned to the aircraft)
+	0: <NUMBER> - The side of the aircraft the sensor is slewed to. 1 = Right (Starboard), 0 = Left (Port).
+
+
+GMTI_isSlewing (GLOBAL, assigned to the aircraft)
+	0: <BOOLEAN> - True if the sensor is slewing, used to prevent user from spamming the "Slew Sensor X" action and simulate the wait time of the sensor switching sides.
+
+
+GMTI_Slew_ActionID (GLOBAL, assigned to the player connected to the UAV)
+	0: <NUMBER> - The actionID of the active "Slew Sensor X" scroll wheel action. Used to delete the action when sensor is slewed to the opposite side, player disconnects from UAV, or when the aircraft is deleted.
+
+
+GMTI_Pilot (GLOBAL, assigned to the aircraft)
+	0: <OBJECT> - The player connected to the UAV via the UAV terminal.
+
+
+Assigned_MTI_Aircraft (GLOBAL, assigned to the player connected to the UAV)
+	0: <OBJECT> - The aircraft the player is connected to via the UAV terminal.
+
+
+GMTI_FoR_Action (GLOBAL, assigned to the player connected to the UAV)
+	0: <NUMBER> - The actionID for the "Toggle Field of Regard" scroll wheel option displayed on the player's screen.
+
+
+GMTI_FoR_On (GLOBAL, assigned to missionNamespace)
+	0: <ARRAY of OBJECTS> - Contains the aircraft with the FoR being displayed. Currently only supports one aircraft at a time because the Draw3D command requires global variables and those can be hard to change on the fly.
+
+
+GMTI_GRCAs (GLOBAL, assigned to the aircraft)
+	0: <NUMBER> - ID of the GRCA, sequentially. This is displayed at the bottom right of the GRCA on the map.
+	1: <NUMBER> - The x-axis width of the GRCA, halved.
+	2: <NUMBER> - The y-axis height of the GRCA, halved.
+	3: <ARRAY> - The [x,y] coordinates of the center of the GRCA.
+	4: <MARKER> - The marker reference name for the GRCA.
+	5: <MARKER> - The marker reference name for the bottom right "GRCA #" marker.
+
+	Ex. Having two GRCAs drawn, running myGlobalHawk getVariable "GMTI_GRCAs" --> Would return: [[1,100,200,[123,456],"GRCA_Box_1"],[2,300,1000,[69,420],"GRCA_Box_2"]]
+
+
+GMTI_GRCAs (GLOBAL, assigned to missionNamespace)
+	0: <NUMBER> - The ID of the "MarkerDeleted" eventhandler which controls proper deleting of GRCAs from the map. Don't touch this.
+
+
+GMTI_Mode_ActionIDs (GLOBAL, assigned to the player connected to the UAV)
+	0: <NUMBER> - ActionID for the "Switch to GRCA" scroll wheel action presented to the player connected to the UAV.
+	1: <NUMBER> - ActionID for the "Draw New GRCA" scroll wheel action presented to the player connected to the UAV.
+	2: <NUMBER> - ActionID for the "Switch to RRCA" scroll wheel action presented to the player connected to the UAV.
+	
