@@ -1,7 +1,7 @@
 /*
-	Author: Waylen
+	Author: Waylen & Myth
 
-	Locality: Local, executed on player
+	Locality: Local, executed on connected UAV pilot's machine.
 
 	Description:
 		Prompts user to click on a given GMTI marker, then prompts a dialog box to give a new name.
@@ -21,7 +21,7 @@ params [
 
 openMap true;
 
-hint parseText "<t color='#ff0000'>Click on a marker to change it's name.</t>";
+hint parseText "<t color='#ff0000'>Click on a marker to change its name.</t>";
 
 addMissionEventHandler [ 
     "MapSingleClick",
@@ -29,11 +29,10 @@ addMissionEventHandler [
         params ["_units", "_pos"];
 	    private _gh = _thisArgs select 0;
 
-	    if (isNull _gh) exitWith { hintSilent "" };
-	    if (not alive _gh) exitWith { hintSilent "" };
+	    if ( isNull _gh ) exitWith {};
+	    if ( not alive _gh ) exitWith {};
 
-        [_pos] spawn 
-        {
+        [_pos] spawn {
             params ["_pos"];
             private _foundMarker = "";
             private _closestDist = 10;
@@ -59,15 +58,29 @@ addMissionEventHandler [
 
             private _foundMarkerName = (_foundMarker call BIS_fnc_markerParams) select 8;
 
-            // get new marker name from user
-            private _inputText = ["Marker name:", "", _foundMarkerName] call BIS_fnc_inputBox;
+            // When player clicks on the marker, the selected one should turn yellow to indicate the selection. Once the text is changed and submitted, it should go back to green.
+            private _storedColor = (_foundMarker call BIS_fnc_markerParams) select 3;
+            _foundMarker setMarkerColorLocal "ColorUNKNOWN";
+
+            // Insert GUI controls HERE later so player can rename the marker
+            //
+            //
+            _inputText = "My newest test marker";
+            //
+            //
+            //
             
             if (_inputText isEqualTo "") exitWith {
-                systemChat "No name provided.";
+                hint "ERROR: No name provided.";
             };
+
+            _foundMarker setMarkerColorLocal _storedColor;
+
+            hint "Marker renamed!";
 
             _foundMarker setMarkerTextLocal _inputText;
         };
+
 		removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
     }, [_gh]
 ];
