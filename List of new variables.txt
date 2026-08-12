@@ -1,0 +1,13 @@
+RQ4Tweak_sensorOn
+
+RQ4Tweak_mtiMode
+
+RQ4Tweak_collectMTIRunning
+
+RQ4Tweak_mtiRecipients
+
+RQ4Tweak_lastSeen
+
+RQ4Tweak_isFading
+
+RQ4Tweak_grcaParams (needs to be similar to data GMTI_GRCA, specifically marker name)

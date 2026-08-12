@@ -105,6 +105,18 @@ private _modName = "USAF RQ-4 Tweak";
 
 // ---- Radar performance
 [
+	"MM_RQ4_DetectInfantry",
+	"CHECKBOX",
+	["Detect infatry","Makes the RQ-4 overpowered as hell and will absolutely clutter your map on bigger,
+	missions. Not recommended, but it's your jet."],
+	[_modName, "Radar Performance"],
+	false,
+	1,
+	{},
+	false
+] call CBA_fnc_addSetting;
+
+[
 	"MM_RQ4_Min_Altitude",
 	"EDITBOX",
 	["Minimum collection altitude [m]","If the aircraft is below this altitude, MTI cannot be collected."],
