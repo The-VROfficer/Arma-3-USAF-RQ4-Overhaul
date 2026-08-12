@@ -65,6 +65,12 @@ if ( MM_RQ4_DetectInfantry ) then {
 
 private _unsortedTargets = _ghPosASL nearEntities [_detectableKinds, MM_RQ4_Ranges_S3_Max];
 
+// If no nearby entities exist, exit and log an abnormal exit.
+if ( count _unsortedTargets < 1 ) exitWith {
+	// DEBUG LVL 2
+	WARNING(format ["MM_fnc_radarScan, %1: Abnormal exit at unsortedTargets count. No nearby entities exist.", _gh]);
+};
+
 // Remove already spotted (by other AV), dead, model hidden, mounted, out of LOS, out of speed limits, out of FoR based on slew side, out of FoR based on angle.
 private _filteredTargets = [_unsortedEntities] call MM_fnc_genericFilter;
 // DEBUG LVL 3
@@ -84,7 +90,7 @@ if ( _grcaEnabled isNotEqualTo true ) exitWith {
 	// DEBUG LVL 3
 	LOG(format ["MM_fnc_radarScan, %1: Exiting at GRCA check, grcaEnabled is not true (%2).", _gh, _grcaEnabled]);
 	
-	[_s1Targets, _s2Targets, _s3Targets]
+	[_s1Targets, _s2Targets, _s3Targets];
 };
 
 // ---------------------------------
@@ -112,4 +118,4 @@ private _s3GrcaTargets = [];
 	} forEach _s1Targets + _s2Targets + _s3Targets;
 } forEach _grcas;
 
-[_s1GrcaTargets, _s2GrcaTargets, _s3GrcaTargets]
+[_s1GrcaTargets, _s2GrcaTargets, _s3GrcaTargets];

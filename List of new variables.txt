@@ -7,7 +7,12 @@ RQ4Tweak_collectMTIRunning
 RQ4Tweak_mtiRecipients
 
 RQ4Tweak_lastSeen
+    0: <NUMBER> - The last serverTime the target was spotted by an AV.
+    1: <OBJECT> - The AV that last spotted the target.
 
 RQ4Tweak_isFading
 
 RQ4Tweak_grcaParams (needs to be similar to data GMTI_GRCA, specifically marker name)
+
+RQ4Tweak_slewSide
+    0: <NUMBER> - The side the sensor is slewed to. 0=Left, 1=Right.

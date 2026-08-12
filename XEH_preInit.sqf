@@ -266,6 +266,18 @@ private _modName = "USAF RQ-4 Tweak";
 ] call CBA_fnc_addSetting;
 
 [
+	"MM_RQ4_Allow_Duplicate_Markers",
+	"CHECKBOX",
+	["Allow Duplicate Markers","Allows a target spotted by multiple MTI vehicles to have multiple MTI markers overlayed on it. Useful if you
+	want to use multiple RQ-4s to increase your marker accuracy at longer ranges."],
+	[_modName, "Radar Performance"],
+	false,
+	1,
+	{},
+	false
+] call CBA_fnc_addSetting;
+
+[
 	"MM_RQ4_TOI_Num",
 	"EDITBOX",
 	"Starting number for TOI marker naming",

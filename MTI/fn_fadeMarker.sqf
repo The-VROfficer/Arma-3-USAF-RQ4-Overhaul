@@ -41,12 +41,12 @@ if ( _target getVariable ["RQ4Tweak_lastSeen", []] isEqualTo [] ) exitWith {
 };
 
 // Define time target was last seen by AV.
-private _lastSeen = _target getVariable "RQ4Tweak_lastSeen";
+private _lastSeen = _target getVariable "RQ4Tweak_lastSeen" select 0;
 
 // If timeStarted minus target's last seen time is less than the begin fadeout threshold, exit script.
-if ( (_timeStarted ) < MM_RQ4_Fade_Time ) exitWith {
+if ( (_timeStarted - _lastSeen) < MM_RQ4_Update_Rate ) exitWith {
 	//DEBUG
-	LOG(format ["MM_fnc_fadeMarker, %1: Exiting MM_fnc_fadeMarker - Reason: Delta T less than begin fadeout threshold (%2 < %3).", _target, (_timeStarted - _lastSeen), MM_RQ4_Fade_Time]);
+	WARNING(format ["MM_fnc_fadeMarker, %1: Abnormal exit of MM_fnc_fadeMarker - Reason: Delta T less than the radar scan interval (%2 < %3).", _target, (_timeStarted - _lastSeen), MM_RQ4_Update_Rate]);
 };
 
 // ---------------------------------
