@@ -77,6 +77,7 @@ private _sideRecipients = {
 
 // Evaluate if there are any MTI recipient players (on the entire server first, then on this AV's side specifically). If none exist, exit.
 if ( ( count (call _mtiRecipients) < 1) or (count (call _sideRecipients) < 1) ) exitWith {
+	// DEBUG LVL 3
 	LOG(format ["MM_fnc_collectMTI, %1: Exiting at MTI recipient check - Total recipients: %2, Sames-side recipients: %3", _gh, _mtiRecipients, _sideRecipients]);
 };
 
@@ -89,21 +90,25 @@ _collectionLoop = while { not isNull _gh } do {
 	// Define all break out conditions
 	if ( not alive _gh ) then {
 		breakWith "DEAD";
+		// DEBUG LVL 3
 		LOG(format ["MM_fnc_collectMTI, %1: Collection loop canceled, %1 is dead.", _gh]);
 	};
 
 	if ( count (call _sideRecipients) < 1 ) then {
 		breakWith "NO_SIDE_RECIPIENTS";
+		// DEBUG LVL 3
 		LOG(format ["MM_fnc_collectMTI, %1: Collection loop canceled, no MTI recipients on side of %1.", _gh, call _sideRecipients]);
 	};
 
 	if ( (getPosATL _gh select 2) < 3000 ) then {
 		breakWith "LOW_ALT";
+		// DEBUG LVL 3
 		LOG(format ["MM_fnc_collectMTI, %1: Collection loop canceled, %1 altitude AGL is too low (%2).", _gh, getPosATL _gh select 2]);
 	};
 
 	if ( _gh getVariable ["RQ4Tweak_sensorOn", []] isNotEqualTo true ) then {
 		breakWith "SENSOR_OFF";
+		// DEBUG LVL 3
 		LOG(format ["MM_fnc_collectMTI, %1: Collection loop canceled, %1 sensor is off (%2).", _gh, _gh getVariable ["RQ4Tweak_sensorOn", []]]);
 	};
 
@@ -114,6 +119,7 @@ _collectionLoop = while { not isNull _gh } do {
 
 		[_gh] call MM_fnc_radarScan;
 	} else {
+		// DEBUG LVL 3
 		LOG(format ["MM_fnc_collectMTI, %1: Calling MM_fnc_radarScan - Params: %1, true (GRCA).", _gh]);
 
 		[_gh, true] call MM_fnc_radarScan;
@@ -121,6 +127,20 @@ _collectionLoop = while { not isNull _gh } do {
 
 	// Perform Probability of Detect randomization
 	_finalTargets = [_filteredTargets] call MM_fnc_applyPoD;
+
+	// Now that filtering is complete, tag remaining targets as "seen" by this AV.
+	{
+		private _hourSpotted = floor dayTime;
+		private _minuteSpotted = floor ((dayTime - _hourSpotted) * 60);
+		if ( _minuteSpotted < 10 ) then {
+			_minuteSpotted = format ["0%1", _minuteSpotted]
+		};
+		
+		_x setVariable ["RQ4Tweak_lastSeen", [time, [_hourSpotted, _minuteSpotted], _gh], true];
+
+		// DEBUG LVL 3
+		LOG(format ["MM_fnc_collectMTI, %1: %2 update to lastSeen [%3, %4, %1].", _gh, _x, time, [_hourSpotted, _minuteSpotted]]);
+	} forEach _finalTargets;
 
 	// Send final targets to be created (or updated if already exists) on MTI recipients' maps via fnc_handleMTIMarker
 	[_finalTargets] call MM_fnc_handleMTIMarker;

@@ -11,7 +11,7 @@
 		1: <ARRAY> - The objects to be filtered, passed by MM_fnc_radarScan.
 
 	Returns:
-		Array of arrays - The objects that qualify to become MTI targets.
+		Array of objects - The objects that qualify to become MTI targets.
 
 	Examples:
 		[myGlobalHawk, [car_1, myPlane, mrAnderson]] spawn MM_fnc_genericFilter
@@ -52,7 +52,7 @@ if ( _indexToDelete > -1 ) then {
 // Create forEach loop to check all targets passed in unsortedTargets for validity.
 {
 	// If target has been spotted by a different AV, and Dupe Markers addon option is not enabled, remove the target to prevent unwanted duplication.
-	private _lastSpottedBy = _x getVariable ["RQ4Tweak_lastSeen", []] select 1;
+	private _lastSpottedBy = _x getVariable ["RQ4Tweak_lastSeen", []] select 2;
 	if ( (_lastSpottedBy isNotEqualTo _gh) and (not MM_RQ4_Allow_Duplicate_Markers) ) then {
 		// DEBUG LVL 3
 		LOG(format ["MM_fnc_genericFilter, %1: Target %2 already spotted by %3, deleting.", _gh, _x, _lastSpottedBy]);

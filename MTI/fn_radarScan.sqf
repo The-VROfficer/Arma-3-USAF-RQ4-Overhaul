@@ -13,8 +13,10 @@
 			0=Disabled, 1=Enabled.
 
 	Returns:
-		Array of arrays
-			0: Range bin 1 - 1: Range bin 2 - 2: Range bin 3
+		Array of arrays:
+			0: Range bin 1
+			1: Range bin 2
+			2: Range bin 3
 
 	Examples:
 		[myGlobalHawk, true] call MM_fnc_radarScan
