@@ -36,9 +36,31 @@ private _s3XTargets = _allBins select 2;
 // Dice roll, see if distance-sorted targets pass the PoD check, if not, target gets deleted from the detection pool on this pass
 {
 	switch (true) do {
-		case ( _x in _s1XTargets ): { if ( random 1.0 >= MM_RQ4_PoD_S1 ) then { _s1XTargets deleteAt _forEachIndex } };
-		case ( _x in _s2XTargets ): { if ( random 1.0 >= MM_RQ4_PoD_S2 ) then { _s2XTargets deleteAt _forEachIndex } };
-		case ( _x in _s3XTargets ): { if ( random 1.0 >= MM_RQ4_PoD_S3 ) then { _s3XTargets deleteAt _forEachIndex } };
+		case ( _x in _s1XTargets ): { if ( random 1.0 >= MM_RQ4_PoD_S1 ) then { 
+				// DEBUG LVL 3
+				LOG(format ["MM_fnc_applyPoD, %1: Target %2 (S1) eliminated.", _gh, _x]);
+				
+				// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
+				[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+
+				_s1XTargets deleteAt _forEachIndex;
+			} };
+		case ( _x in _s2XTargets ): { if ( random 1.0 >= MM_RQ4_PoD_S2 ) then { 
+				// DEBUG LVL 3
+				LOG(format ["MM_fnc_applyPoD, %1: Target %2 (S2) eliminated.", _gh, _x]);
+
+				[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+
+				_s2XTargets deleteAt _forEachIndex;
+			} };
+		case ( _x in _s3XTargets ): { if ( random 1.0 >= MM_RQ4_PoD_S3 ) then {
+				// DEBUG LVL 3
+				LOG(format ["MM_fnc_applyPoD, %1: Target %2 (S3) eliminated.", _gh, _x]);
+
+				[_x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+
+				_s3XTargets deleteAt _forEachIndex;
+			} };
 	};
 } forEach _s1XTargets + _s2XTargets + _s3XTargets;
 

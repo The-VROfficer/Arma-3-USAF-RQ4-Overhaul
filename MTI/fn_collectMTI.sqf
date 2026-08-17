@@ -136,6 +136,7 @@ _collectionLoop = while { not isNull _gh } do {
 			_minuteSpotted = format ["0%1", _minuteSpotted]
 		};
 		
+		_x setVariable ["RQ4Tweak_isFading", false, true];
 		_x setVariable ["RQ4Tweak_lastSeen", [time, [_hourSpotted, _minuteSpotted], _gh], true];
 
 		// DEBUG LVL 3

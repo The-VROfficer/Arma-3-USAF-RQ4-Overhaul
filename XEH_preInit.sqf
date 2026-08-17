@@ -97,7 +97,7 @@ private _modName = "USAF RQ-4 Tweak";
 	"LIST",
 	["Radar start slew","Determines the default side the radar will be looking when a new aircraft is spawned in."],
 	[_modName, "Radar Control"],
-	[[1,0], ["Left", "Right"], 0],
+	[[0,1], ["Left", "Right"], 0],
 	1,
 	{},
 	true

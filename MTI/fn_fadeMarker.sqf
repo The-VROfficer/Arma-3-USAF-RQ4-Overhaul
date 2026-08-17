@@ -69,7 +69,7 @@ while { (_target getVariable "RQ4Tweak_isFading") and (_markerOpacity > 0)} do {
 };
 
 // Check if reason for loop termination was target being respotted by the AV.
-if ( (_target getVariable "GMTI_isRQ4Tweak_isFadingFading") isEqualTo false ) exitWith {
+if ( (_target getVariable "RQ4Tweak_isFading") isEqualTo false ) exitWith {
 	LOG(format ["MM_fnc_fadeMarker, %1: Exiting MM_fnc_fadeMarker at Fade Out - Reason: %1 was respotted by an AV.", _target]);
 };
 

@@ -1,10 +1,30 @@
 RQ4Tweak_sensorOn
+    Used in: fn_collectMTI; Used to terminate the collection loop if the sensor is turned of via the sensor control GUI.
+
+    Belongs to: The AV.
+
+    0: <BOOLEAN> - True or False, depending on the sensor's operating state.
 
 RQ4Tweak_mtiMode
+    Used in: fn_radarScan; Defines (through the sensor control GUI) if the AV is in the RRCA or GRCA collection mode.
+
+    Belongs to: The AV.
+
+    0: <STRING> - "RRCA" or "GRCA"
 
 RQ4Tweak_collectMTIRunning
+    Used in: fn_collectMTI; Prevents user/server from accidently executing fn_collectMTI if another instance of the script is already running.
+
+    Belongs to: The AV.
+
+    0: <BOOLEAN> - Placeholder "true" just to define the variable.
 
 RQ4Tweak_mtiRecipients
+    Used in: fn_collectMTI; Constantly updating list of clients that should receive MTI markers.
+
+    Belongs to: missionNamespace
+
+    0: <ARRAY> - Object names of clients.
 
 RQ4Tweak_lastSeen
     0: <NUMBER> - The last serverTime the target was spotted by an AV.
@@ -12,29 +32,44 @@ RQ4Tweak_lastSeen
     2: <OBJECT> - The AV that last spotted the target.
 
 RQ4Tweak_isFading
-
-RQ4Tweak_grcaParams (needs to be similar to data GMTI_GRCA, specifically marker name)
-
-RQ4Tweak_slewSide
-    0: <NUMBER> - The side the sensor is slewed to. 0=Left, 1=Right.
-
-RQ4Tweak_mtiMarkerParams
-    Used in: Evaluating if marker exists in fn_handleMTIMarker. Is set to nil at the end of fn_fadeMarker if target is "forgotten".
+    Used in: fn_genericFilter / fn_applyPoD / fn_fadeMarker / fn_collectMTI; 
+        Used to determine if the fadeout script is running, gets set to True at the beginning of fn_fadeMarker, and set to False if the target is spotted in fn_collectMTI.
 
     Belongs to: The target object.
 
-    0: 
+    0: <BOOLEAN> - True or False, 
+
+RQ4Tweak_grcaParams (needs to be similar to data GMTI_GRCA, specifically marker name)
+    Used in:
+
+    Belongs to:
+
+    0: <NUMBER> - The side the sensor is slewed to. 0=Left, 1=Right.
+
+RQ4Tweak_slewSide
+    Used in: fn_genericFilter; Stores the current slew side for the radar. Is updated by the sensor control GUI.
+
+    Belongs to: The AV.
+
+    0: <NUMBER> - The side the sensor is slewed to. 0=Left, 1=Right.
+
+RQ4Tweak_mtiMarkerParams
+    Used in: fn_handleMTIMarker / fn_createMTIMarker / fn_updateMTIMarker; Evaluating if marker exists in fn_handleMTIMarker. Is set to nil at the end of fn_fadeMarker if target is "forgotten".
+
+    Belongs to: The target object.
+
+    0: <MARKER> - The reference ID for the marker.
+    1: 
 
 RQ4Tweak_mtiMarkerJIPC
-    Used in: Storing the JIP ID of the MTI marker's creation. Used to delete a marker from the JIP queue later, if required.
+    Used in: fn_createMTIMarker; Storing the JIP ID of the MTI marker's creation. Used to delete a marker from the JIP queue later, if required.
 
     Belongs to: The target object.
 
     0: <NUMBER> - The JIP ID of the createMarkerLocal action.
 
 RQ4Tweak_mtiMarkerJIPU
-    Used in: Storing the JIP Id of the MTI marker's most recent update.
+    Used in: fn_updateMTIMarker; Storing the JIP Id of the MTI marker's most recent update.
 
     Belongs to: The target object.
 
-    
