@@ -91,3 +91,6 @@ if ( (_target getVariable "RQ4Tweak_isFading") isEqualTo false ) exitWith {
 deleteMarker _marker;
 
 // Add code to remove marker data HERE
+//
+
+_target setVariable ["RQ4Tweak_mtiMarkerParams", nil, true];

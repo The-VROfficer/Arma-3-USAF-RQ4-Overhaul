@@ -143,7 +143,7 @@ _collectionLoop = while { not isNull _gh } do {
 	} forEach _finalTargets;
 
 	// Send final targets to be created (or updated if already exists) on MTI recipients' maps via fnc_handleMTIMarker
-	[_finalTargets] call MM_fnc_handleMTIMarker;
+	[_gh, _finalTargets] call MM_fnc_handleMTIMarker;
 
 	// Wait until next simulated radar sweep
 	sleep MM_RQ4_Update_Rate;

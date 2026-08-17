@@ -23,7 +23,7 @@
 
 params [
 	["_gh", objNull, [obNull]],
-	["_unsortedTargets", [], [[true]]]
+	["_unsortedTargets", [], [[]]]
 ];
 
 // DEBUG LVL 3

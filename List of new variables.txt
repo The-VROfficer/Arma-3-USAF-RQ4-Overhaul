@@ -17,3 +17,24 @@ RQ4Tweak_grcaParams (needs to be similar to data GMTI_GRCA, specifically marker 
 
 RQ4Tweak_slewSide
     0: <NUMBER> - The side the sensor is slewed to. 0=Left, 1=Right.
+
+RQ4Tweak_mtiMarkerParams
+    Used in: Evaluating if marker exists in fn_handleMTIMarker. Is set to nil at the end of fn_fadeMarker if target is "forgotten".
+
+    Belongs to: The target object.
+
+    0: 
+
+RQ4Tweak_mtiMarkerJIPC
+    Used in: Storing the JIP ID of the MTI marker's creation. Used to delete a marker from the JIP queue later, if required.
+
+    Belongs to: The target object.
+
+    0: <NUMBER> - The JIP ID of the createMarkerLocal action.
+
+RQ4Tweak_mtiMarkerJIPU
+    Used in: Storing the JIP Id of the MTI marker's most recent update.
+
+    Belongs to: The target object.
+
+    
