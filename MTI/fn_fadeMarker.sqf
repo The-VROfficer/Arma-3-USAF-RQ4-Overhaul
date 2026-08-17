@@ -92,5 +92,6 @@ deleteMarker _marker;
 
 // Add code to remove marker data HERE
 //
+_target setVariable ["RQ4Tweak_mtiSector", nil, true];
 
 _target setVariable ["RQ4Tweak_mtiMarkerParams", nil, true];

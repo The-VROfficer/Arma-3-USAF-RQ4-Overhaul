@@ -64,6 +64,15 @@ private _s3XTargets = _allBins select 2;
 	};
 } forEach _s1XTargets + _s2XTargets + _s3XTargets;
 
+// Add a variable noting which sector each target is in. This will be used in fn_createMTIMarker / fn_updateMTIMarker.
+{
+	switch (true) do {
+		case ( _x in _s1XTargets ): { _x setVariable ["RQ4Tweak_mtiSector", 1, true] };
+		case ( _x in _s2XTargets ): { _x setVariable ["RQ4Tweak_mtiSector", 2, true] };
+		case ( _x in _s3XTargets ): { _x setVariable ["RQ4Tweak_mtiSector", 3, true] };
+	};
+} forEach _s1XTargets + _s2XTargets + _s3XTargets
+
 private _finalTargets = _s1XTargets + _s2XTargets + _s3XTargets;
 
 // ---------------------------------

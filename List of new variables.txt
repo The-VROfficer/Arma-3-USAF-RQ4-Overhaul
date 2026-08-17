@@ -73,3 +73,18 @@ RQ4Tweak_mtiMarkerJIPU
 
     Belongs to: The target object.
 
+    0: <NUMBER> - The JIP ID of the most recent code block that makes several changes to the existing MTI marker. Overwrites all previous JIPU IDs.
+
+RQ4Tweak_mtiMarkerColor
+    Used in: fn_createMTIMarker / fn_updateMTIMarker; Used to track the color MTI markers should be on the map, as selected in the sensor control GUI.
+
+    Belongs to: The AV.
+
+    0: <ARRAY> - The RGBA color selected in the sensor control GUI.
+
+RQ4Tweak_mtiSector
+    Used in: fn_applyPoD / fn_createMTIMarker / fn_updateMTIMarker; Describes what range sector the object is in, is set in fn_applyPoD. Is necessary to apply proper PoD params in fn_createMTIMarker / fn_updateMTIMarker.
+
+    Belongs to: The target.
+
+    0: <NUMBER> - The sector the target belongs to, ex. 1, 2, or 3
