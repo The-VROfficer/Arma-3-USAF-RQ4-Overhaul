@@ -41,7 +41,7 @@ private _s3XTargets = _allBins select 2;
 				LOG(format ["MM_fnc_applyPoD, %1: Target %2 (S1) eliminated.", _gh, _x]);
 				
 				// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-				[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+				[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 
 				_s1XTargets deleteAt _forEachIndex;
 			} };
@@ -49,7 +49,7 @@ private _s3XTargets = _allBins select 2;
 				// DEBUG LVL 3
 				LOG(format ["MM_fnc_applyPoD, %1: Target %2 (S2) eliminated.", _gh, _x]);
 
-				[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+				[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 
 				_s2XTargets deleteAt _forEachIndex;
 			} };
@@ -57,7 +57,7 @@ private _s3XTargets = _allBins select 2;
 				// DEBUG LVL 3
 				LOG(format ["MM_fnc_applyPoD, %1: Target %2 (S3) eliminated.", _gh, _x]);
 
-				[_x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+				[_x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 
 				_s3XTargets deleteAt _forEachIndex;
 			} };

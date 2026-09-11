@@ -112,12 +112,15 @@ private _createMTIMarker = [_gh, _target] call {
 	private _mtiMarkerParams = _target getVariable "RQ4Tweak_mtiMarkerParams";
 	_mtiMarkerParams params ["_varName", "_pos", "_size", "_color", "_type", "_brush", "_shape", "_alpha", "_text"];
 
-	private _varName = createMarkerLocal [_text, _pos];
-	_varName setMarkerTextLocal _text;
-	_varName setMarkerShapeLocal _shape;
-	_varName setMarkerTypeLocal _type;
-	_varName setMarkerColorLocal _color;
-	_varName setMarkerSizeLocal _size;
+	// varName is an array with string, so select the first index.
+	private _markerName = _varName select 0;
+
+	private _markerName = createMarkerLocal [_text, _pos];
+	_markerName setMarkerTextLocal _text;
+	_markerName setMarkerShapeLocal _shape;
+	_markerName setMarkerTypeLocal _type;
+	_markerName setMarkerColorLocal _color;
+	_markerName setMarkerSizeLocal _size;
 };
 
 private _mtiMarkerJIPC = [] remoteExecCall ["_createMTIMarker", _mtiRecipients, true]; 

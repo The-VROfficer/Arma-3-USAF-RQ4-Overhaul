@@ -21,6 +21,9 @@
 // Script Start and Setup
 // ---------------------------------
 
+// Define the FoR params.
+#include "gh_defines.hpp"
+
 params [
 	["_gh", objNull, [obNull]],
 	["_unsortedTargets", [], [[]]]
@@ -58,7 +61,7 @@ if ( _indexToDelete > -1 ) then {
 		LOG(format ["MM_fnc_genericFilter, %1: Target %2 already spotted by %3, deleting.", _gh, _x, _lastSpottedBy]);
 
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 
 		_unsortedTargets deleteAt _forEachIndex;
 
@@ -72,7 +75,7 @@ if ( _indexToDelete > -1 ) then {
 		LOG(format ["MM_fnc_genericFilter, %1: Target %2 is below LOS threshold (%3), deleting.", _gh, _x, _losDecimal]);
 		
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 
 		_unsortedTargets deleteAt _forEachIndex;
 
@@ -90,7 +93,7 @@ if ( _indexToDelete > -1 ) then {
 		(vehicle _x isNotEqualTo _x)
 	) then {
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 
 		_unsortedTargets deleteAt _forEachIndex;
 
@@ -103,7 +106,7 @@ if ( _indexToDelete > -1 ) then {
 		LOG(format ["MM_fnc_genericFilter, %1: Target %2 is outside of speed threshold (%3), deleting.", _gh, _x, speed _x]);
 
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 		
 		_unsortedTargets deleteAt _forEachIndex;
 
@@ -120,7 +123,7 @@ if ( _indexToDelete > -1 ) then {
 		LOG(format ["MM_fnc_genericFilter, %1: Target %2 is blindspot (%3 relDir), deleting.", _gh, _x, _gh getRelDir _x]);
 		
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 
 		_unsortedTargets deleteAt _forEachIndex;
 
@@ -140,7 +143,7 @@ if ( _indexToDelete > -1 ) then {
 		LOG(format ["MM_fnc_genericFilter, %1: Target %2 is outside of FoR boundaries (%3 | %4-%5), deleting.", _gh, _x, _gh getRelDir _x, BothFOV select _slewSide select 0, BothFOV select _slewSide select 1]);
 		
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0, _gh] spawn MM_fnc_fadeMarker;
+		[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", ""] select 0 select 0, _gh] spawn MM_fnc_fadeMarker;
 
 		_unsortedTargets deleteAt _forEachIndex;
 
