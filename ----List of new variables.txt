@@ -94,4 +94,11 @@ RQ4Tweak_mtiSector
 
     Belongs to: The target.
 
+<<<<<<< HEAD:----List of new variables.txt
     0: <NUMBER> - The sector the target belongs to, ex. 1, 2, or 3.
+=======
+    0: <NUMBER> - The sector the target belongs to, ex. 1, 2, or 3
+
+
+    this is a test of git checkout
+>>>>>>> a7dfe60b0cd0f6e01a78843cce15ec9faf9f81d9:List of new variables.txt
