@@ -22,6 +22,8 @@
 // Script Start and Setup
 // ---------------------------------
 
+#include "\x\cba\addons\main\script_macros_common.hpp"
+
 params [
 	["_target", objNull, [objNull]],
 	["_marker", "", [""]],

@@ -1,11 +1,55 @@
 private _modName = "USAF RQ-4 Tweak";
 
+// BACN Setup
+[
+	"MM_RQ4_MaxBACNUsers",
+	"EDITBOX",
+	["Maximum concurrent connections", "Sets how many individual users may be connected to the BACN at any one time."],
+	[_modName, "BACN Settings"],
+	"10",
+	1,
+	{},
+	true
+] call CBA_fnc_addSetting;
+
+[
+	"MM_RQ4_Enable_BACN_LOS",
+	"CHECKBOX",
+	["Enable BACN LOS calculations","Enables the use of Line-of-Sight (LOS) calculations by the BACN payload. If a
+	player walks into a building, or their LOS to the aircraft is obstructed, their connection
+	will be 'held' until at least 25% LOS is regained.
+	"],
+	[_modName, "BACN Settings"],
+	true,
+	1,
+	{},
+	true
+] call CBA_fnc_addSetting;
+
+[
+	"MM_RQ4_BACN_LOS_Adjustment",
+	"SLIDER",
+	["LOS height adjustment [m]","This value controls the positive vertical offset for the LOS calculation. The higher
+	this number, the less chance that buildings, vehicles, and terrain features will block your LOS.
+	(Basically, this number puts your radio higher in the air above your head but invisibly.)"],
+	[_modName, "BACN Settings"],
+	[0, 50, 5, 0, false],
+	1,
+	{},
+	false
+] call CBA_fnc_addSetting;
+
+// Section Ranges
 [
 	"MM_RQ4_RangesSimple",
 	"CHECKBOX",
-	["Standardized radar ranges (RECOMMENDED)","ENABLING THIS SETTING OVERWRITES ALL RANGE INPUTS! Sets all radar ranges to the most balanced ranges,
-	making the RQ-4 extremely useful but not TOO overpowered.
-	S1: 1000 - 2900 m, S2: 3000 - 5999 m, S3: 6000 - 12000 m"],
+	["Standardized radar ranges (RECOMMENDED)","ENABLING THIS SETTING OVERWRITES ALL RANGE INPUTS!
+	
+	Sets all radar ranges to the most balanced ranges, making the RQ-4 extremely
+	useful but not TOO overpowered.
+
+	S1: 1000 - 2900 m, S2: 3000 - 5999 m, S3: 6000 - 12000 m
+	"],
 	[_modName, "Radar Ranges"],
 	true,
 	1,
@@ -16,7 +60,7 @@ private _modName = "USAF RQ-4 Tweak";
 [
 	"MM_RQ4_Ranges_S1_Min",
 	"EDITBOX",
-	"Sector 1 low-end range [meters]",
+	"Sector 1 lower-bound range [meters]",
 	[_modName, "Radar Ranges"],
 	"1000",
 	1,
@@ -27,7 +71,7 @@ private _modName = "USAF RQ-4 Tweak";
 [
 	"MM_RQ4_Ranges_S1_Max",
 	"EDITBOX",
-	"Sector 1 high-end range [meters]",
+	"Sector 1 higher-bound range [meters]",
 	[_modName, "Radar Ranges"],
 	"2999",
 	1,
@@ -38,7 +82,7 @@ private _modName = "USAF RQ-4 Tweak";
 [
 	"MM_RQ4_Ranges_S2_Min",
 	"EDITBOX",
-	"Sector 2 low-end range [meters]",
+	"Sector 2 lower-bound range [meters]",
 	[_modName, "Radar Ranges"],
 	"3000",
 	1,
@@ -49,7 +93,7 @@ private _modName = "USAF RQ-4 Tweak";
 [
 	"MM_RQ4_Ranges_S2_Max",
 	"EDITBOX",
-	"Sector 2 high-end range [meters]",
+	"Sector 2 higher-bound range [meters]",
 	[_modName, "Radar Ranges"],
 	"5999",
 	1,
@@ -60,7 +104,7 @@ private _modName = "USAF RQ-4 Tweak";
 [
 	"MM_RQ4_Ranges_S3_Min",
 	"EDITBOX",
-	"Sector 3 low-end range [meters]",
+	"Sector 3 lower-bound range [meters]",
 	[_modName, "Radar Ranges"],
 	"6000",
 	1,
@@ -71,7 +115,7 @@ private _modName = "USAF RQ-4 Tweak";
 [
 	"MM_RQ4_Ranges_S3_Max",
 	"EDITBOX",
-	"Sector 3 high-end range [meters]",
+	"Sector 3 higher-bound range [meters]",
 	[_modName, "Radar Ranges"],
 	"12000",
 	1,
@@ -117,6 +161,41 @@ private _modName = "USAF RQ-4 Tweak";
 ] call CBA_fnc_addSetting;
 
 [
+	"MM_RQ4_Allow_Duplicate_Markers",
+	"CHECKBOX",
+	["Allow Overlapping Collect","Allows a single target to be spotted and tracked by multiple MTI vehicles. Useful if you
+	want to use multiple RQ-4s to increase your marker accuracy at longer ranges and decrease your time between scans."],
+	[_modName, "Radar Performance"],
+	true,
+	1,
+	{},
+	false
+] call CBA_fnc_addSetting;
+
+[
+	"MM_RQ4_Enable_LOS",
+	"CHECKBOX",
+	["Use Line-of-Sight Calculation","Assess the line-of-sight (LOS) from the AV to the potential target on each update. If the LOS is
+	less than 40%, the target is not 'seen'."],
+	[_modName, "Radar Performance"],
+	true,
+	1,
+	{},
+	false
+] call CBA_fnc_addSetting;
+
+[
+	"MM_RQ4_Update_Rate",
+	"EDITBOX",
+	"Radar update rate [seconds]",
+	[_modName, "Radar Performance"],
+	"5",
+	1,
+	{},
+	false
+] call CBA_fnc_addSetting;
+
+[
 	"MM_RQ4_Min_Altitude",
 	"EDITBOX",
 	["Minimum collection altitude [m]","If the aircraft is below this altitude, MTI cannot be collected."],
@@ -144,17 +223,6 @@ private _modName = "USAF RQ-4 Tweak";
 	"Target maximum speed for detection [km/h]",
 	[_modName, "Radar Performance"],
 	"200",
-	1,
-	{},
-	false
-] call CBA_fnc_addSetting;
-
-[
-	"MM_RQ4_Update_Rate",
-	"EDITBOX",
-	"Radar update rate [seconds]",
-	[_modName, "Radar Performance"],
-	"5",
 	1,
 	{},
 	false
@@ -263,18 +331,6 @@ private _modName = "USAF RQ-4 Tweak";
 	0,
 	{},
 	true
-] call CBA_fnc_addSetting;
-
-[
-	"MM_RQ4_Allow_Duplicate_Markers",
-	"CHECKBOX",
-	["Allow Duplicate Markers","Allows a target spotted by multiple MTI vehicles to have multiple MTI markers overlayed on it. Useful if you
-	want to use multiple RQ-4s to increase your marker accuracy at longer ranges."],
-	[_modName, "Radar Performance"],
-	false,
-	1,
-	{},
-	false
 ] call CBA_fnc_addSetting;
 
 [

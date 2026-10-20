@@ -27,8 +27,14 @@ RQ4Tweak_mtiRecipients
     0: <ARRAY> - Object names of clients.
 
 RQ4Tweak_lastSeen
+    Used in: fn_collectMTI / fn_createMTIMarker / fn_updateMTIMarker / fn_fadeMarker / fn_genericFilter; Stores the last time the passed target was seen (in-game time) and which AV spotted it.
+
+    Belongs to: The target.
+
     0: <NUMBER> - The last serverTime the target was spotted by an AV.
     1: <ARRAY> - The in-game [hour, minute] the target was spotted by the AV.
+        1-0: <NUMBER> - Hour
+        1-1: <STRING> - 2-digit minute.
     2: <OBJECT> - The AV that last spotted the target.
 
 RQ4Tweak_isFading
@@ -38,13 +44,6 @@ RQ4Tweak_isFading
     Belongs to: The target object.
 
     0: <BOOLEAN> - True or False, 
-
-RQ4Tweak_grcaParams (needs to be similar to data GMTI_GRCA, specifically marker name)
-    Used in:
-
-    Belongs to:
-
-    0: <NUMBER> - The side the sensor is slewed to. 0=Left, 1=Right.
 
 RQ4Tweak_slewSide
     Used in: fn_genericFilter; Stores the current slew side for the radar. Is updated by the sensor control GUI.
@@ -58,8 +57,15 @@ RQ4Tweak_mtiMarkerParams
 
     Belongs to: The target object.
 
-    0: <MARKER> - The reference ID for the marker.
-    1: 
+    0: <Array with String> - Marker's variable name
+    1: <Array format Position> - Marker position (see setMarkerPos)
+    2: <Array of Numbers in format [x, y]> - Marker size (see setMarkerSize)
+    3: <String> - colour (see setMarkerColor)
+    4: <String> - type (see setMarkerType)
+    5: <String> - brush (see setMarkerBrush)
+    6: <String> - shape (see setMarkerShape)
+    7: <Number> - transparency (see setMarkerAlpha)
+    8: <String> - text (see setMarkerText)
 
 RQ4Tweak_mtiMarkerJIPC
     Used in: fn_createMTIMarker; Storing the JIP ID of the MTI marker's creation. Used to delete a marker from the JIP queue later, if required.
@@ -80,7 +86,7 @@ RQ4Tweak_mtiMarkerColor
 
     Belongs to: The AV.
 
-    0: <ARRAY> - The RGBA color selected in the sensor control GUI.
+    0: <ARRAY> - The desired color from CfgMarkerColors, or RGBA.
 
 RQ4Tweak_mtiSector
     Used in: fn_applyPoD / fn_createMTIMarker / fn_updateMTIMarker; Describes what range sector the object is in, is set in fn_applyPoD. Is necessary to apply proper PoD params in fn_createMTIMarker / fn_updateMTIMarker.
@@ -89,5 +95,91 @@ RQ4Tweak_mtiSector
 
     0: <NUMBER> - The sector the target belongs to, ex. 1, 2, or 3
 
+RQ4Tweak_totalTOIs
+    Used in: fn_createMTIMarker / fn_updateMTIMarker; Tracks all TOIs that the passed AV is tracking. Increases +1 every time a new TOI is spotted, including ones that were previously spotted but forgotten.
 
-    this is a test of git checkout
+    Belongs to: The AV.
+
+    0: <NUMBER> - The total number of TOIs the AV has spotted over its lifetime.
+
+RQ4Tweak_trackedTargets
+    Used in: fn_collectMTI
+
+    Belongs to: The AV.
+
+    0: <ARRAY> - Object names of the targets that have been "spotted" and filtered by the UAV, i.e. the targets that should have TOI markers added to them.
+
+RQ4Tweak_grcaDeleteEH
+    Used in: fn_drawGRCA
+
+    Belongs to: missionNamespace.
+
+    0: <NUMBER> - The ID for the single missionEventHandler that evaluates if ANY deleted marker was a GRCA marker, and if it was, handles the necessary deletion of the highlighted area, etc. etc.
+
+RQ4Tweak_grcas
+    Used in: fn_drawGRCA
+
+    Belongs to: The AV.
+
+    0: <ARRAY of ARRAYS> ...
+        0-0: <NUMBER> - GRCA ID
+        0-1: <NUMBER> - GRCA's center coordinate on the X-axis
+        0-2: <NUMBER> - GRCA's center coordinate on the Y-axis
+        0-3: <ARRAY of NUMBERS> - The combined [x,y] coordinate for the center of the marker.
+        0-4: <MARKER> - The GRCA marker's marker name.
+        0-5: <MARKER> - The mil_dot marker at the bottom right of the GRCA's marker name.
+        0-6: <ARRAY of NUMBERS> - The [x,y] coordinate of the mil_dot marker.
+
+RQ4Tweak_forEH
+    Used in: fn_handleFOR; Stores the necessary data to remove the field of regard rendering ctrlEventHandler after its created.
+
+    Belongs to: The AV.
+
+    0: <NUMBER> - The ID of the Field of Regard control eventhandler. Is only defined if the AV's FOR is being displayed at that exact moment.
+    1: <CONTROL> - The control for the AV-specific FOR displayed on the map.
+    2: <NUMBER> - The IDC of the FOR's map ctrl.
+    
+RQ4Tweak_pilot
+    Used in: fn_handlePilot / fn_collectMTI; Necessary for checks in fn_handlePilot that assess if the currently connected pilot is new to the AV or not, and controls if that user has the GUI actions add to them.
+
+    Belongs to: The AV.
+
+    0: <OBJECT> - The player who is connected to the AV.
+
+RQ4Tweak_localDeleteOnly_###
+    - where ### is replaced by the marker name.
+    
+    Used in: fn_handlePilot / fn_drawGRCA; Is a flag that is attached to markers that should only be deleted clientside. This exists so that the server can pass still existing GRCAs to users who connect to a "preowned" AV.
+
+    Belongs to: The mission namespace.
+
+    0: <BOOLEAN> - True, exits out of the missionEventHandler defined in fn_drawGRCA, preserving the marker(s) on the serverside.
+                    False, deletes the marker(s) on the clientside and serverside
+
+RQ4Tweak_connectedToBACN
+    Used in: fn_addActionToPlayer ; Used to determine if player is connected to the BACN, is necessary for the proper displaying of ACE self interactions and to retrieve list of clients who are connected to the BACN server-wide
+
+    Belongs to: The player, IS GLOBAL
+
+    0: <BOOLEAN> - Whether this client is connected. True, otherwise nil.
+
+RQ4Tweak_bacnConnectionHeld
+    Used in: fn_bacnConnectAction ; Indicates if player is connected to the BACN, but cannot use it due to a LOS interuption
+
+    Belongs to: The player/BACN connected client, IS GLOBAL.
+
+    0: <BOOLEAN> - Whether player's BACN connection is held or not. True for held, otherwise nil.
+
+RQ4Tweak_boostedRadios
+    Used in: fn_bacnConnectAction ; A continuously (every second) updated list that stores all Unique ACRE radio IDs that are being boosted by A BACN payload.
+
+    Belongs to: The missionNamespace.
+
+    0: <ARRAY OF STRINGS> - The Unique Radio IDs of each radio that is having its output power boosted.
+
+RQ4Tweak_isSlewing
+    Used in: fn_slewSensor / fn_collectMTI; used to inhibit the fn_collectMTI collection iteration, causing it to skip until the sensor stops slewing.
+
+    Belongs to: The AV.
+
+    0: <BOOLEAN> - True = sensor slewing, otherwise nil.

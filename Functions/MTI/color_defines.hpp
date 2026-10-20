@@ -1,0 +1,5 @@
+#define ColorUNKNOWN [0.70, 0.60, 0.00, 1.00]
+#define ColorEAST [0.50, 0.00, 0.00, 1.00]
+#define ColorCIV [0.40, 0.00, 0.50, 1.00]
+#define ColorGUER [0.00, 0.50, 0.00, 1.00]
+#define ColorWEST [0.00, 0.30, 0.60, 1.00]

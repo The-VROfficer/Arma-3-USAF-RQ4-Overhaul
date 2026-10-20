@@ -26,6 +26,8 @@
 // Script Start and Setup
 // ---------------------------------
 
+#include "\x\cba\addons\main\script_macros_common.hpp"
+
 params [
 	[_gh, objNull, [objNull]],
 	[_grcaEnabled, false, [true]]
@@ -62,7 +64,7 @@ private _detectableKinds = ["Car", "Helicopter", "Plane", "Ship", "Tank", "Truck
 
 // If addon option for infantry detection is ticked, append that entity type to the list of detectable kindOfs
 if ( MM_RQ4_DetectInfantry ) then {
-	_destactableKinds pushBackUnique "Man";
+	_detectableKinds pushBackUnique "Man";
 };
 
 private _unsortedTargets = _ghPosASL nearEntities [_detectableKinds, MM_RQ4_Ranges_S3_Max];

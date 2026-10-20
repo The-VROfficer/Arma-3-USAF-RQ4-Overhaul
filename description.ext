@@ -1,0 +1,7 @@
+allowFunctionsRecompile = 0;
+respawnOnStart = 0;
+
+#include "XEH_PREP.hpp"
+#include "CfgFunctions.hpp"
+#include "CfgVehicles.hpp"
+#include "CfgSounds.hpp"
