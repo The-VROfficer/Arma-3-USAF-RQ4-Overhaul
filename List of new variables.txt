@@ -183,3 +183,10 @@ RQ4Tweak_isSlewing
     Belongs to: The AV.
 
     0: <BOOLEAN> - True = sensor slewing, otherwise nil.
+
+RQ4Tweak_allAVs
+    Used in: fn_collectMTI / fn_createMTIMarker; Used to create "series" for TOI naming, i.e. AV #1 will create TOIs 001,002,003, and AV #2 will create TOIs 101,102,103, etc.
+
+    Belongs to: missionNamespace.
+
+    0: <ARRAY of OBJECTS> - The AVs that have executed fn_collectMTI at least once. OBJECTS ARE NOT REMOVED FROM THIS LIST ONCE THEY DIE/ARE DELETED!

@@ -46,6 +46,9 @@ if ( _totalTOIs isEqualTo [] ) then {
 	_gh setVariable ["RQ4Tweak_totalTOIs", 0, true];
 };
 
+// Also define the "series" number for the TOIs named by this AV.
+private _series = (missionNamespace getVariable "RQ4Tweak_allAVs") find _gh;
+
 // ---------------------------------
 // Perform Marker Creation
 // ---------------------------------
@@ -65,11 +68,11 @@ if ( _spotTimeData isEqualTo [] ) exitWith {
 private _totalTOIs = (_gh getVariable "RQ4Tweak_totalTOIs") + _toiStart;
 
 // Iterate marker name by +1, create combined name.
-private _combinedName = "TOI " + (str (_totalTOIs + 1)) + (format [" [%1:", _spotTimeData select 1 select 0]) + (_spotTimeData select 1 select 1) + "]";
+private _combinedName = "TOI " + str _series + "-" + (str (_totalTOIs + 1)) + (format [" [%1:", _spotTimeData select 1 select 0]) + (_spotTimeData select 1 select 1) + "]";
 
 // Create a unique marker name for backend identification.
 private _ghId = (netId _gh) regexReplace [":", "_"];
-private _mtiMarkerName = format ["TOI_%1_%2_marker", _totalTOIs, _ghID];
+private _mtiMarkerName = format ["TOI_%1-%2_%3_marker", _series, _totalTOIs, _ghID];
 
 // Push TOI iteration update globally, allows other new markers to be created instead of overwriting this one.
 _gh setVariable ["RQ4Tweak_totalTOIs", _totalTOIs + 1, true];

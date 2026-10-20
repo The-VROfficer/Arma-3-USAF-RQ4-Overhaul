@@ -83,6 +83,15 @@ private _ghDeletedEH = _gh addEventHandler ["Deleted",{
 	_entity removeEventHandler ["Deleted", _thisEventHandler];
 }];
 
+// Handle naming convention for multiple AVs up at the same time. If the var is undefined, define it here.
+if ( (missionNamespace getVariable ["RQ4Tweak_allAVs", []]) isEqualTo [] ) then {
+	missionNamespace setVariable ["RQ4Tweak_allAVs", [_gh], true];
+} else {
+	private _list = missionNamespace getVariable "RQ4Tweak_allAVs";
+	_list pushBackUnique _gh;
+	missionNamespace setVariable ["RQ4Tweak_allAVs", _list, true];
+};
+
 // The query for MTI receipients (both server-wide and on AV's side) were made into in-line functions to facilitate real-time updating.
 // If the "object getVariable 'yada'" is run once at the beginning of the script, it doesn't update unless it's called again.
 private _mtiRecipients = {
