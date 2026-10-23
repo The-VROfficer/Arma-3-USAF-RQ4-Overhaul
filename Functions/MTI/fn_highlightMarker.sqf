@@ -88,7 +88,7 @@ addMissionEventHandler [
                     });
                     
                     // Add marker deletion protection.
-                    if ( (_markerOwner getVariable ["RQ4Tweak_mtiSector"]) isEqualTo []) exitWith {
+                    if ( (_markerOwner getVariable ["RQ4Tweak_mtiSector", []]) isEqualTo []) exitWith {
                         // DEBUG LVL 3
                         private _msg = format ["%1: Attempted to pull selected marker sector params, but %2's mtiSector param is missing!", _gh, _markerOwner];
                         ERROR_RPT(_msg, _curFunc);

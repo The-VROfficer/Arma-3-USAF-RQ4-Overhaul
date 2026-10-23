@@ -1,6 +1,16 @@
+class RscText;
+class RscButton;
+class RscCombo;
+class RscEdit;
+class RscMapControl;
+class RscStructuredText;
+class RscFrame;
+class RscCheckbox;
+class RscListbox;
+
 class textEntryDialog
 {
-	idd = 1251
+	idd = 1251;
 	class textEntryBackground: RscText
 	{
 		idc = 1000;
