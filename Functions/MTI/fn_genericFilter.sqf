@@ -160,7 +160,7 @@ private _targetsToDelete = [];
 	// Check target speed, if too fast or too slow, remove it.
 	if ( (speed _x > parseNumber MM_RQ4_Max_Speed) or (speed _x < parseNumber MM_RQ4_Min_Speed) ) then {
 		// DEBUG LVL 3
-		private _msg = format ["%1: Target %2 is outside of speed threshold (%3 | %4), deleting.", _gh, _x, speed _x, parseNumber MM_RQ4_Min_Speed];
+		private _msg = format ["%1: Target %2 is outside of speed threshold (%3 | %4-%5), deleting.", _gh, _x, speed _x, parseNumber MM_RQ4_Min_Speed, parseNumber MM_RQ4_Max_Speed];
 		DEBUG_RPT(_msg, _curFunc);
 
 		// DEBUG LVL 3

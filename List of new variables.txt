@@ -190,3 +190,10 @@ RQ4Tweak_allAVs
     Belongs to: missionNamespace.
 
     0: <ARRAY of OBJECTS> - The AVs that have executed fn_collectMTI at least once. OBJECTS ARE NOT REMOVED FROM THIS LIST ONCE THEY DIE/ARE DELETED!
+
+RQ4Tweak_markerSelected
+    Used in: fn_highlightMarker ; A flag that tells the game whether or not the user still has the specific marker "selected" on the map. Directly controls the rendering of the TOI data box.
+
+    Belongs to: missionNamespace, IS LOCAL to the CLIENT.
+
+    0: <BOOLEAN> - True if the local client has the marker selected on their map, otherwise nil.

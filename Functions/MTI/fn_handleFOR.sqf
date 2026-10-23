@@ -77,8 +77,8 @@ if ( _create ) then {
 	//private _str = format ["[_this select 0, %1, %2, %3, _thisEventHandler] call MM_fnc_drawFOR", _gh, _slewSide, _color];
 	private _str = format ["
 		private _pos = getPosASLVisual %1;
+		private _dist = sqrt((parseNumber MM_RQ4_Ranges_S3_Max)^2) - sqrt((_pos select 2)^2);
 		_pos set [2,0];
-		private _dist = parseNumber MM_RQ4_Ranges_S3_Max;
 
 		private _dir = if (%2 == 0) then {
 			(getDir %1) - 90;

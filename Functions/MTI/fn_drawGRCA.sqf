@@ -52,7 +52,9 @@ addMissionEventHandler [
 				selectMax (_grcaData apply {_x select 0}) + 1;
 			};
 
-			_Marker1_ID = format ["GRCA_%1_0", _nextID];
+			// Add this AV's netID to the GRCA ID to prevent issues w/ overlapping mark names shinnanigans.
+			private _ghId = (netId _gh) regexReplace [":", "_"];
+			_Marker1_ID = format ["GRCA_%1_0_%2", _nextID, _ghID];
 
 			_topLeftMarker = createMarkerLocal [_Marker1_ID, _pos];
 			_topLeftMarker setMarkerTypeLocal "mil_dot";
@@ -71,14 +73,15 @@ addMissionEventHandler [
 					private _topLeftMarker = _thisArgs select 1;
 					private _nextID = _thisArgs select 2;
 					private _grcaData = _thisArgs select 3;
+					private _ghID = _thisArgs select 4;
 
 					if (isNull _gh) exitWith { hintSilent "" };
 					if (not alive _gh) exitWith { hintSilent "" };
 
-					[_pos, _gh, _topLeftMarker, _nextID, _grcaData] spawn {
-						params ["_pos", "_gh", "_topLeftMarker", "_nextID", "_grcaData"];
+					[_pos, _gh, _topLeftMarker, _nextID, _grcaData, _ghID] spawn {
+						params ["_pos", "_gh", "_topLeftMarker", "_nextID", "_grcaData", "_ghID"];
 
-						_Marker2_ID = format ["_USER_DEFINED GRCA_%1_1", _nextID];
+						_Marker2_ID = format ["_USER_DEFINED GRCA_%1_1_%2", _nextID, _ghID];
 
 						_bottomRightMarker = createMarkerLocal [_Marker2_ID, _pos];
 						_bottomRightMarker setMarkerTypeLocal "mil_dot";
@@ -89,7 +92,7 @@ addMissionEventHandler [
 
 						private _areaCenterTrue = [(getMarkerPos _topLeftMarker select 0) + _areaCenterX, (getMarkerPos _bottomRightMarker select 1) + _areaCenterY];
 
-						_grcaID = format ["GRCA_BOX_%1", _nextID];
+						_grcaID = format ["GRCA_BOX_%1_%2", _nextID, _ghID];
 
 						deleteMarkerLocal _topLeftMarker;
 						_bottomRightMarker setMarkerTextLocal format ["GRCA %1", (_grcaID splitString "_") select 2];
@@ -122,7 +125,8 @@ addMissionEventHandler [
 					hintSilent "";
 
 					removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
-				}, [_gh, _topLeftMarker, _nextID, _grcaData]
+				},
+				[_gh, _topLeftMarker, _nextID, _grcaData, _ghID]
 			];
 		};
 		removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
