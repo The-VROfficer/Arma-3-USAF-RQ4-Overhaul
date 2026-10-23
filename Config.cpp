@@ -23,3 +23,6 @@ class CfgPatches
 #include "CfgVehicles.hpp"
 #include "CfgSounds.hpp"
 #include "CfgRemoteExec.hpp"
+#include "\a3\ui_f\hpp\defineCommonGrids.inc"
+#include "Functions\GUI\BaseControls.hpp"
+#include "Functions\GUI\RscDisplayName.hpp"

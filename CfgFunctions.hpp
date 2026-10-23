@@ -35,5 +35,21 @@ class CfgFunctions
             class slewSensor {};
             class updateMTIMarker {};
         };
+		class GUI
+		{
+			file = "\x\usaf_rq4a_tweak_v2\Functions\GUI";
+			class clearRecipients {};
+			class executeFlightControls {};
+			class focusDialogCatcher {};
+			class findUpcomingLoiterWaypoint {};
+			class onDialogUnload {};
+			class openDialog {};
+			class pushFromRecipients {};
+			class pushToRecipients {};
+			class refreshPlayerLists {};
+			class selectMTIMarkerColor {};
+			class setSlewSide {};
+			class toggleSensorStateUI {};
+		};
     };
 };
