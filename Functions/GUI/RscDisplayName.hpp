@@ -157,14 +157,13 @@ class RQ4dialog
 			y = 0.269 * safezoneH + safezoneY;
 			w = 0.0928125 * safezoneW;
 			h = 0.055 * safezoneH;
-			colorText[] = {0.6,0.6,0.6,1};
 			colorBackground[] = {0.851,0.851,0.851,1};
 		};
 		class takeSARButton: RscButton
 		{
 			idc = 1605;
 			text = "Take SAR Image"; //--- ToDo: Localize;
-			onButtonClick = "[] spawn USAF_PXS_fnc_startSatellite; [] call MM_fnc_focusDialogCatcher;";
+			onButtonClick = "[] spawn USAF_PXS_fnc_startSatellite; [] call MM_fnc_focusDialogCatcher; closeDialog 1;";
 			x = 0.0204687 * safezoneW + safezoneX;
 			y = 0.346 * safezoneH + safezoneY;
 			w = 0.0979687 * safezoneW;
@@ -175,7 +174,7 @@ class RQ4dialog
 		{
 			idc = 1606;
 			text = "Turn FOR On"; //--- ToDo: Localize;
-			onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+			onButtonClick = "[] call MM_fnc_toggleFOR; [] call MM_fnc_focusDialogCatcher;";
 			x = 0.164844 * safezoneW + safezoneX;
 			y = 0.346 * safezoneH + safezoneY;
 			w = 0.0928125 * safezoneW;

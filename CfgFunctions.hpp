@@ -50,6 +50,7 @@ class CfgFunctions
 			class selectMTIMarkerColor {};
 			class setSlewSide {};
 			class toggleSensorState {};
+            class toggleFOR {};
 		};
     };
 };

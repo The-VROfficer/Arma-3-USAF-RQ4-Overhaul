@@ -19,17 +19,16 @@ private _uav = getConnectedUAV player;
 if (isNull _uav) exitWith {};
 
 // turn on FOR case
-if(_uav getVariable ["RQ4Tweak_forEH",[]] isEqualTo []) exitWith {
+if(_uav getVariable ["RQ4Tweak_forEH", []] isEqualTo []) exitWith {
 
     ctrlSetText [1606, "Turn FOR Off"];
-    [_uav,true] spawn MM_fnc_handleFOR;
+    [_uav, true] spawn MM_fnc_handleFOR;
 
 }
 // turn off FOR case; FOR already off
 else {
 
     ctrlSetText [1606, "Turn FOR On"];
-    [_uav,false] spawn MM_fnc_handleFOR;
+    [_uav, false] spawn MM_fnc_handleFOR;
 
 };
-

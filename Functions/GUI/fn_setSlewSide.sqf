@@ -31,9 +31,20 @@ params ["_slewSide"];
 private _uav = getConnectedUAV player;
 if (isNull _uav) exitWith {};
 
-if (_uav getVariable "RQ4Tweak_slewSide" isEqualTo _slewSide) exitWith
-{
-    hintSilent "COMMAND REJECTED - SENSOR ALREADY SLEWED";
+// Add slewing in progress protection
+if ( _uav getVariable ["RQ4Tweak_isSlewing"] ) exitWith {
+    hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED<br /><br />SENSOR IN SLEW</t>"];
+    sleep 5;
+    hintSilent "";
+};
+
+if ((_uav getVariable "RQ4Tweak_slewSide") isEqualTo _slewSide) exitWith {
+    private _side = if ( _slewSide isEqualTo 0 ) then {
+        "RIGHT"
+    } else {
+        "LEFT"
+    };
+    hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED<br /><br />SENSOR ALREADY SLEWED %1</t>"];
     sleep 5;
     hintSilent ""; // removes message
 };

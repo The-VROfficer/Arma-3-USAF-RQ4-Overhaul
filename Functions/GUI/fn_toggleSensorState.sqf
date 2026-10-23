@@ -1,5 +1,5 @@
 /*
-    Author: Waylen
+    Author: Waylen & Myth
 
     Locality: Client
 
@@ -24,22 +24,36 @@
 */
 
 private _uav = getConnectedUAV player;
+
+// Deleted vehicle protection.
 if (isNull _uav) exitWith {false};
 
-private _sensorOn = !(_uav getVariable ["RQ4Tweak_sensorOn", false]);
-_uav setVariable ["RQ4Tweak_sensorOn", _sensorOn, true];
+// Query AV's sensor state, if undefined default to false (off).
+private _sensorState = _uav getVariable ["RQ4Tweak_sensorOn", false];
+
+// Do the toggle.
+private _newSensorState = not _sensorState;
 
 disableSerialization;
 private _display = findDisplay 1250;
-if (isNull _display) exitWith {_sensorOn};
+// purpose?
+if (isNull _display) exitWith {_newSensorState};
 
 private _sensorControl = _display displayCtrl 1600;
-private _stateColor = if (_sensorOn) then {[0,1,0,1]} else {[1,0,0,1]};
+private _stateColor = if ( _newSensorState isEqualTo true ) then {
+    [0,1,0,1]   // Make button green.
+} else {
+    [1,0,0,1]   // Make button red.
+};
 
-private _buttonText = if (_sensorOn) then {"Sensor ON"} else {"Sensor OFF"};
+private _buttonText = if ( _newSensorState isEqualTo true ) then {
+    "Sensor ON"
+} else {
+    "Sensor OFF"
+};
 
 _sensorControl ctrlSetText _buttonText;
 _sensorControl ctrlSetBackgroundColor _stateColor;
 _sensorControl ctrlSetActiveColor _stateColor;
 
-_sensorOn
+_sensorOn;
