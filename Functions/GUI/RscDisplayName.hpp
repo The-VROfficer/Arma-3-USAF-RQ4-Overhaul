@@ -669,7 +669,7 @@ class RQ4dialog
         colorBorder[] = {0.00, 0.00, 0.00, 1.00};
         borderSize = 0;
       };
-      class currentAltitude : RscText
+      class currentAltitude : RscEdit
       {
         idc = 1642;
         style = 0x140;
@@ -682,7 +682,7 @@ class RQ4dialog
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         autocomplete = false;
         colorSelection[] = {0.13, 0.54, 0.21, 1.00};
-        canModify = 1;
+        canModify = 0;
       };
       class currentAltitudeText : RscStructuredText
       {
@@ -784,12 +784,11 @@ class RQ4dialog
       class markerSideCombo : RscCombo
       {
         idc = 1625;
-        style = 0x212;
-        x = 0.44 * safezoneW + safezoneX;
+        style = 0x210;
+        x = 0.4607 * safezoneW + safezoneX;
         y = 0.38 * safezoneH + safezoneY;
-        w = 0.0927 * safezoneW;
+        w = 0.072 * safezoneW;
         h = 0.04 * safezoneH;
-        default = 1;
         colorSelect[] = {0.00, 0.00, 0.00, 1.00};
         colorActive[] = {1.00, 0.00, 0.00, 1.00};
         soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
@@ -804,16 +803,32 @@ class RQ4dialog
         maxHistoryDelay = 1;
         arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
         arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+        class Items
+        {
+          class BLUFOR
+          {
+            default = 1;
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa";
+            color = [0.00, 0.30, 0.60, 1.00];
+          };
+          class REDFOR
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\o_unknown.paa";
+          };
+          class INDFOR
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_unknown.paa";
+          };
+        };
       };
       class markerTypeCombo : RscCombo
       {
         idc = 1626;
-        style = 0x212;
-        x = 0.44 * safezoneW + safezoneX;
+        style = 0x210;
+        x = 0.4607 * safezoneW + safezoneX;
         y = 0.47 * safezoneH + safezoneY;
-        w = 0.0927 * safezoneW;
+        w = 0.072 * safezoneW;
         h = 0.04 * safezoneH;
-        default = 1;
         colorSelect[] = {0.00, 0.00, 0.00, 1.00};
         colorActive[] = {1.00, 0.00, 0.00, 1.00};
         soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
@@ -829,6 +844,90 @@ class RQ4dialog
         maxHistoryDelay = 1;
         arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
         arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+        class Items
+        {
+          class unknown
+          {
+            default = 1;
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa";
+          };
+            class air
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_air.paa";
+            };
+            class antiair
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_antiair.paa";
+            };
+            class armor
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_armor.paa";
+            };
+            class art
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_art.paa";
+            };
+            class hq
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_hq.paa";
+            };
+            class inf
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa";
+            };
+            class installation
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_installation.paa";
+            };
+            class maint
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_maint.paa";
+            };
+            class mech_inf
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_mech_inf.paa";
+            };
+            class med
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_med.paa";
+            };
+            class mortar
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_mortar.paa";
+            };
+            class motor_inf
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_motor_inf.paa";
+            };
+            class naval
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_naval.paa";
+            };
+            class plane
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_plane.paa";
+            };
+            class recon
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_recon.paa";
+            };
+            class service
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_service.paa";
+            };
+            class support
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_support.paa";
+            };
+            class uav
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_uav.paa";
+            };
+            class unknown
+            {
+              picture = "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa";
+            };
+        };
       };
   };
 };
