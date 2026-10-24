@@ -154,6 +154,12 @@ _target setVariable ["RQ4Tweak_mtiMarkerParams", _mtiMarkerParams, true];
 // ---------------------------------
 
 private _mtiMarkerJIPU = [_gh, _target, false] remoteExecCall ["MM_fnc_clientMarkerUpdate", _mtiRecipients, true]; 
+// If _mtiRecipients returns [], it causes _mtiMarkerJIPU to return nothing (nil), this causes an error in the set variable below. This check prevents that. 
+_mtiMarkerJIPU = if ( isNil {_mtiMarkerJIPU} ) then {
+	-1
+} else {
+	_mtiMarkerJIPU;
+};
 
 // Add variable to the target to keep track of the creation "command" in the JIP queue.
 private _setVarName = "RQ4Tweak_mtiMarkerJIPU_" + str _gh;	// A unique var name is required since this var will be attached to the TARGET, therefore overlapping collect would keep resetting this var if it wasn't unique.

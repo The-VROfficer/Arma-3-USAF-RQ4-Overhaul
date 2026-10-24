@@ -23,8 +23,6 @@ params [
 	["_gh", objNull, [objNull]]
 ];
 
-openMap true;
-
 hint parseText "<t color='#ff0000'>Click on a marker to change its name.</t>";
 
 addMissionEventHandler [ 
@@ -95,7 +93,7 @@ addMissionEventHandler [
 
                         hintSilent "";
                     };
-                    if ( (_markerOwner getVariable ["RQ4Tweak_lastSeen"]) isEqualTo []) exitWith {
+                    if ( (_markerOwner getVariable ["RQ4Tweak_lastSeen", []]) isEqualTo []) exitWith {
                         // DEBUG LVL 3
                         private _msg = format ["%1: Attempted to pull spottedBy params, but %2's lastSeen param is missing!", _gh, _markerOwner];
                         ERROR_RPT(_msg, _curFunc);
@@ -113,12 +111,16 @@ addMissionEventHandler [
                     // Get sland range.
                     private _slantRange = _spottedBy distance _markerOwner;
 
+                    // Get target's altitude.
+                    private _alt = ((getPosATLVisual _markerOwner) select 2) toFixed 1;
+
                     // RCS here is kind of a made up number lol, this is the same calculation from fn_createMTIMarker so at least it's consistent.
                     private _rcs = sizeOf (typeOf _markerOwner);
 
-                    private _text = "<t align='center' font='PuristaBold'>MTI Analysis</t><br /><br /><t align='left'>Spotted by:            %1<br />Range Sector:       %2 (%3-%4m)<br />Slant Range:          %5m<br />RCS:                         %6m^2<br /><br />";
 
-                    hintSilent parseText format [_text, group _spottedBy, _rangeSector, _sectors select 0, _sectors select 1, _slantRange, _rcs];
+                    private _text = "<t align='center' font='PuristaBold'>MTI Analysis</t><br /><br /><t align='left'>Spotted by:            %1<br />Range Sector:       %2 (%3-%4m)<br />Slant Range:          %5m<br />Altitude:                  %6m<br />RCS:                         %7m^2<br /><br />";
+
+                    hintSilent parseText format [_text, group _spottedBy, _rangeSector, _sectors select 0, _sectors select 1, _slantRange, _alt, _rcs];
 
                     //sleep parseNumber MM_RQ4_Update_Rate;
                     sleep 1;

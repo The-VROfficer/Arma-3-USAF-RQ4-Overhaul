@@ -80,7 +80,7 @@ _uav setVariable ["RQ4Tweak_loiterRadius", _loiterRadius, true];
 // flyInHeightASL uses standard, combat, and stealth altitude values.
 _uav flyInHeightASL [_altitudeASL, _altitudeASL, _altitudeASL];
 
-private _uavGroup = group _uav;
+private _uavGroup = group driver _uav;
 if (isNull _uavGroup) exitWith {
     systemChat "Altitude applied. Loiter settings saved, but the UAV has no group waypoint route to update.";
 };

@@ -6,15 +6,15 @@ class Extended_PreInit_EventHandlers {
 
 class Extended_InitPost_EventHandlers {
     class USAF_RQ4B_B40 {
-		class USAF_RQ4B_startGMTI
+		class USAF_RQ4B_slewSide
 		{
-			serverInit = " [_this select 0] spawn MM_fnc_init_MTI ";
+			serverInit = "";
 		};
     };
 	class USAF_RQ4B_B20 {
 		class USAF_RQ4B_setupBACN
 		{
-			serverInit = " [_this select 0] call MM_fnc_setupBACN ";
+			serverInit = "[_this select 0] call MM_fnc_setupBACN ";
 		};
 	};
 };

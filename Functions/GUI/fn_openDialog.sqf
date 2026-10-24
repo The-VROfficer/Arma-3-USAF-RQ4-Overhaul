@@ -60,14 +60,21 @@ lbClear _ctrlRecipients;
 // Load the visible sensor state from the aircraft instead of the dialog defaults.
 private _sensorOn = _uav getVariable ["RQ4Tweak_sensorOn", false];
 private _sensorControl = _display displayCtrl 1600;
-_sensorControl ctrlSetText (if (_sensorOn) then {"Sensor ON"} else {"Sensor OFF"});
+_sensorControl ctrlSetText (if (_sensorOn) then {"Sensor: ON"} else {"Sensor: OFF"});
 _sensorControl ctrlSetBackgroundColor (if (_sensorOn) then {[0,1,0,1]} else {[1,0,0,1]});
 _sensorControl ctrlSetActiveColor (if (_sensorOn) then {[0,1,0,1]} else {[1,0,0,1]});
 
 private _mtiMode = _uav getVariable ["RQ4Tweak_mtiMode", "RRCA"];
 (_display displayCtrl 1603) ctrlSetText format ["MTI Mode: %1", _mtiMode];
 
-private _forEH = _uav getVariable ["RQ4Tweak_forEH", []];
+private _forEH = _uav getVariable ["RQ4Tweak_forEH_guiMap", []];
+// Check to see if GUI FOR got deleted on GUI close (it usually does). If it did, re-render it.
+if ( _forEH isNotEqualTo [] ) then {
+    if ( _forEH select 0 == 0 ) then {
+        [_uav, true, true] spawn MM_fnc_handleFOR;
+    };
+};
+
 private _forOn = !(_forEH isEqualTo []);
 (_display displayCtrl 1606) ctrlSetText (if (_forOn) then {"Field of Regard: ON"} else {"Field of Regard: OFF"});
 
@@ -81,7 +88,7 @@ if (_altitudeASL >= 0) then {
 // Prefer the next configured LOITER waypoint's radius, falling back to its
 // aircraft-stored value if there is no upcoming LOITER waypoint.
 private _loiterInput = _display displayCtrl 1301;
-private _loiterWaypoint = [_uav] call MM_fnc_findUpcomingLoiterWaypoint;
+private _loiterWaypoint = [group driver _uav] call MM_fnc_findUpcomingLoiterWaypoint;
 private _loiterRadius = _uav getVariable ["RQ4Tweak_loiterRadius", -1];
 if !(_loiterWaypoint isEqualTo []) then {
     _loiterRadius = waypointLoiterRadius _loiterWaypoint;
@@ -92,7 +99,7 @@ if (_loiterRadius >= 0) then {
 };
 
 // Highlight the aircraft's current sensor side.
-private _slewSide = _uav getVariable ["RQ4Tweak_slewSide", 0];
+private _slewSide = _uav getVariable ["RQ4Tweak_slewSide", MM_RQ4_StartSlew];
 private _slewLeftButton = _display displayCtrl 1601;
 private _slewRightButton = _display displayCtrl 1602;
 _slewLeftButton ctrlSetBackgroundColor [0.851,0.851,0.851,1];
@@ -105,16 +112,16 @@ _slewRightButton ctrlSetTooltip format ["Current sensor side: %1", _slewSideName
 
 // Read the stored marker color. Values use the color suffix from the checkbox
 // name, while older BIKI aliases and RGBA values remain recognized for the UI.
-private _markerColor = _uav getVariable ["RQ4Tweak_mtiMarkerColor", "colorGUER"];
+private _markerColor = _uav getVariable ["RQ4Tweak_mtiMarkerColor", "ColorGUER"];
 private _markerColorControl = _display displayCtrl 1104;
-_markerColorControl ctrlSetTooltip format ["Current aircraft marker color: %1", _markerColor];
+_markerColorControl ctrlSetTooltip format ["Current Color: %1", _markerColor];
 
 private _markerColorOptions = [
-    ["colorOPFOR", ["ColorEAST", "ColorOPFOR"], 2800, [0.5,0,0,1]],
-    ["colorCIV", ["ColorCIV", "colorCivilian"], 2801, [0.4,0,0.5,1]],
-    ["colorUNKNOWN", ["ColorUNKNOWN"], 2802, [0.7,0.6,0,1]],
-    ["colorGUER", ["ColorGUER", "colorIndependent"], 2803, [0,0.5,0,1]],
-    ["colorBLUFOR", ["ColorWEST", "ColorBLUFOR"], 2804, [0,0.3,0.6,1]]
+    ["ColorEAST", ["ColorEAST"], 2800, [0.5,0,0,1]],
+    ["ColorCIV", ["ColorCIV"], 2801, [0.4,0,0.5,1]],
+    ["ColorUNKNOWN", ["ColorUNKNOWN"], 2802, [0.7,0.6,0,1]],
+    ["ColorGUER", ["ColorGUER"], 2803, [0,0.5,0,1]],
+    ["ColorWEST", ["ColorWEST"], 2804, [0,0.3,0.6,1]]
 ];
 {
     private _colorName = _x select 0;

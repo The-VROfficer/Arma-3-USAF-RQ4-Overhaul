@@ -78,7 +78,7 @@ private _mtiMarkerName = format ["TOI_%1-%2_%3_marker", _series, _totalTOIs, _gh
 _gh setVariable ["RQ4Tweak_totalTOIs", _totalTOIs + 1, true];
 
 // Determine marker color from sensor control GUI. If no color is defined in the GUI, defaults to ColorGUER as defined in CfgMarkerColors.
-private _markerColor = _gh getVariable ["RQ4Tweak_mtiMarkerColor", "ColorRed"];
+private _markerColor = _gh getVariable ["RQ4Tweak_mtiMarkerColor", "ColorGUER"];
 
 // Determine the size of the marker based on "RCS" (bounding box size) return.
 private _markerSize = [1 * (sizeOf typeOf _target / 20), 1 * (sizeOf typeOf _target / 20)];

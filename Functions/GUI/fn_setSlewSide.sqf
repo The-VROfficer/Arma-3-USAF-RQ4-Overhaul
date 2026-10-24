@@ -31,25 +31,24 @@ params ["_slewSide"];
 private _uav = getConnectedUAV player;
 if (isNull _uav) exitWith {};
 
+hintSilent "";
+
 // Add slewing in progress protection
-if ( _uav getVariable ["RQ4Tweak_isSlewing"] ) exitWith {
-    hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED<br /><br />SENSOR IN SLEW</t>"];
-    sleep 5;
-    hintSilent "";
+if ( _uav getVariable ["RQ4Tweak_isSlewing", []] isNotEqualTo [] ) exitWith {
+    hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Sensor is slewing.</t>"];
 };
 
-if ((_uav getVariable "RQ4Tweak_slewSide") isEqualTo _slewSide) exitWith {
+if ((_uav getVariable ["RQ4Tweak_slewSide", MM_RQ4_StartSlew]) isEqualTo _slewSide) exitWith {
     private _side = if ( _slewSide isEqualTo 0 ) then {
         "RIGHT"
     } else {
         "LEFT"
     };
-    hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED<br /><br />SENSOR ALREADY SLEWED %1</t>"];
-    sleep 5;
-    hintSilent ""; // removes message
+
+    hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Sensor already slewed %1.", _side];
 };
 
-[_uav,player] spawn MM_fnc_slewSide;
+[_uav,player] spawn MM_fnc_slewSensor;
 
 disableSerialization;
 private _display = findDisplay 1250;

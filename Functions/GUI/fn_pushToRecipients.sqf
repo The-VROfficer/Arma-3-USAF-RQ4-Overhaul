@@ -45,7 +45,7 @@ private _recipients = _uav getVariable ["RQ4Tweak_mtiRecipients", []];
 if (_playerObj in _recipients) exitWith {};
 
 _recipients pushBack _playerObj;
-_uav setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
+missionNamespace setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
 
 private _newIndex = _ctrlRecipients lbAdd (name _playerObj);
 _ctrlRecipients lbSetData [_newIndex, getPlayerUID _playerObj];

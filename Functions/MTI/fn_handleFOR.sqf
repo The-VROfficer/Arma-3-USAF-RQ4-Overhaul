@@ -9,6 +9,7 @@
 	Parameter(s):
 		0: <OBJECT> - The AV to have its FOR handled.
 		1: <BOOLEAN> - Create or delete the FOR. True = display it, False = delete it.
+		2: <BOOLEAN> - If true, only draws the FOR on the GUI's map and skips the main map.
 
 	Returns: Nothing.
 		
@@ -27,7 +28,8 @@ private _curFunc = "MM_fnc_handleFOR";
 
 params [
 	["_gh", objNull, [objNull]],
-	["_create", true, [true]]
+	["_create", true, [true]],
+	["_guiMapOnly", false, [false]]
 ];
 
 // DEBUG LVL 3
@@ -38,17 +40,17 @@ DEBUG_RPT(_msg, _curFunc);
 // Create protection in case the wrong intent was passed, given the AV's current vars.
 // ---------------------------------
 
-private _forEH = _gh getVariable ["RQ4Tweak_forEH", []];
+private _forEH_guiMap = _gh getVariable ["RQ4Tweak_forEH_guiMap", []];
 
 // Attempted to create FOR, but it's already rendered.
-if ( _create and (_forEH isNotEqualTo []) ) exitWith {
+if ( _create and (_forEH_guiMap isNotEqualTo []) and not _guiMapOnly) exitWith {
 	// DEBUG LVL 2
 	private _msg = format ["%1: Abnormal exit, attempted to draw FOR, but FOR already exists for %1!", _gh];
 	ERROR_RPT(_msg, _curFunc);
 };
 
 // Attempted to delete FOR, but it doesn't exist.
-if ( not _create and (_forEH isEqualTo []) ) exitWith {
+if ( not _create and (_forEH_guiMap isEqualTo []) ) exitWith {
 	// DEBUG LVL 2
 	private _msg = format ["%1: Abnormal exit, attempted to delete FOR, but no FOR exists for %1!", _gh];
 	ERROR_RPT(_msg, _curFunc);
@@ -107,12 +109,16 @@ if ( _create ) then {
 		_control drawPolygon [_vertices, %3];
 	", _gh, _slewSide, _color];
 
-	private _mapCtrl = findDisplay 12 displayCtrl 51;
-
-	_forEH = _mapCtrl ctrlAddEventHandler ["Draw", _str];
-
-	_gh setVariable ["RQ4Tweak_forEH", [_forEH, _mapCtrl], true];
-
+	// Draw FOR lines on GUI map.
+	_forEH_guiMap = (findDisplay 1250 displayCtrl 1801) ctrlAddEventHandler ["Draw", _str];
+	_gh setVariable ["RQ4Tweak_forEH_guiMap", [_forEH_guiMap, findDisplay 1250 displayCtrl 1801], true];
+	
+	if ( not _guiMapOnly ) then {
+		// Draw FOR lines on main map.
+		_forEH_mainMap = (findDisplay 12 displayCtrl 51) ctrlAddEventHandler ["Draw", _str];
+		_gh setVariable ["RQ4Tweak_forEH_mainMap", [_forEH_mainMap, findDisplay 12 displayCtrl 51], true];
+	};
+	
 	// DEBUG LVL 3
 	private _msg = format ["%1: Complete, FOR is drawn.", _gh];
 	DEBUG_RPT(_msg, _curFunc);
@@ -120,11 +126,19 @@ if ( _create ) then {
 	// Completion flag to show a new FOR was rendered.
 	true;
 } else {
-	(_gh getVariable "RQ4Tweak_forEH") params ["_forEH", "_mapCtrl"];
+	(_gh getVariable "RQ4Tweak_forEH_guiMap") params ["_forEH", "_mapCtrl"];
 
 	_mapCtrl ctrlRemoveEventHandler ["Draw", _forEH];
 
-	_gh setVariable ["RQ4Tweak_forEH", nil, true];
+	_gh setVariable ["RQ4Tweak_forEH_guiMap", nil, true];
+
+	// Run the same thing again but modified for main map FOR lines.
+
+	(_gh getVariable "RQ4Tweak_forEH_mainMap") params ["_forEH", "_mapCtrl"];
+
+	_mapCtrl ctrlRemoveEventHandler ["Draw", _forEH];
+
+	_gh setVariable ["RQ4Tweak_forEH_mainMap", nil, true];
 
 	// DEBUG LVL 3
 	private _msg = format ["%1: Complete, FOR is deleted.", _gh];

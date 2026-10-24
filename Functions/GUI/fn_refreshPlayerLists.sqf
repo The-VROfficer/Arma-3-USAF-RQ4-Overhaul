@@ -88,7 +88,7 @@ while {!isNull _display} do {
     private _uav = getConnectedUAV player;
     private _recipients = [];
     if (!isNull _uav) then {
-        private _storedRecipients = _uav getVariable ["RQ4Tweak_mtiRecipients", []];
+        private _storedRecipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []];
         {
             if (!isNull _x && {_x in _onlinePlayers}) then {
                 _recipients pushBackUnique _x;

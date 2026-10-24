@@ -23,7 +23,6 @@ class CfgFunctions
             class clientMarkerUpdate {};
             class clientTrackDotUpdate {};
 			class createMTIMarker {};
-            //class drawFOR {};
             class drawGRCA {};
 			class fadeMarker {};
             class genericFilter {};

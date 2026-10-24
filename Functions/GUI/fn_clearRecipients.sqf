@@ -28,5 +28,5 @@ if (isNull _display) exitWith {};
 
 private _ctrlRecipients = _display displayCtrl 1501;
 
-_uav setVariable ["RQ4Tweak_mtiRecipients", [], true];
+missionNamespace setVariable ["RQ4Tweak_mtiRecipients", [], true];
 lbClear _ctrlRecipients;

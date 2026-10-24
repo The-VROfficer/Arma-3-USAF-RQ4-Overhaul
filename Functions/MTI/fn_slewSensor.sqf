@@ -32,8 +32,8 @@ params [
 private _msg = format ["%1: Started - Params: [%1, %2]", _gh, _caller];
 DEBUG_RPT(_msg, _curFunc);
 
-// Get current slew side, default to left if unknown.
-private _currentSlew = _gh getVariable ["RQ4Tweak_slewSide", 0];
+// Get current slew side, default to addon option input if unknown.
+private _currentSlew = _gh getVariable ["RQ4Tweak_slewSide", MM_RQ4_StartSlew];
 
 // If sensor is slewed to the left, slew it right, vice versa.
 private _newSlew = if ( _currentSlew == 0 ) then {
@@ -49,7 +49,7 @@ private _newSlew = if ( _currentSlew == 0 ) then {
 // This drives a check in fn_collectMTI that will skip the collection iteration until this is false/undefined.
 _gh setVariable ["RQ4Tweak_isSlewing", true, true];
 
-private _forMemory = if ( (_gh getVariable ["RQ4Tweak_forEH", []]) isNotEqualTo [] ) then {
+private _forMemory = if ( (_gh getVariable ["RQ4Tweak_forEH_guiMap", []]) isNotEqualTo [] ) then {
 	[_gh, false] remoteExec ["MM_fnc_handleFOR", _caller];
 
 	true;
@@ -61,13 +61,13 @@ private _forMemory = if ( (_gh getVariable ["RQ4Tweak_forEH", []]) isNotEqualTo 
 	params ["_newSlew"];
 
 	private _newSlewText = if ( _newSlew == 0 ) then { 
-		"RIGHT" 
+		"LEFT" 
 	} else {
-		"LEFT"
+		"RIGHT"
 	};
 
 	for "_i" from 0 to (round MM_RQ4_SlewTime) do {
-		hintSilent parseText format ["- SENSOR SLEWING %1 -<br />Time Remaining: %2 second(s)", _newSlewText, round MM_RQ4_SlewTime - _i];
+		hintSilent parseText format ["<t font='PuristaBold'>SENSOR SLEWING %1</t><br /><br />Time Remaining: %2 second(s)", _newSlewText, round MM_RQ4_SlewTime - _i];
 		sleep 1;
 	};
 

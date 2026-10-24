@@ -47,11 +47,11 @@ private _display = findDisplay 1250;
 if (isNull _display) exitWith {};
 
 private _colorOptions = [
-    ["colorOPFOR", 2800],
-    ["colorCIV", 2801],
-    ["colorUNKNOWN", 2802],
-    ["colorGUER", 2803],
-    ["colorBLUFOR", 2804]
+    ["ColorEAST", 2800],
+    ["ColorCIV", 2801],
+    ["ColorUNKNOWN", 2802],
+    ["ColorGUER", 2803],
+    ["ColorWEST", 2804]
 ];
 {
     private _checkbox = _display displayCtrl (_x select 1);

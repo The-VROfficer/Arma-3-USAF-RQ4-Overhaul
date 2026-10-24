@@ -27,8 +27,7 @@
 private _curFunc = "MM_fnc_collectMTI";
 
 params [
-	["_gh", objNull, [objNull]],
-	["_sound", "", ["a"]]
+	["_gh", objNull, [objNull]]
 ];
 
 // Check if this is a duplicate execution for this AV.
@@ -54,12 +53,19 @@ private _ghDeletedEH = _gh addEventHandler ["Deleted",{
 	//
 
 	// Turn off FOR cone if rendered.
-	if ( (_entity getVariable ["RQ4Tweak_forEH", []]) isNotEqualTo [] ) then {
-		(_entity getVariable "RQ4Tweak_forEH") params ["_forEH", "_mapCtrl"];
+	if ( (_entity getVariable ["RQ4Tweak_forEH_guiMap", []]) isNotEqualTo [] ) then {
+		(_entity getVariable "RQ4Tweak_forEH_guiMap") params ["_forEH", "_mapCtrl"];
 
 		_mapCtrl ctrlRemoveEventHandler ["Draw", _forEH];
 
-		_entity setVariable ["RQ4Tweak_forEH", nil, true];
+		_entity setVariable ["RQ4Tweak_forEH_guiMap", nil, true];
+
+		// Run it again, but modified to delete the main map FOR lines.
+		(_entity getVariable "RQ4Tweak_forEH_mainMap") params ["_forEH", "_mapCtrl"];
+
+		_mapCtrl ctrlRemoveEventHandler ["Draw", _forEH];
+
+		_entity setVariable ["RQ4Tweak_forEH_mainMap", nil, true];
 
 		// DEBUG LVL 3
 		private _msg = format ["%1: FOR deleted as part of deletion protection.", _entity];
@@ -130,25 +136,35 @@ if ( ( count _curMTIRecipients < 1) or (count _curSideRecipients < 1) ) exitWith
 	// DEBUG LVL 3
 	private _msg = format ["%1: Exiting at MTI recipient check - Total recipients: %2, Sames-side recipients: %3", _gh, _curMTIRecipients, _curSideRecipients];
 	DEBUG_RPT(_msg, _curFunc);
+
+	private _pilot = _gh getVariable ["RQ4Tweak_pilot", []];
+	[parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />There are no suitable MTI recipients on your side."] remoteExecCall ["hintSilent", _pilot];
+
+	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+
+	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 };
 
 // DEBUG LVL 3
 private _msg = format ["%1: Passed MTI recipient ( %2 ) and Side ( %3 ) checks. ", _gh, _curMTIRecipients, _curSideRecipients];
 DEBUG_RPT(_msg, _curFunc);
 
-sleep 1;
-
 // ---------------------------------
 // Target Collection, Randomization, and Marking
 // ---------------------------------
+
+// Check if slewSide has been defined. If not, define it now.
+if ( (_gh getVariable ["RQ4Tweak_slewSide", []]) isEqualTo [] ) then {
+	_gh setVariable ["RQ4Tweak_slewSide", MM_RQ4_StartSlew, true];
+};
 
 // Begin loop to collect targets, initially defined conditions is boiler plate and more are defined below through the use of the "breakWith" command.
 _collectionLoop = while { not isNull _gh } do {
 	// DEBUG LVL 3
 	private _msg = format ["%1: Starting new collectionLoop iteration.", _gh];
 	DEBUG_RPT(_msg, _curFunc);
-	
-	[_sound] remoteExec ["playSound"];	// DEBUG
 
 	// Define all break out conditions
 	if ( not alive _gh ) then {
@@ -265,13 +281,31 @@ _collectionLoop = while { not isNull _gh } do {
 // Assess Loop Termination Reason
 // ---------------------------------
 
+private _pilot = _gh getVariable ["RQ4Tweak_pilot", []];
+
 if ( isNull _gh ) exitWith {
 	// DEBUG LVL 2
 	private _msg = "NULL: Exiting at loop termination assessment, AV was deleted.";
 	ERROR_RPT(_msg, _curFunc);
 
+	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+
+	["<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
+
 	// Figure out if we need additional logic for cleanup if AV is deleted HERE 
 	//
+};
+
+if ( _collectionLoop isEqualTo "DEAD" ) then {
+	["<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
+
+	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+
+	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 };
 
 if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
@@ -279,14 +313,25 @@ if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
 	//
 
 	// Notifying connected UAV operator that the AV has gotten too low.
-	private _pilot = _gh getVariable ["RQ4Tweak_pilot", []];
+	[parseText format ["<t font='PuristaBold'>SENSOR OFF</t><br /><br />AV descended below the minimum collection altitude [%1m AGL].", parseNumber MM_RQ4_Min_Altitude]] remoteExecCall ["hintSilent", _pilot];
 
-	[["AV descended below the minimum collection altitude [%1m AGL], sensor <t color='#FF0000'>disabled</t>.", parseNumber MM_RQ4_Min_Altitude], 2.5] remoteExecCall ["ace_common_fnc_displayTextStructured", _pilot];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
 
-
-	// Maybe this can aid in changing the color of the SENSOR ON button in the GUI?
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 };
+
+if ( _collectionLoop isEqualTo "NO_SIDE_RECIPIENTS" ) then {
+	[parseText "<t font='PuristaBold'>SENSOR OFF</t><br /><br />There are no suitable MTI recipients on your side.."] remoteExecCall ["hintSilent", _pilot];
+
+	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
+	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+
+	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
+};
+
 
 // Add logic to handle different cases for why the _collectionLoop would exit, whether as planned or prematurely HERE
 //

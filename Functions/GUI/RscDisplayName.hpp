@@ -93,8 +93,8 @@ class RQ4dialog
 		class sensorToggleButton: RscButton
 		{
 			idc = 1600;
-			text = "Sensor OFF"; //--- ToDo: Localize;
-			onButtonClick = "[] call MM_fnc_toggleSensorStateUI; [] call MM_fnc_focusDialogCatcher;";
+			text = "Sensor: OFF"; //--- ToDo: Localize;
+			onButtonClick = "[] call MM_fnc_toggleSensorState; [] call MM_fnc_focusDialogCatcher;";
 			x = 0.0926562 * safezoneW + safezoneX;
 			y = 0.115 * safezoneH + safezoneY;
 			w = 0.103125 * safezoneW;
@@ -119,7 +119,7 @@ class RQ4dialog
 		{
 			idc = 1601;
 			text = "Slew Left"; //--- ToDo: Localize;
-			onButtonClick = "[0] call MM_fnc_setSlewSide; [] call MM_fnc_focusDialogCatcher;";
+			onButtonClick = "[0] spawn MM_fnc_setSlewSide; [] call MM_fnc_focusDialogCatcher;";
 			x = 0.0204687 * safezoneW + safezoneX;
 			y = 0.192 * safezoneH + safezoneY;
 			w = 0.0979687 * safezoneW;
@@ -130,7 +130,7 @@ class RQ4dialog
 		{
 			idc = 1602;
 			text = "Slew Right"; //--- ToDo: Localize;
-			onButtonClick = "[1] call MM_fnc_setSlewSide; [] call MM_fnc_focusDialogCatcher;";
+			onButtonClick = "[1] spawn MM_fnc_setSlewSide; [] call MM_fnc_focusDialogCatcher;";
 			x = 0.164844 * safezoneW + safezoneX;
 			y = 0.192 * safezoneH + safezoneY;
 			w = 0.0928125 * safezoneW;
@@ -173,7 +173,7 @@ class RQ4dialog
 		class toggleFORButton: RscButton
 		{
 			idc = 1606;
-			text = "Turn FOR On"; //--- ToDo: Localize;
+			text = "Field of Regard: Off"; //--- ToDo: Localize;
 			onButtonClick = "[] call MM_fnc_toggleFOR; [] call MM_fnc_focusDialogCatcher;";
 			x = 0.164844 * safezoneW + safezoneX;
 			y = 0.346 * safezoneH + safezoneY;
@@ -281,7 +281,7 @@ class RQ4dialog
 			// Integration note: this mission registers MM_fnc_selectMTIMarkerColor via CfgFunctions.
 			// Add it under MM/GUI in the mod config and point that category at MTI\gui.
 			// CfgFunctions does not require spawn; use spawn only if this handler later needs suspension.
-			onCheckedChanged = "[_this select 0, _this select 1, 'colorOPFOR'] call MM_fnc_selectMTIMarkerColor;";
+			onCheckedChanged = "[_this select 0, _this select 1, 'ColorEAST'] call MM_fnc_selectMTIMarkerColor;";
 			x = 0.355625 * safezoneW + safezoneX;
 			y = 0.159 * safezoneH + safezoneY;
 			w = 0.00515625 * safezoneW;
@@ -299,7 +299,7 @@ class RQ4dialog
 		class checkboxCIV: RscCheckbox
 		{
 			idc = 2801;
-			onCheckedChanged = "[_this select 0, _this select 1, 'colorCIV'] call MM_fnc_selectMTIMarkerColor;";
+			onCheckedChanged = "[_this select 0, _this select 1, 'ColorCIV'] call MM_fnc_selectMTIMarkerColor;";
 			x = 0.355625 * safezoneW + safezoneX;
 			y = 0.181 * safezoneH + safezoneY;
 			w = 0.00515625 * safezoneW;
@@ -308,7 +308,7 @@ class RQ4dialog
 		class checkboxUNKNOWN: RscCheckbox
 		{
 			idc = 2802;
-			onCheckedChanged = "[_this select 0, _this select 1, 'colorUNKNOWN'] call MM_fnc_selectMTIMarkerColor;";
+			onCheckedChanged = "[_this select 0, _this select 1, 'ColorUNKNOWN'] call MM_fnc_selectMTIMarkerColor;";
 			x = 0.355625 * safezoneW + safezoneX;
 			y = 0.203 * safezoneH + safezoneY;
 			w = 0.00515625 * safezoneW;
@@ -335,7 +335,7 @@ class RQ4dialog
 		class checkboxGUER: RscCheckbox
 		{
 			idc = 2803;
-			onCheckedChanged = "[_this select 0, _this select 1, 'colorGUER'] call MM_fnc_selectMTIMarkerColor;";
+			onCheckedChanged = "[_this select 0, _this select 1, 'ColorGUER'] call MM_fnc_selectMTIMarkerColor;";
 			x = 0.355625 * safezoneW + safezoneX;
 			y = 0.225 * safezoneH + safezoneY;
 			w = 0.00515625 * safezoneW;
@@ -344,7 +344,7 @@ class RQ4dialog
 		class checkboxBLUFOR: RscCheckbox
 		{
 			idc = 2804;
-			onCheckedChanged = "[_this select 0, _this select 1, 'colorBLUFOR'] call MM_fnc_selectMTIMarkerColor;";
+			onCheckedChanged = "[_this select 0, _this select 1, 'ColorWEST'] call MM_fnc_selectMTIMarkerColor;";
 			x = 0.355625 * safezoneW + safezoneX;
 			y = 0.247 * safezoneH + safezoneY;
 			w = 0.00515625 * safezoneW;

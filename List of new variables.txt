@@ -130,7 +130,7 @@ RQ4Tweak_grcas
         0-5: <MARKER> - The mil_dot marker at the bottom right of the GRCA's marker name.
         0-6: <ARRAY of NUMBERS> - The [x,y] coordinate of the mil_dot marker.
 
-RQ4Tweak_forEH
+RQ4Tweak_forEH_guiMap / RQ4Tweak_forEH_mainMap
     Used in: fn_handleFOR; Stores the necessary data to remove the field of regard rendering ctrlEventHandler after its created.
 
     Belongs to: The AV.
