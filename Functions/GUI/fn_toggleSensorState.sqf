@@ -1,7 +1,7 @@
 /*
     Author: Waylen & Myth
 
-    Locality: Client
+    Locality: Local, AV pilot client
 
     Description:
         Toggles the sensor state stored on the UAV connected to the local player.
@@ -9,24 +9,29 @@
         background color, and active color to reflect the new state.
 
     Parameter(s):
-        None.
+        0: <BOOLEAN> - (Optional) If true, Turns the "Sensor" button to OFF. It's a workaround added for MM_fnc_collectMTI checks. If false or nil, does nothing.
 
-    Returns:
-        BOOLEAN - The new sensor state, or false if no connected UAV is available.
+    Returns: Nothing.
 
     Examples:
         onButtonClick = "[] call MM_fnc_toggleSensorStateUI;";
-
-    NOTE - RQ4Tweak_sensorOn is a boolean variable belonging to the aircraft.
-    Its public value is broadcast so the MTI collection loop and other systems can
-    read the current state. The button display is only changed when display 1250
-    is open.
 */
+
+params [
+    ["_doSensorOff", false, [false]]
+];
 
 private _uav = getConnectedUAV player;
 
 // Deleted vehicle protection.
 if (isNull _uav) exitWith {false};
+
+// Workaround for fn_collectMTI. UI commands can't be remoteExec'd, so just call this fnc and perform the sensor button shutoff here!
+if ( _doSensorOff ) exitWith {
+    (findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
+    (findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
+    (findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+};
 
 hintSilent "";
 
@@ -37,7 +42,7 @@ if ( _sensorState ) then {
     _uav setVariable ["RQ4Tweak_sensorOn", false, true];
 } else {
     _uav setVariable ["RQ4Tweak_sensorOn", true, true];
-    [_uav] remoteExec ["MM_fnc_collectMTI"];
+    [_uav] remoteExec ["MM_fnc_collectMTI", 2];
 };
 
 disableSerialization;

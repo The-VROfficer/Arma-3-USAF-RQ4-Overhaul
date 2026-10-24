@@ -74,12 +74,12 @@ while { alive _gh } do {
 							_dotMarker setMarkerAlphaLocal 0;
 						} forEach _grcas;
 					} else {
-						private _boxMarker = _x select 4;
-						private _dotMarker = _x select 5;
-
 						// Add a temp var to the markers that prevents the missionEventHandler in fn_drawGRCA from triggering. This var will be destroyed in aforementioned EH.
 						// If this wasn't here, the markers would be deleted on the clientside AND on the server.
 						{
+							private _boxMarker = _x select 4;
+							private _dotMarker = _x select 5;
+
 							private _nameBox = "RQ4Tweak_localDeleteOnly_" + _boxMarker;
 							private _nameDot = "RQ4Tweak_localDeleteOnly_" + _dotMarker;
 						
