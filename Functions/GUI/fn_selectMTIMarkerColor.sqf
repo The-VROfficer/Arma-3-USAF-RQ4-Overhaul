@@ -32,7 +32,7 @@ private _uav = getConnectedUAV player;
 
 // Keep the currently stored choice checked if the user clicks it off.
 if (_checked == 0) exitWith {
-    if (!isNull _uav && {(_uav getVariable ["RQ4Tweak_mtiMarkerColor", "colorGUER"]) isEqualTo _colorName}) then {
+    if (!isNull _uav && {(_uav getVariable ["RQ4Tweak_mtiMarkerColor", "ColorGUER"]) isEqualTo _colorName}) then {
         _control cbSetChecked true;
     };
 };

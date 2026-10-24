@@ -141,7 +141,7 @@ class RQ4dialog
 		{
 			idc = 1603;
 			text = "MTI Mode: RRCA"; //--- ToDo: Localize;
-			onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+			onButtonClick = "[] call MM_fnc_toggleMTIMode; [] call MM_fnc_focusDialogCatcher;";
 			x = 0.0204687 * safezoneW + safezoneX;
 			y = 0.269 * safezoneH + safezoneY;
 			w = 0.0979687 * safezoneW;

@@ -48,8 +48,9 @@ class CfgFunctions
 			class refreshPlayerLists {};
 			class selectMTIMarkerColor {};
 			class setSlewSide {};
-			class toggleSensorState {};
             class toggleFOR {};
+            class toggleMTIMode {};
+            class toggleSensorState {};
 		};
     };
 };

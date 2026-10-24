@@ -98,6 +98,7 @@ if ( (missionNamespace getVariable ["RQ4Tweak_allAVs", []]) isEqualTo [] ) then 
 	missionNamespace setVariable ["RQ4Tweak_allAVs", _list, true];
 };
 
+
 // The query for MTI receipients (both server-wide and on AV's side) were made into in-line functions to facilitate real-time updating.
 // If the "object getVariable 'yada'" is run once at the beginning of the script, it doesn't update unless it's called again.
 private _mtiRecipients = {
@@ -131,18 +132,18 @@ private _sideRecipients = {
 
 private _curSideRecipients = call _sideRecipients;
 
+private _pilot = _gh getVariable ["RQ4Tweak_pilot", []];
+
 // Evaluate if there are any MTI recipient players (on the entire server first, then on this AV's side specifically). If none exist, exit.
 if ( ( count _curMTIRecipients < 1) or (count _curSideRecipients < 1) ) exitWith {
 	// DEBUG LVL 3
 	private _msg = format ["%1: Exiting at MTI recipient check - Total recipients: %2, Sames-side recipients: %3", _gh, _curMTIRecipients, _curSideRecipients];
 	DEBUG_RPT(_msg, _curFunc);
 
-	private _pilot = _gh getVariable ["RQ4Tweak_pilot", []];
 	[parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />There are no suitable MTI recipients on your side."] remoteExecCall ["hintSilent", _pilot];
 
-	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
+
 
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 };
@@ -281,16 +282,12 @@ _collectionLoop = while { not isNull _gh } do {
 // Assess Loop Termination Reason
 // ---------------------------------
 
-private _pilot = _gh getVariable ["RQ4Tweak_pilot", []];
-
 if ( isNull _gh ) exitWith {
 	// DEBUG LVL 2
 	private _msg = "NULL: Exiting at loop termination assessment, AV was deleted.";
 	ERROR_RPT(_msg, _curFunc);
 
-	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
 	["<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
 
@@ -301,9 +298,8 @@ if ( isNull _gh ) exitWith {
 if ( _collectionLoop isEqualTo "DEAD" ) then {
 	["<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
 
-	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
+
 
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 };
@@ -315,9 +311,8 @@ if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
 	// Notifying connected UAV operator that the AV has gotten too low.
 	[parseText format ["<t font='PuristaBold'>SENSOR OFF</t><br /><br />AV descended below the minimum collection altitude [%1m AGL].", parseNumber MM_RQ4_Min_Altitude]] remoteExecCall ["hintSilent", _pilot];
 
-	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
+
 
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 };
@@ -325,9 +320,8 @@ if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
 if ( _collectionLoop isEqualTo "NO_SIDE_RECIPIENTS" ) then {
 	[parseText "<t font='PuristaBold'>SENSOR OFF</t><br /><br />There are no suitable MTI recipients on your side.."] remoteExecCall ["hintSilent", _pilot];
 
-	(findDisplay 1250 displayCtrl 1600) ctrlSetBackgroundColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetActiveColor [1,0,0,1];
-	(findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
+	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
+
 
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 };

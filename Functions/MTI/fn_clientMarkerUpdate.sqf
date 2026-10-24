@@ -66,7 +66,12 @@ _mtiMarker setMarkerPosLocal _pos;
 _mtiMarker setMarkerTextLocal _text;
 _mtiMarker setMarkerShapeLocal "ICON";
 _mtiMarker setMarkerTypeLocal _type;
-_mtiMarker setMarkerColorLocal _color;
+
+// If marker is currently highlighted locally (via fn_highlightMarker), don't overwrite its color. 
+if ( missionNamespace getVariable ["RQ4Tweak_markerSelected", []] isEqualTo [] ) then {
+	_mtiMarker setMarkerColorLocal _color;
+};
+
 _mtiMarker setMarkerSizeLocal _size;
 
 // Dual-role, makes it so that player's can't see MTI updates when loading in as JIP OR after they die.

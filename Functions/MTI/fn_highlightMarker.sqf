@@ -65,7 +65,7 @@ addMissionEventHandler [
             _foundMarker setMarkerColorLocal "ColorYELLOW";
 
             // Create a LOCAL var that is attached to the marker, this var will determine if the game should continue displaying the data box or not.
-            missionNamespace setVariable ["RQ4Tweak_markerSelected", true];
+            missionNamespace setVariable ["RQ4Tweak_markerSelected", [true, _foundMarker]];
 
             // ---------------------------------
             // Create hint box containing TOI data
@@ -74,7 +74,7 @@ addMissionEventHandler [
             [_foundMarker, _gh] spawn {
                 params ["_foundMarker", "_gh"];
 
-                while { missionNamespace getVariable ["RQ4Tweak_markerSelected", false] == true } do {
+                while { missionNamespace getVariable ["RQ4Tweak_markerSelected", false] } do {
                     private _seriesID = (_foundMarker splitString "_") select 1;
 
                     // Find which object this _foundMarker belongs too. Filtered list to improve efficiency.
@@ -154,7 +154,7 @@ addMissionEventHandler [
             [_foundMarker, _storedColor, _deselectClickEH] spawn {
                 params ["_foundMarker", "_storedColor", "_deselectClickEH"];
 
-                waitUntil { sleep 0.5; not visibleMap };
+                waitUntil { sleep 0.5; not (findDisplay 1250) };
 
                 _foundMarker setMarkerColorLocal _storedColor;
 

@@ -197,3 +197,4 @@ RQ4Tweak_markerSelected
     Belongs to: missionNamespace, IS LOCAL to the CLIENT.
 
     0: <BOOLEAN> - True if the local client has the marker selected on their map, otherwise nil.
+    1: <MARKER> - The marker that is currently highlighted on that local machine.
