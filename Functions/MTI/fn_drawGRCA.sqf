@@ -116,7 +116,7 @@ addMissionEventHandler [
 						if ( _grcaData isEqualTo [] ) then {
 							_gh setVariable ["RQ4Tweak_grcas", [[1, _areaCenterX, _areaCenterY, _areaCenterTrue, _grca, _bottomRightMarker, getMarkerPos _bottomRightMarker]], true];
 						} else {
-							_gh setVariable ["RQ4Tweak_grcas", _grcaData + [[_nextID, _areaCenterX, _areaCenterY, _areaCenterTrue, _grca, _bottomRightMarker, getMarkerPos _bottomRightMarker]]];
+							_gh setVariable ["RQ4Tweak_grcas", _grcaData + [[_nextID, _areaCenterX, _areaCenterY, _areaCenterTrue, _grca, _bottomRightMarker, getMarkerPos _bottomRightMarker]], true];
 						};
 					};
 

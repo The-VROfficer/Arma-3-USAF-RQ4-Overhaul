@@ -29,8 +29,10 @@ class CfgFunctions
             class handleFOR {};
             class handleMTIMarker {};
             class handlePilot {};
-            class radarScan {};
             class highlightMarker {};
+            class radarScan {};
+            class readdGRCA {};
+            class renameMarker {};
             class slewSensor {};
             class updateMTIMarker {};
         };

@@ -5,7 +5,7 @@
 */
 
 // Type #define DEBUG_ENABLED' below to enable/disable RPT debug messages in ALL functions!
-//#define DEBUG_ENABLED
+#define DEBUG_ENABLED
 
 #ifdef DEBUG_ENABLED
     #define DEBUG_RPT(MSG,CURFUNC)\

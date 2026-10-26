@@ -98,6 +98,16 @@ if (_loiterRadius >= 0) then {
     _loiterInput ctrlSetText str _loiterRadius;
 };
 
+// Continuously update the "Current Altitude" box as long as the GUI is open.
+[_uav] spawn {
+    params ["_uav"];
+
+    while { findDisplay 1250 } do {
+        (findDisplay 1250 displayCtrl 1642) ctrlSetText (format ["%1", (getPosASLVisual _uav select 2) toFixed 0]);
+        sleep 2;
+    };
+};
+
 // Highlight the aircraft's current sensor side.
 private _slewSide = _uav getVariable ["RQ4Tweak_slewSide", MM_RQ4_StartSlew];
 private _slewLeftButton = _display displayCtrl 1601;

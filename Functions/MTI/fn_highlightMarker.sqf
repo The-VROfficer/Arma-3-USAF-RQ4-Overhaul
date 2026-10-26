@@ -23,7 +23,7 @@ params [
 	["_gh", objNull, [objNull]]
 ];
 
-hint parseText "<t color='#ff0000'>Click on a marker to change its name.</t>";
+hint "Click on a marker to highlight it.";
 
 addMissionEventHandler [ 
     "MapSingleClick",
@@ -39,7 +39,7 @@ addMissionEventHandler [
             private _foundMarker = "";
             private _closestDist = 50;
 
-            // determine nearest marker to cursor that contains "GMTI_Marker_" w/in a 50m radius
+            // determine nearest marker to cursor that contains "TOI_" w/in a 50m radius
             {
                 if ((_x find "TOI_") == 0) then {
                     private _markerPos = getMarkerPos _x;
@@ -52,10 +52,10 @@ addMissionEventHandler [
                 };
             } forEach allMapMarkers;
 
-            // break condition if no map marker w/in 10m
+            // break condition if no map marker w/in 50m
             if (_foundMarker isEqualTo "") exitWith
             {
-                hint parseText "No TOI marker found.";
+                hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No TOI marker found.";
             };
 
             private _foundMarkerName = (_foundMarker call BIS_fnc_markerParams) select 8;
@@ -74,7 +74,7 @@ addMissionEventHandler [
             [_foundMarker, _gh] spawn {
                 params ["_foundMarker", "_gh"];
 
-                while { missionNamespace getVariable ["RQ4Tweak_markerSelected", false] } do {
+                while { (missionNamespace getVariable ["RQ4Tweak_markerSelected", false]) isEqualTo true } do {
                     private _seriesID = (_foundMarker splitString "_") select 1;
 
                     // Find which object this _foundMarker belongs too. Filtered list to improve efficiency.
@@ -117,7 +117,6 @@ addMissionEventHandler [
                     // RCS here is kind of a made up number lol, this is the same calculation from fn_createMTIMarker so at least it's consistent.
                     private _rcs = sizeOf (typeOf _markerOwner);
 
-
                     private _text = "<t align='center' font='PuristaBold'>MTI Analysis</t><br /><br /><t align='left'>Spotted by:            %1<br />Range Sector:       %2 (%3-%4m)<br />Slant Range:          %5m<br />Altitude:                  %6m<br />RCS:                         %7m^2<br /><br />";
 
                     hintSilent parseText format [_text, group _spottedBy, _rangeSector, _sectors select 0, _sectors select 1, _slantRange, _alt, _rcs];
@@ -154,7 +153,7 @@ addMissionEventHandler [
             [_foundMarker, _storedColor, _deselectClickEH] spawn {
                 params ["_foundMarker", "_storedColor", "_deselectClickEH"];
 
-                waitUntil { sleep 0.5; not (findDisplay 1250) };
+                waitUntil { sleep 1; str (findDisplay 1250) isEqualTo "No Display" };
 
                 _foundMarker setMarkerColorLocal _storedColor;
 
@@ -167,7 +166,8 @@ addMissionEventHandler [
         };
 
 		removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
-    }, [_gh]
+    },
+    [_gh]
 ];
 
 true;

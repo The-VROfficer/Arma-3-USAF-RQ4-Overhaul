@@ -198,3 +198,10 @@ RQ4Tweak_markerSelected
 
     0: <BOOLEAN> - True if the local client has the marker selected on their map, otherwise nil.
     1: <MARKER> - The marker that is currently highlighted on that local machine.
+
+RQ4Tweak_handlePilotRunning
+    Used in: fn_handlePilot / Prevents duplicate executions of fn_handlePilot on a single AV.
+
+    Belongs to: The AV.
+
+    0: <BOOLEAN> - True if currently running, otherwise nil.

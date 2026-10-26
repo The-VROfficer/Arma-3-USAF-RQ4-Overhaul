@@ -101,8 +101,8 @@ class RQ4dialog
         w = 0.103125 * safezoneW;
         h = 0.055 * safezoneH;
         colorBackground[] = {1.00, 0.00, 0.00, 1.00};
-        text = "Sensor OFF";
-        onButtonClick = "[] call MM_fnc_toggleSensorStateUI; [] call MM_fnc_focusDialogCatcher;";
+        text = "Sensor: OFF";
+        onButtonClick = "[] call MM_fnc_toggleSensorState; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -168,7 +168,7 @@ class RQ4dialog
         h = 0.055 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "MTI Mode: RRCA";
-        onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[] call MM_fnc_toggleMTIMode; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -185,7 +185,7 @@ class RQ4dialog
         h = 0.055 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "Add GRCA";
-        onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[getConnectedUAV player] spawn MM_fnc_drawGRCA; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -219,7 +219,7 @@ class RQ4dialog
         h = 0.055 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "Field of Regard: OFF";
-        onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[] call MM_fnc_toggleFOR; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -341,7 +341,7 @@ class RQ4dialog
         y = 0.1614 * safezoneH + safezoneY;
         w = 0.01 * safezoneW;
         h = 0.02 * safezoneH;
-        onCheckedChanged = "[_this select 0, _this select 1, 'colorOPFOR'] call MM_fnc_selectMTIMarkerColor;";
+        onCheckedChanged = "[_this select 0, _this select 1, 'ColorEAST'] call MM_fnc_selectMTIMarkerColor;";
         textureFocusedChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
         textureFocusedUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
         textureHoverChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
@@ -375,7 +375,7 @@ class RQ4dialog
         y = 0.1914 * safezoneH + safezoneY;
         w = 0.01 * safezoneW;
         h = 0.02 * safezoneH;
-        onCheckedChanged = "[_this select 0, _this select 1, 'colorCIV'] call MM_fnc_selectMTIMarkerColor;";
+        onCheckedChanged = "[_this select 0, _this select 1, 'ColorCIV'] call MM_fnc_selectMTIMarkerColor;";
         textureFocusedChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
         textureFocusedUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
         textureHoverChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
@@ -399,7 +399,7 @@ class RQ4dialog
         y = 0.2214 * safezoneH + safezoneY;
         w = 0.01 * safezoneW;
         h = 0.02 * safezoneH;
-        onCheckedChanged = "[_this select 0, _this select 1, 'colorUNKNOWN'] call MM_fnc_selectMTIMarkerColor;";
+        onCheckedChanged = "[_this select 0, _this select 1, 'ColorUNKNOWN'] call MM_fnc_selectMTIMarkerColor;";
         textureFocusedChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
         textureFocusedUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
         textureHoverChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
@@ -443,7 +443,7 @@ class RQ4dialog
         y = 0.2514 * safezoneH + safezoneY;
         w = 0.01 * safezoneW;
         h = 0.02 * safezoneH;
-        onCheckedChanged = "[_this select 0, _this select 1, 'colorGUER'] call MM_fnc_selectMTIMarkerColor;";
+        onCheckedChanged = "[_this select 0, _this select 1, 'ColorGUER'] call MM_fnc_selectMTIMarkerColor;";
         textureFocusedChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
         textureFocusedUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
         textureHoverChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
@@ -467,7 +467,7 @@ class RQ4dialog
         y = 0.2814 * safezoneH + safezoneY;
         w = 0.01 * safezoneW;
         h = 0.02 * safezoneH;
-        onCheckedChanged = "[_this select 0, _this select 1, 'colorBLUFOR'] call MM_fnc_selectMTIMarkerColor;";
+        onCheckedChanged = "[_this select 0, _this select 1, 'ColorWEST'] call MM_fnc_selectMTIMarkerColor;";
         textureFocusedChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
         textureFocusedUnchecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_unchecked_ca.paa";
         textureHoverChecked = "\A3\Ui_f\data\GUI\RscCommon\RscCheckBox\CheckBox_checked_ca.paa";
@@ -515,7 +515,7 @@ class RQ4dialog
         h = 0.0407 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "via Map Click";
-        onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[getConnectedUAV player, false, '', 'TEXT HERE'] spawn MM_fnc_renameMarker; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -669,7 +669,7 @@ class RQ4dialog
         colorBorder[] = {0.00, 0.00, 0.00, 1.00};
         borderSize = 0;
       };
-      class currentAltitude : RscEdit
+      class currentAltitude : RscText
       {
         idc = 1642;
         style = 0x140;
@@ -680,9 +680,7 @@ class RQ4dialog
         sizeEx = 0.05;
         colorText[] = {0.90, 0.90, 0.90, 1.00};
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
-        autocomplete = false;
         colorSelection[] = {0.13, 0.54, 0.21, 1.00};
-        canModify = 0;
       };
       class currentAltitudeText : RscStructuredText
       {
@@ -715,7 +713,7 @@ class RQ4dialog
         h = 0.04 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "Select Marker";
-        onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[getConnectedUAV player] spawn MM_fnc_highlightMarker; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -809,7 +807,6 @@ class RQ4dialog
           {
             default = 1;
             picture = "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa";
-            color = [0.00, 0.30, 0.60, 1.00];
           };
           class REDFOR
           {
@@ -922,10 +919,6 @@ class RQ4dialog
             class uav
             {
               picture = "\a3\ui_f\data\Map\Markers\NATO\b_uav.paa";
-            };
-            class unknown
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa";
             };
         };
       };
