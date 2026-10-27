@@ -18,6 +18,13 @@
 private _uav = getConnectedUAV player;
 if (isNull _uav) exitWith {};
 
+// Sensor is slewing, exit.
+if ( _uav getVariable ["RQ4Tweak_isSlewing", []] isNotEqualTo [] ) exitWith {
+	[] spawn {
+		systemChat "COMMAND REJECTED - Cannot change field of regard setting, sensor is slewing.";
+	};
+};
+
 // turn on FOR case
 if ( (_uav getVariable ["RQ4Tweak_forEH_guiMap", []]) isEqualTo [] ) then {
 

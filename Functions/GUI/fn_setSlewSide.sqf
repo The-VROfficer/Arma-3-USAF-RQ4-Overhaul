@@ -35,7 +35,7 @@ hintSilent "";
 
 // Add slewing in progress protection
 if ( _uav getVariable ["RQ4Tweak_isSlewing", []] isNotEqualTo [] ) exitWith {
-    hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Sensor is slewing.</t>"];
+    systemChat "COMMAND REJECTED - Sensor is slewing.";
 };
 
 if ((_uav getVariable ["RQ4Tweak_slewSide", MM_RQ4_StartSlew]) isEqualTo _slewSide) exitWith {

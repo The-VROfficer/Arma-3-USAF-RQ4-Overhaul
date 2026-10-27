@@ -17,12 +17,6 @@
 
     Examples:
         onButtonClick = "[] call MM_fnc_executeFlightControls;";
-
-    NOTE - The assigned altitude and loiter radius are stored on the UAV. A
-    radius and converted altitude are applied only to the first current or
-    upcoming LOITER waypoint; if none exists, the entered radius is saved for
-    the GUI but no waypoint is made or changed. Invalid input prevents either
-    setting from being applied.
 */
 
 disableSerialization;

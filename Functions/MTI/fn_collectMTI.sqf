@@ -318,7 +318,7 @@ if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
 	//
 
 	// Notifying connected UAV operator that the AV has gotten too low.
-	[parseText format ["<t font='PuristaBold'>SENSOR OFF</t><br /><br />AV descended below the minimum collection altitude [%1m AGL].", parseNumber MM_RQ4_Min_Altitude]] remoteExecCall ["hintSilent", _pilot];
+	[parseText format ["<t font='PuristaBold'>SENSOR OFF</t><br /><br />AV descended below the minimum collection altitude [%1 ft/AGL | %2 m/AGL].", ((parseNumber MM_RQ4_Min_Altitude) * 3.28) toFixed 0, parseNumber MM_RQ4_Min_Altitude]] remoteExecCall ["hintSilent", _pilot];
 
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 

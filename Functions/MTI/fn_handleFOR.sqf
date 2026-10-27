@@ -76,16 +76,21 @@ if ( _create ) then {
 		default { ColorWEST };
 	};
 
-	//private _str = format ["[_this select 0, %1, %2, %3, _thisEventHandler] call MM_fnc_drawFOR", _gh, _slewSide, _color];
+	// Text that resolves back to the object when the Draw EH runs.
+    private _ghStr = format ["(objectFromNetId ""%1"")", netId _gh];
+
 	private _str = format ["
-		private _pos = getPosASLVisual %1;
+		private _gh = %1;
+        if (isNull _gh) exitWith {};
+		
+		private _pos = getPosASLVisual _gh;
 		private _dist = sqrt((parseNumber MM_RQ4_Ranges_S3_Max)^2) - sqrt((_pos select 2)^2);
 		_pos set [2,0];
 
 		private _dir = if (%2 == 0) then {
-			(getDir %1) - 90;
+			(getDir _gh) - 90;
 		} else {
-			(getDir %1) + 90;
+			(getDir _gh) + 90;
 		};
 
 		private _vertices = [-45,45]; 
@@ -105,9 +110,8 @@ if ( _create ) then {
 		});
 
 		_control = _this select 0;
-
 		_control drawPolygon [_vertices, %3];
-	", _gh, _slewSide, _color];
+	", _ghStr, _slewSide, _color];
 
 	// Draw FOR lines on GUI map.
 	_forEH_guiMap = (findDisplay 1250 displayCtrl 1801) ctrlAddEventHandler ["Draw", _str];
