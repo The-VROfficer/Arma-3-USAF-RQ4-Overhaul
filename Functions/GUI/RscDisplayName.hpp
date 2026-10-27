@@ -8,37 +8,62 @@ class RscFrame;
 class RscCheckbox;
 class RscListbox;
 
-class textEntryDialog
+class RQ4_textEntryDialog
 {
-	idd = 1251;
-	class textEntryBackground: RscText
-	{
-		idc = 1000;
-		x = 6.5 * GUI_GRID_W + GUI_GRID_X;
-		y = 9 * GUI_GRID_H + GUI_GRID_Y;
-		w = 23 * GUI_GRID_W;
-		h = 3 * GUI_GRID_H;
-		colorBackground[] = {0,0,0,1};
-	};
-	class textEntryPlaceholder: RscEdit
-	{
-		idc = 1002;
-		x = 7 * GUI_GRID_W + GUI_GRID_X;
-		y = 9.5 * GUI_GRID_H + GUI_GRID_Y;
-		w = 16 * GUI_GRID_W;
-		h = 2 * GUI_GRID_H;
-		colorBackground[] = {1,1,1,0.7};
-	};
-	class textEntryEnter: RscButton
-	{
-		idc = 1600;
-		text = "Enter"; //--- ToDo: Localize;
-		x = 23.5 * GUI_GRID_W + GUI_GRID_X;
-		y = 9.5 * GUI_GRID_H + GUI_GRID_Y;
-		w = 5.5 * GUI_GRID_W;
-		h = 2 * GUI_GRID_H;
-		colorBackground[] = {1,1,1,0.7};
-	};
+  idd = 1251;
+  movingEnable = 0;
+  enableSimulation = 0;
+  class Controls
+  {
+      class textEntryBackground : RscText
+      {
+        idc = 1000;
+        x = 8.50 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 9.03 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 23 * GUI_GRID_W;
+        h = 3 * GUI_GRID_H;
+        colorBackground[] = {0.00, 0.00, 0.00, 0.90};
+        colorShadow[] = {0.00, 0.00, 0.00, 0.50};
+      };
+      class textEntryInput : RscEdit
+      {
+        idc = 1002;
+        style = 0x40;
+        x = 9.00 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 9.53 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 16 * GUI_GRID_W;
+        h = 2 * GUI_GRID_H;
+        colorBackground[] = {1.00, 1.00, 1.00, 0.70};
+        autocomplete = false;
+        colorSelection[] = {0.13, 0.54, 0.21, 1.00};
+        canModify = 1;
+      };
+      class textEntryEnter : RscButton
+      {
+        idc = 1600;
+        style = 0x02;
+        x = 25.50 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 9.53 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 5.47 * GUI_GRID_CENTER_W;
+        h = 2.00 * GUI_GRID_CENTER_H;
+        colorBackground[] = {1.00, 1.00, 1.00, 0.70};
+        text = "ENTER";
+        colorFocused[] = {0.00, 0.00, 0.00, 1.00};
+        colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
+        colorShadow[] = {0.00, 0.00, 0.00, 0.00};
+        colorBorder[] = {0.00, 0.00, 0.00, 1.00};
+        borderSize = 0;
+      };
+      class textEntryPrompt : RscStructuredText
+      {
+        idc = 1602;
+        style = 0x102;
+        x = 11.67 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
+        y = 12.82 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
+        w = 16.67 * GUI_GRID_CENTER_W;
+        h = 1.99 * GUI_GRID_CENTER_H;
+      };
+  };
 };
 
 

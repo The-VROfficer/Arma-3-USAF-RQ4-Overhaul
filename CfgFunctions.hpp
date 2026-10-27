@@ -54,6 +54,8 @@ class CfgFunctions
             class toggleFOR {};
             class toggleMTIMode {};
             class toggleSensorState {};
+            class findMarkerViaName {};
+            class openTextEntryDialog {};
 		};
     };
 };
