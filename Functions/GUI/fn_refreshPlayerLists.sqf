@@ -39,11 +39,12 @@ while {!isNull _display} do {
     uiSleep 1;
     if (isNull _display) exitWith {};
 
-    private _onlinePlayers = allPlayers;
+    // Prevents player from passing MTI to the enemy.
+    private _onlinePlayers = allPlayers select {(side group _x) isEqualTo (side group player)};;
     private _playerRows = [];
     private _playerKeys = [];
     {
-        private _uid = getPlayerUID _x;
+        private _uid = netId _x;
         private _playerName = name _x;
         _playerRows pushBack [_uid, _playerName];
         _playerKeys pushBack format ["%1|%2", _uid, _playerName];
@@ -85,23 +86,25 @@ while {!isNull _display} do {
         };
     };
 
-    private _uav = getConnectedUAV player;
-    private _recipients = [];
-    if (!isNull _uav) then {
-        private _storedRecipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []];
-        {
-            if (!isNull _x && {_x in _onlinePlayers}) then {
-                _recipients pushBackUnique _x;
-            };
-        } forEach _storedRecipients;
+    private _storedRecipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []];
 
-        if !(_recipients isEqualTo _storedRecipients) then {
-            _uav setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
+    // Prune against ALL online players so we never delete other sides' recipients
+    private _recipients = [];
+    {
+        if (!isNull _x && {_x in allPlayers}) then {
+            _recipients pushBackUnique _x;
         };
+    } forEach _storedRecipients;
+
+    if !(_recipients isEqualTo _storedRecipients) then {
+        missionNamespace setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
     };
 
-    private _recipientRows = _recipients apply {
-        [getPlayerUID _x, name _x]
+    // Display only same-side recipients
+    private _visibleRecipients = _recipients select {_x in _onlinePlayers};
+
+    private _recipientRows = _visibleRecipients apply {
+        [netId _x, name _x]
     };
     private _recipientKeys = _recipientRows apply {
         format ["%1|%2", _x select 0, _x select 1]

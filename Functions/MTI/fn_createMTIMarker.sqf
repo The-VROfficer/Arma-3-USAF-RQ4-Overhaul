@@ -156,6 +156,14 @@ _target addEventHandler ["Deleted",{
 	_entity removeEventHandler ["Deleted", _thisEventHandler];
 }];
 
+// Add to tracked list of all existing TOI markers on this AV.
+if ( (_gh getVariable ["RQ4Tweak_allTOIMarkers", []]) isEqualTo [] ) then {
+	_gh setVariable ["RQ4Tweak_allTOIMarkers", [_mtiMarker], true];
+} else {
+	_gh setVariable ["RQ4Tweak_allTOIMarkers", (_gh getVariable "RQ4Tweak_allTOIMarkers") + [_mtiMarker], true];
+};
+
+
 // ---------------------------------
 // Update JIP Queue and Send to Clients
 // ---------------------------------

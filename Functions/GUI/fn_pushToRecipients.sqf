@@ -35,18 +35,19 @@ private _ctrlRecipients = _display displayCtrl 1501;
 private _index = lbCurSel _ctrlAllPlayers;
 if (_index < 0) exitWith {};
 
-private _uid = _ctrlAllPlayers lbData _index;
-if (_uid isEqualTo "") exitWith {};
+private _netId = _ctrlAllPlayers lbData _index;
+if (_netId isEqualTo "") exitWith {};
 
-private _playerObj = (allPlayers select {(getPlayerUID _x) isEqualTo _uid}) param [0, objNull];
+private _playerObj = objectFromNetId _netId;
+if (isNull _playerObj || {!(_playerObj in allPlayers)}) exitWith {};
 if (isNull _playerObj) exitWith {};
 
-private _recipients = _uav getVariable ["RQ4Tweak_mtiRecipients", []];
+private _recipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []];
 if (_playerObj in _recipients) exitWith {};
 
 _recipients pushBack _playerObj;
 missionNamespace setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
 
 private _newIndex = _ctrlRecipients lbAdd (name _playerObj);
-_ctrlRecipients lbSetData [_newIndex, getPlayerUID _playerObj];
+_ctrlRecipients lbSetData [_newIndex, netId _playerObj];
 

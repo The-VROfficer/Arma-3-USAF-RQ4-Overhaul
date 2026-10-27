@@ -205,3 +205,17 @@ RQ4Tweak_handlePilotRunning
     Belongs to: The AV.
 
     0: <BOOLEAN> - True if currently running, otherwise nil.
+
+RQ4Tweak_isFadingLocal
+    Used in: fn_fadeMarkerLocal / Used to prevent duplicate execution of the fn_fadeMarkerLocal function. Gets reset to nil upon script completion or exit.
+
+    Belongs to: The target.
+
+    0: <BOOLEAN> - True if fadeout script is running, otherwise nil.
+
+RQ4Tweak_allTOIMarkers
+    Used in: fn_createMTIMarker / fn_handleFadeMarker ; A continuously updated list of all TOI markers that exist on the passed AV. Mostly used for quick deletion of all TOI markers.
+
+    Belongs to: The AV.
+
+    0: <ARRAY of STRINGS> - The marker names for each TOI marker that belongs to the passed AV.

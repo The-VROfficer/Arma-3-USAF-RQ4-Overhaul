@@ -70,7 +70,7 @@ if ( count _text < 1 ) exitWith {
 	ERROR_RPT(_msg, _curFunc);
 };
 
-// Set marker opacity back to 100% and (hopefully) undo all fading previously done by fn_fadeMarker.
+// Set marker opacity back to 100% and (hopefully) undo all fading previously done by fn_fadeMarkerLocal.
 _mtiMarker setMarkerAlphaLocal 1.0;
 
 // Update marker's name to reflect the most recent "lastSeen" time.

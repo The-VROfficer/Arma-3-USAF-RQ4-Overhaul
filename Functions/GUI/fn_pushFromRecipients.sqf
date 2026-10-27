@@ -1,13 +1,11 @@
 /*
-    Author: Waylen
+    Author: Waylen & Myth
 
     Locality: Client
 
     Description:
         Removes the currently selected player from the connected UAV's MTI
         recipient list and removes that row from the dialog's lbRecipients listbox.
-        The selected row is identified by its stored player UID, so display names
-        do not need to be unique.
 
     Parameter(s):
         None.
@@ -17,15 +15,7 @@
 
     Examples:
         onButtonClick = "[] call MM_fnc_pushFromRecipients;";
-
-    NOTE - If there is no connected UAV or no selected recipient row, the function
-    exits without changing the aircraft variable. The updated array is broadcast
-    to the systems that consume the list. If the selected UID is no longer found
-    in the stored recipient array, its visible row is still removed from the UI.
 */
-
-private _uav = getConnectedUAV player;
-if (isNull _uav) exitWith {};
 
 private _display = findDisplay 1250;
 if (isNull _display) exitWith {};
@@ -34,12 +24,27 @@ private _ctrlRecipients = _display displayCtrl 1501;
 private _index = lbCurSel _ctrlRecipients;
 if (_index < 0) exitWith {};
 
-private _uid = _ctrlRecipients lbData _index;
-private _recipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []];
-private _playerObj = (_recipients select {(getPlayerUID _x) isEqualTo _uid}) param [0, objNull];
+private _netId = _ctrlRecipients lbData _index;
+private _playerObj = objectFromNetId _netId;
 
 if (!isNull _playerObj) then {
-    _recipients = _recipients - [_playerObj];
+    // Turn off ALL targets from all AVs for this player.
+    {
+        private _gh = _x;
+        if ( isNull _gh ) then { continue };
+
+        private _allTrackedTOIs = _gh getVariable ["RQ4Tweak_allTOIMarkers", []];
+        {
+            [_x, 0] remoteExec ["setMarkerAlphaLocal", _playerObj];
+        } forEach _allTrackedTOIs;
+    } forEach (missionNamespace getVariable ["RQ4Tweak_allAVs", []]);
+
+    {
+        [_x] remoteExec ["deleteMarkerLocal", _playerObj];
+    } forEach (allMapMarkers select {"_trackDot_" in _x});
+
+    // Remove the player from the list of MTI recipients, update the list globally.
+    _recipients = (missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]) - [_playerObj];
     missionNamespace setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
 };
 

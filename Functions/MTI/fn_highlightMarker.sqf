@@ -1,7 +1,7 @@
 /*
 	Author: Waylen & Myth
 
-	Locality: Local, executed on the client's machine (which client?)
+	Locality: Local, executed on the AV pilot's machine
 
 	Description:
 		Prompts user to click on a given GMTI marker, then highlights and displays detailed info about that marker. Marker is deselected once player clicks off or closes map.
@@ -74,7 +74,7 @@ addMissionEventHandler [
             [_foundMarker, _gh] spawn {
                 params ["_foundMarker", "_gh"];
 
-                while { (missionNamespace getVariable ["RQ4Tweak_markerSelected", false]) isEqualTo true } do {
+                while { ((missionNamespace getVariable ["RQ4Tweak_markerSelected", false]) select 0) isEqualTo true } do {
                     private _seriesID = (_foundMarker splitString "_") select 1;
 
                     // Find which object this _foundMarker belongs too. Filtered list to improve efficiency.

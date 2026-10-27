@@ -26,26 +26,26 @@
 private _curFunc = "MM_fnc_applyPoD";
 
 params [
+	["_gh", objNull, [objNull]],
 	["_allBins", [[], [], []], [[true], [true], [true]]]
 ];
 
 // DEBUG LVL 3
-private _msg = format ["%1: Started - Params: [ %2 ]", _gh, _allBins];
+private _msg = format ["%1: Started - Params: [%1, %2]", _gh, _allBins];
 DEBUG_RPT(_msg, _curFunc);
-
-private _mtiRecipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []];
 
 // Break down allBins into its individual components for condition checking below. X is included in the name to avoid specifying if targets are RRCA or GRCA.
 private _s1XTargets = _allBins select 0;
 private _s2XTargets = _allBins select 1;
 private _s3XTargets = _allBins select 2;
 
-private _s1YTargets = _s1XTargets;
-private _s2YTargets = _s2XTargets;
-private _s3YTargets = _s3XTargets;
+private _s1YTargets = + _s1XTargets;
+private _s2YTargets = + _s2XTargets;
+private _s3YTargets = + _s3XTargets;
 
 // Create forEach loop iterating through each index of all range bins.
 // Dice roll, see if distance-sorted targets pass the PoD check, if not, target gets deleted from the detection pool on this pass
+
 {
 	if ( random 1.0 >= MM_RQ4_PoD_S1 ) then { 
 		// DEBUG LVL 3
@@ -53,12 +53,13 @@ private _s3YTargets = _s3XTargets;
 		DEBUG_RPT(_msg, _curFunc);
 		
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		//[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", [""]] select 0, _gh] spawn MM_fnc_fadeMarker;
-		[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		[_gh, _x, false] spawn MM_fnc_handleFadeMarker;
 
 		_s1YTargets deleteAt _forEachIndex;
 	};
 } forEach _s1XTargets;
+
 
 {
 	if ( random 1.0 >= MM_RQ4_PoD_S2 ) then { 
@@ -66,12 +67,13 @@ private _s3YTargets = _s3XTargets;
 		private _msg = format ["%1: Target %2 (S2) eliminated.", _gh, _x];
 		DEBUG_RPT(_msg, _curFunc);
 
-		//[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", [""]] select 0, _gh] spawn MM_fnc_fadeMarker;
-		[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		[_gh, _x, false] spawn MM_fnc_handleFadeMarker;
 
 		_s2YTargets deleteAt _forEachIndex;
 	};
 } forEach _s2XTargets;
+
 
 {
 	if ( random 1.0 >= MM_RQ4_PoD_S3 ) then {
@@ -79,8 +81,8 @@ private _s3YTargets = _s3XTargets;
 		private _msg = format ["%1: Target %2 (S3) eliminated.", _gh, _x];
 		DEBUG_RPT(_msg, _curFunc);
 
-		//[_x, _x getVariable ["RQ4Tweak_mtiMarkerParams", [""]] select 0, _gh] spawn MM_fnc_fadeMarker;
-		[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		[_gh, _x, false] spawn MM_fnc_handleFadeMarker;
 
 		_s3YTargets deleteAt _forEachIndex;
 	};
@@ -103,6 +105,6 @@ private _finalTargets = _s1YTargets + _s2YTargets + _s3YTargets;
 
 // DEBUG LVL 3
 private _msg = format ["%1: Complete - Returns: %2", _gh, _finalTargets];
-DEBUG_RPT(_msg, _curFunc);;
+DEBUG_RPT(_msg, _curFunc);
 
 _finalTargets;

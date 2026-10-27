@@ -9,10 +9,10 @@
 
 #ifdef DEBUG_ENABLED
     #define DEBUG_RPT(MSG,CURFUNC)\
-        [MSG, CURFUNC, [false, true, false]] call CBA_fnc_debug;
+        [MSG, CURFUNC, [false, true, false]] call CBA_fnc_debug
 
     #define ERROR_RPT(MSG,CURFUNC)\
-        ["ERROR: " + MSG, CURFUNC, [false, true, false]] call CBA_fnc_debug;
+        ["ERROR: " + MSG, CURFUNC, [false, true, false]] call CBA_fnc_debug
 
 #else
     #define DEBUG_RPT(MSG,CURFUNC) ""

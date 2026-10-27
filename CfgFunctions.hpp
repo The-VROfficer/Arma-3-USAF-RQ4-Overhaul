@@ -24,8 +24,9 @@ class CfgFunctions
             class clientTrackDotUpdate {};
 			class createMTIMarker {};
             class drawGRCA {};
-			class fadeMarker {};
+            class fadeMarkerLocal {};
             class genericFilter {};
+            class handleFadeMarker {};
             class handleFOR {};
             class handleMTIMarker {};
             class handlePilot {};

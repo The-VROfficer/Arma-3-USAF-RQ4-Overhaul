@@ -47,11 +47,17 @@ _foundMarker = if ( _nameSearch ) then {
     // This allMapMarkers search is LOCAL, so other "hidden" markers from other AVs and other sources will be protected.
     if ( (allMapMarkers findIf { _searchID in ((_x call bis_fnc_markerParams) select 8) }) == -1 ) exitWith {
         hint parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No TOI markers contain ID [%1].", _searchID];
+
+        sleep 5;
+        hintSilent "";
     };
 
     // Check for duplicates and exit if any are found. Not efficient, but necessary.
     if ( ({ _searchID in ((_x call bis_fnc_markerParams) select 8) } count allMapMarkers) > 1 ) exitWith {
         hint parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Too many markers containing [%1].", _searchID];
+
+        sleep 5;
+        hintSilent "";
     };
 
     _foundMarkerStr = allMapMarkers select (allMapMarkers findIf { _searchID in ((_x call bis_fnc_markerParams) select 8) });
@@ -66,7 +72,7 @@ _foundMarker = if ( _nameSearch ) then {
     
     hint "Click on a marker to rename it.";
 
-    addMissionEventHandler [ 
+    _markerClickEH = addMissionEventHandler [ 
         "MapSingleClick",
         {
             params ["_units", "_pos"];
@@ -96,7 +102,7 @@ _foundMarker = if ( _nameSearch ) then {
 
                 // break condition if no map marker w/in 50m
                 if (_foundMarkerStr isEqualTo "") exitWith {
-                    missionNamespace setVariable ["RQ4Tweak_foundMarker", -1];
+                    missionNamespace setVariable ["RQ4Tweak_foundMarker", "NO MARK"];
                 };
 
                 missionNamespace setVariable ["RQ4Tweak_foundMarker", _foundMarkerStr];
@@ -107,12 +113,25 @@ _foundMarker = if ( _nameSearch ) then {
         [_gh, _foundMarkerStr]
     ];
 
-    waitUntil { sleep 1; (missionNamespace getVariable ["RQ4Tweak_foundMarker", false]) isNotEqualTo false };
+    // Create custom EH that deletes the click EH if GUI is closed before clicking.
+    [_markerClickEH] spawn {
+        params ["_markerClickEH"];
 
-    // If nothing was found via click, exit.
-    if ( (missionNamespace getVariable "RQ4Tweak_foundMarker") isEqualTo -1 ) exitWith {
-        hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No TOI marker found.";
+        waitUntil { sleep 0.5; str (findDisplay 1250) isEqualTo "No Display" };
+
+        if (true) exitWith {
+            removeMissionEventHandler ["MapSingleClick", _markerClickEH];
+            hintSilent "Rename action canceled.";
+            sleep 5;
+            hintSilent "";
+
+            // DEBUG LVL 3
+            private _msg = format ["%1: Exiting due to GUI closed.", _gh];
+            DEBUG_RPT(_msg, _curFunc);
+        };
     };
+
+    waitUntil { sleep 1; (missionNamespace getVariable ["RQ4Tweak_foundMarker", false]) isNotEqualTo false };
 
     // DEBUG LVL 3
     private _msg = format ["%1: Found marker via click is - %2", _gh, missionNamespace getVariable "RQ4Tweak_foundMarker"];
@@ -121,7 +140,7 @@ _foundMarker = if ( _nameSearch ) then {
     missionNamespace getVariable "RQ4Tweak_foundMarker"
 };
 
-// Make sure to destroy the temp var made to support the click selection thing. Otherwise causes "ghost clicks".
+// Destroy that temp var or else you get "ghost clicks".
 missionNamespace setVariable ["RQ4Tweak_foundMarker", nil];
 
 // ---------------------------------
@@ -130,19 +149,25 @@ missionNamespace setVariable ["RQ4Tweak_foundMarker", nil];
 
 // Add invalid selection protection.
 if ( isNil { _foundMarker } ) exitWith {
-    hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Invalid marker selected.";
+    hintSilent parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Invalid marker selected.";
 
     // DEBUG LVL 3
     private _msg = format ["%1: Marker %2 is invalid! Exiting.", _gh, _foundMarker];
     ERROR_RPT(_msg, _curFunc);
+
+    sleep 5;
+    hintSilent "";
 };
 
-if ( not ("TOI_" in (_foundMarker call BIS_fnc_markerParams select 0 select 0)) ) exitWith {
-    hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Invalid marker selected.";
+if ( not ("TOI_" in (_foundMarker call BIS_fnc_markerParams select 0 select 0))) exitWith {
+    hintSilent parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Invalid marker selected.";
 
     // DEBUG LVL 3
     private _msg = format ["%1: Marker %2 is invalid! Exiting.", _gh, _foundMarker];
     ERROR_RPT(_msg, _curFunc);
+
+    sleep 5;
+    hintSilent "";
 };
 
 // ---------------------------------

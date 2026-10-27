@@ -130,6 +130,8 @@ while { alive _gh } do {
 
 	// Check if pilot var is empty and there were no previous connections. If yes to both, this player is the very first one to connect. Add actions and end this iteration.
 	if ( isNil { _gh getVariable "RQ4Tweak_pilot" } and (_previousConnection == 0) ) then {
+		waitUntil { sleep 0.1; alive _pilot };
+		
 		_gh setVariable ["RQ4Tweak_pilot", _pilot, true];
 
 		// No need to run the function to add existing GRCAs, there should be none.

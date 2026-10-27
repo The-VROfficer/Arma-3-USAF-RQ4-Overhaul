@@ -672,14 +672,14 @@ class RQ4dialog
       class currentAltitude : RscText
       {
         idc = 1642;
-        style = 0x140;
+        style = 0x02 + 0x0C;
         x = 0.09 * safezoneW + safezoneX;
         y = 0.55 * safezoneH + safezoneY;
         w = 0.0979687 * safezoneW;
         h = 0.055 * safezoneH;
         sizeEx = 0.05;
         colorText[] = {0.90, 0.90, 0.90, 1.00};
-        colorBackground[] = {0.85, 0.85, 0.85, 1.00};
+        colorBackground[] = {0.00, 0.00, 0.00, 0.50};
         colorSelection[] = {0.13, 0.54, 0.21, 1.00};
       };
       class currentAltitudeText : RscStructuredText

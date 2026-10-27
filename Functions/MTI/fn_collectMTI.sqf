@@ -21,8 +21,6 @@
 // Script Start and Setup
 // ---------------------------------
 
-#define DEBUG_ENABLED
-
 #include "..\debug_defines.hpp"
 private _curFunc = "MM_fnc_collectMTI";
 
@@ -76,7 +74,8 @@ private _ghDeletedEH = _gh addEventHandler ["Deleted",{
 	{
 		private _mtiMarker = (_x getVariable "RQ4Tweak_mtiMarkerParams") select 0 select 0;
 
-		[_x, _mtiMarker, _entity, true] remoteExec ["MM_fnc_fadeMarker", missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]];
+		//[_x, _mtiMarker, _entity, true] remoteExec ["MM_fnc_fadeMarker", missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]];
+		[_entity, _x, true] spawn MM_fnc_handleFadeMarker;
 
 		// DEBUG LVL 3
 		private _msg = format ["%1: Fadeout triggered for %2 due to %1 deletion.", _entity, _mtiMarker];
@@ -235,7 +234,8 @@ _collectionLoop = while { not isNull _gh } do {
 		if ( count _trackedTargets > 0 ) then {
 			{
 				// It's guaranteed by this point, if the target is present in trackedTargets in the first place, that it will have mtiMarkerParams.
-				[_x, (_x getVariable "RQ4Tweak_mtiMarkerParams") select 0 select 0, _gh, true] remoteExec ["MM_fnc_fadeMarker", missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]];
+				//[_x, (_x getVariable "RQ4Tweak_mtiMarkerParams") select 0 select 0, _gh, true] remoteExec ["MM_fnc_fadeMarker", missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]];
+				[_gh, _x, true] spawn MM_fnc_handleFadeMarker;
 			} forEach _trackedTargets;
 		};
 
@@ -248,7 +248,7 @@ _collectionLoop = while { not isNull _gh } do {
 	};
 
 	// Perform Probability of Detect randomization
-	_finalTargets = [_filteredTargets] call MM_fnc_applyPoD;
+	_finalTargets = [_gh, _filteredTargets] call MM_fnc_applyPoD;
 
 	// Now that filtering is complete, tag remaining targets as "seen" by this AV.
 	{
@@ -267,6 +267,15 @@ _collectionLoop = while { not isNull _gh } do {
 		private _msg = format ["%1: %2 update to lastSeen [%3, %4, %1].", _gh, _x, time, [_hourSpotted, _minuteSpotted]];
 		DEBUG_RPT(_msg, _curFunc);
 	} forEach _finalTargets;
+
+	// Fade anything that was tracked last scan but isn't in this scan's final list, regardless of why it dropped off (left GRCA, left range, fell between bins, etc).
+	private _prevTracked = _gh getVariable ["RQ4Tweak_trackedTargets", []];
+
+	{
+		if ( (not (isNull _x)) and (not (_x in _finalTargets)) and (not (_x getVariable ["RQ4Tweak_isFading", false])) ) then {
+			[_gh, _x, true] spawn MM_fnc_handleFadeMarker;
+		};
+	} forEach _prevTracked;
 
 	// Attribute the final targets to this AV, allows these targets to be faded immediately if AV is deleted.
 	_gh setVariable ["RQ4Tweak_trackedTargets", _finalTargets, true];
@@ -289,14 +298,14 @@ if ( isNull _gh ) exitWith {
 
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
-	["<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
+	[parseText "<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
 
 	// Figure out if we need additional logic for cleanup if AV is deleted HERE 
 	//
 };
 
 if ( _collectionLoop isEqualTo "DEAD" ) then {
-	["<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
+	[parseText "<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
 
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
@@ -326,9 +335,15 @@ if ( _collectionLoop isEqualTo "NO_SIDE_RECIPIENTS" ) then {
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 };
 
-
-// Add logic to handle different cases for why the _collectionLoop would exit, whether as planned or prematurely HERE
-//
+// Fade all currently tracked targets
+{
+	private _msg = format ["%1: Collect loop canceled, commanding fade of target %2.", _gh, _x];
+	DEBUG_RPT(_msg, _curFunc);
+	
+	// It's guaranteed by this point, if the target is present in trackedTargets in the first place, that it will have mtiMarkerParams.
+	//[_x, (_x getVariable "RQ4Tweak_mtiMarkerParams") select 0 select 0, _gh, true] remoteExec ["MM_fnc_fadeMarker", missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]];
+	[_gh, _x, true] spawn MM_fnc_handleFadeMarker;
+} forEach (_gh getVariable ["RQ4Tweak_trackedTargets", []]);
 
 // ---------------------------------
 // End of Script Cleanup

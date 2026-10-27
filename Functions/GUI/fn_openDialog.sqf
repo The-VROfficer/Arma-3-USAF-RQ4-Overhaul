@@ -102,8 +102,8 @@ if (_loiterRadius >= 0) then {
 [_uav] spawn {
     params ["_uav"];
 
-    while { findDisplay 1250 } do {
-        (findDisplay 1250 displayCtrl 1642) ctrlSetText (format ["%1", (getPosASLVisual _uav select 2) toFixed 0]);
+    while { !isNull (findDisplay 1250) } do {
+        (findDisplay 1250 displayCtrl 1642) ctrlSetText (format ["%1", ((getPosASLVisual _uav select 2) * 3.28) toFixed 0]);
         sleep 2;
     };
 };

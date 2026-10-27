@@ -38,13 +38,10 @@ DEBUG_RPT(_msg, _curFunc);
 
 // If passed target array is empty, exit.
 if ( count _unsortedTargets < 1 ) exitWith {
-	
 	// DEBUG LVL 2
 	private _msg = format ["%1: Exiting at target array data check, array is empty.", _gh];
 	ERROR_RPT(_msg, _curFunc);
 };
-
-private _mtiRecipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []];
 
 // ---------------------------------
 // Filter Execution
@@ -60,7 +57,6 @@ if ( _indexToDelete > -1 ) then {
 	DEBUG_RPT(_msg, _curFunc);
 };
 
-// Create forEach loop to check all targets passed in unsortedTargets for validity.
 private _targetsToDelete = [];
 
 {
@@ -109,6 +105,7 @@ private _targetsToDelete = [];
 			_losDecimals pushBackUnique _num;
 		} forEach ["FIRE", "VIEW", "GEOM", "IFIRE", "PHYSX"];
 
+		// DEBUG LVL 3
 		private _msg = format ["%1: _losDecimals is now ( %2 ).", _gh, _losDecimals];
 		DEBUG_RPT(_msg, _curFunc);
 
@@ -119,14 +116,14 @@ private _targetsToDelete = [];
 			// DEBUG LVL 3
 			private _msg = format ["%1: Target %2 is below LOS threshold (%3 < 0.4), deleting.", _gh, _x, _losDecimal];
 			DEBUG_RPT(_msg, _curFunc);
-			
+
 			// DEBUG LVL 3
 			private _msg = format ["%1: Passing %2 to fn_fadeMarker with params [%2, %3, %4].", _gh, _x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh];
 			DEBUG_RPT(_msg, _curFunc);
 
 			// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-			//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] spawn MM_fnc_fadeMarker;
-			[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+			//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+			[_gh, _x, false] spawn MM_fnc_handleFadeMarker;
 
 			_targetsToDelete pushBackUnique _x;
 
@@ -149,8 +146,8 @@ private _targetsToDelete = [];
 		DEBUG_RPT(_msg, _curFunc);
 
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] spawn MM_fnc_fadeMarker;
-		[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		[_gh, _x, false] spawn MM_fnc_handleFadeMarker;
 
 		_targetsToDelete pushBackUnique _x;
 
@@ -168,8 +165,8 @@ private _targetsToDelete = [];
 		DEBUG_RPT(_msg, _curFunc);
 
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] spawn MM_fnc_fadeMarker;
-		[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		[_gh, _x, false] spawn MM_fnc_handleFadeMarker;
 		
 		_targetsToDelete pushBackUnique _x;
 
@@ -191,8 +188,8 @@ private _targetsToDelete = [];
 		DEBUG_RPT(_msg, _curFunc);
 
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] spawn MM_fnc_fadeMarker;
-		[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		[_gh, _x, false] spawn MM_fnc_handleFadeMarker;
 
 		_targetsToDelete pushBackUnique _x;
 
@@ -217,8 +214,8 @@ private _targetsToDelete = [];
 		DEBUG_RPT(_msg, _curFunc);
 
 		// If no marker has been created for this target, pass an empty marker name to fn_fadeMarker. This will effectively end that script immediately (good thing).
-		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] spawn MM_fnc_fadeMarker;
-		[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		//[_x, (_x getVariable ["RQ4Tweak_mtiMarkerParams", [""]]) select 0, _gh] remoteExec ["MM_fnc_fadeMarker", _mtiRecipients];
+		[_gh, _x, false] spawn MM_fnc_handleFadeMarker;
 
 		_targetsToDelete pushBackUnique _x;
 

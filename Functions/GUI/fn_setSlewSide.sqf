@@ -40,9 +40,9 @@ if ( _uav getVariable ["RQ4Tweak_isSlewing", []] isNotEqualTo [] ) exitWith {
 
 if ((_uav getVariable ["RQ4Tweak_slewSide", MM_RQ4_StartSlew]) isEqualTo _slewSide) exitWith {
     private _side = if ( _slewSide isEqualTo 0 ) then {
-        "RIGHT"
-    } else {
         "LEFT"
+    } else {
+        "RIGHT"
     };
 
     hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Sensor already slewed %1.", _side];

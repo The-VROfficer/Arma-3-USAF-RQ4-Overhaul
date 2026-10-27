@@ -80,6 +80,8 @@ if ( count _unsortedEntities < 1 ) exitWith {
 	// DEBUG LVL 2
 	private _msg = format ["%1: Abnormal exit at unsortedTargets count. No nearby entities exist.", _gh];
 	ERROR_RPT(_msg, _curFunc);
+
+	[[], [], []];	// Prevents collectMTI from throwing a fit based on fn_radarScan returns.
 };
 
 //DEBUG LVL 3
@@ -132,6 +134,8 @@ private _s3GrcaTargets = [];
 				case ( _xTarget in _s2Targets ): { _s2GrcaTargets pushBackUnique _xTarget; };
 				case ( _xTarget in _s3Targets ): { _s3GrcaTargets pushBackUnique _xTarget; };
 			};
+		} else {
+			[_gh, _xTarget, false] spawn MM_fnc_handleFadeMarker;
 		};
 	} forEach _s1Targets + _s2Targets + _s3Targets;
 } forEach _grcas;
