@@ -30,18 +30,33 @@ private _playerObj = objectFromNetId _netId;
 if (!isNull _playerObj) then {
     // Turn off ALL targets from all AVs for this player.
     {
-        private _gh = _x;
-        if ( isNull _gh ) then { continue };
+        // Iterate twice to catch edge case of marker being created at same time as deletion.
+        for "_y" from 0 to 1 do {
+            private _gh = _x;
 
-        private _allTrackedTOIs = _gh getVariable ["RQ4Tweak_allTOIMarkers", []];
-        {
+            if ( isNull _gh ) exitWith { continue };
+
+            private _allTrackedTOIs = _gh getVariable ["RQ4Tweak_allTOIMarkers", []];
+            {
             [_x, 0] remoteExec ["setMarkerAlphaLocal", _playerObj];
-        } forEach _allTrackedTOIs;
+            } forEach _allTrackedTOIs;
+            
+            sleep 1;
+        };
     } forEach (missionNamespace getVariable ["RQ4Tweak_allAVs", []]);
 
-    {
+    // Send this code to the server for execution, since the server sees all TOI and track dot markers. Ingenious, truly spectacular.
+    [[_playerObj], {
+        params ["_playerObj"];
+
+        {
+            [_x] remoteExec ["deleteMarkerLocal", _playerObj];
+        } forEach (allMapMarkers select {"_trackDot_" in _x});
+    }] remoteExec ["spawn", 2];
+
+    /* {
         [_x] remoteExec ["deleteMarkerLocal", _playerObj];
-    } forEach (allMapMarkers select {"_trackDot_" in _x});
+    } forEach (allMapMarkers select {"_trackDot_" in _x}); */
 
     // Remove the player from the list of MTI recipients, update the list globally.
     _recipients = (missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]) - [_playerObj];

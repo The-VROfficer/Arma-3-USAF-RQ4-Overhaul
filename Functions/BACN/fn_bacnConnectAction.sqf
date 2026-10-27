@@ -94,7 +94,7 @@ private _addActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then {
 	[
 		_addActionName,	// This must receive a unique identifier, or else this one action will connect the player to ALL BACNs at the same time (if there are multiple).
 		_addActionDispName,
-		"x\usaf_rq4a_tweak_v2\Icons\bacn.paa",
+		"x\usaf_rq4a_tweak_v2\Icons\bacn_ca.paa",
 		{
 			params ["_player", "_target", "_actionParams"];
 			private _gh = _actionParams select 0;
@@ -156,7 +156,7 @@ private _addActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then {
 			// Prevents the "connect to BACN" action from appearing while user is connected to the BACN.
 			_player setVariable ["RQ4Tweak_connectedToBACN", _gh, true];
 
-			["Connected to BACN", "x\usaf_rq4a_tweak_v2\Icons\bacn.paa", [0, 1, 0], _player] call ace_common_fnc_displayTextPicture;
+			["Connected to BACN", "x\usaf_rq4a_tweak_v2\Icons\bacn_ca.paa", [0, 1, 0], _player] call ace_common_fnc_displayTextPicture;
 			playSound "BACN_connected";
 		},
 		{
@@ -182,7 +182,7 @@ private _addActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then {
 	[
 		_addActionName,
 		_addActionDispName,
-		"x\usaf_rq4a_tweak_v2\Icons\bacn.paa",
+		"x\usaf_rq4a_tweak_v2\Icons\bacn_ca.paa",
 		{
 			params ["_target", "_player", "_actionParams"];
 			private _gh = _actionParams select 0;
@@ -240,7 +240,7 @@ private _addActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then {
 			// Prevents the "connect to BACN" action from appearing while user is connected to the BACN.
 			player setVariable ["RQ4Tweak_connectedToBACN", _gh, true];
 
-			["Connected to BACN", "x\usaf_rq4a_tweak_v2\Icons\bacn.paa", [0, 1, 0], _player] call ace_common_fnc_displayTextPicture;
+			["Connected to BACN", "x\usaf_rq4a_tweak_v2\Icons\bacn_ca.paa", [0, 1, 0], _player] call ace_common_fnc_displayTextPicture;
 			playSound "BACN_connected";
 		},
 		{
@@ -272,7 +272,7 @@ private _removeActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then
 	[
 		_removeActionName,
 		_removeActionDispName,
-		"x\usaf_rq4a_tweak_v2\Icons\no_bacn.paa",
+		"x\usaf_rq4a_tweak_v2\Icons\no_bacn_ca.paa",
 		{
 			params ["_player", "_target", "_actionParams"];
 			private _gh = _actionParams select 0;
@@ -291,7 +291,7 @@ private _removeActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then
 
 			hintSilent "";
 
-			["Disconnected from BACN", "x\usaf_rq4a_tweak_v2\Icons\bacn.paa", [1, 0, 0], _player] call ace_common_fnc_displayTextPicture;
+			["Disconnected from BACN", "x\usaf_rq4a_tweak_v2\Icons\bacn_ca.paa", [1, 0, 0], _player] call ace_common_fnc_displayTextPicture;
 		},
 		{
 			params ["_target", "_player", "_actionParams"];
@@ -314,7 +314,7 @@ private _removeActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then
 	[
 		_removeActionName,
 		_removeActionDispName,
-		"x\usaf_rq4a_tweak_v2\Icons\no_bacn.paa",
+		"x\usaf_rq4a_tweak_v2\Icons\no_bacn_ca.paa",
 		{
 			params ["_player", "_target", "_actionParams"];
 			private _gh = _actionParams select 0;
@@ -331,7 +331,7 @@ private _removeActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then
 
 			hintSilent "";
 
-			["Disconnected from BACN", "x\usaf_rq4a_tweak_v2\Icons\bacn.paa", [1, 0, 0], _player] call ace_common_fnc_displayTextPicture;
+			["Disconnected from BACN", "x\usaf_rq4a_tweak_v2\Icons\bacn_ca.paa", [1, 0, 0], _player] call ace_common_fnc_displayTextPicture;
 		},
 		{
 			params ["_target", "_player", "_actionParams"];

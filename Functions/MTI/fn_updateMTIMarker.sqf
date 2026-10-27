@@ -161,7 +161,7 @@ _mtiMarkerJIPU = if ( isNil {_mtiMarkerJIPU} ) then {
 	_mtiMarkerJIPU;
 };
 
-// Add variable to the target to keep track of the creation "command" in the JIP queue.
+// Add variable to the target to keep track of the most current update "command" in the JIP queue.
 private _setVarName = "RQ4Tweak_mtiMarkerJIPU_" + str _gh;	// A unique var name is required since this var will be attached to the TARGET, therefore overlapping collect would keep resetting this var if it wasn't unique.
 _target setVariable [_setVarName, _mtiMarkerJIPU, true];
 

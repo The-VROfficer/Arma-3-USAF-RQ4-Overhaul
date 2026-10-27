@@ -327,7 +327,7 @@ if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
 };
 
 if ( _collectionLoop isEqualTo "NO_SIDE_RECIPIENTS" ) then {
-	[parseText "<t font='PuristaBold'>SENSOR OFF</t><br /><br />There are no suitable MTI recipients on your side.."] remoteExecCall ["hintSilent", _pilot];
+	[parseText "<t font='PuristaBold'>SENSOR OFF</t><br /><br />There are no suitable MTI recipients on your side."] remoteExecCall ["hintSilent", _pilot];
 
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
