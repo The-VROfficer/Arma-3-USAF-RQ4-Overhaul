@@ -557,7 +557,7 @@ class RQ4dialog
         h = 0.0407 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "via Marker Name";
-        onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[] spawn MM_fnc_findMarkerViaName;[] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};

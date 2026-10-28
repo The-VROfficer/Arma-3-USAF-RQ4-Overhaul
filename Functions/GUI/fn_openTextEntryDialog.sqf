@@ -19,5 +19,5 @@ private _display = findDisplay 1251;
 private _textPromptBox = _display displayCtrl 1602;
 private _enterButton = _display displayCtrl 1600;
 
-_enterButton ctrlAddEventHandler ["ButtonClicked",_eh];
+_enterButton ctrlAddEventHandler ["ButtonClick",_eh];
 _textPromptBox ctrlSetStructuredText (parseText format ["<t size='1.3' t align='center' t font='PuristaBold'>%1   </t>  ",_textPrompt]);
