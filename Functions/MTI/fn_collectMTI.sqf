@@ -35,6 +35,8 @@ if ( (_gh getVariable ["RQ4Tweak_collectMTIRunning", []]) isNotEqualTo [] ) exit
 	ERROR_RPT(_msg, _curFunc);
 };
 
+_gh setVariable ["RQ4Tweak_collectMTIRunning", true, true];
+
 // DEBUG LVL 3
 private _msg = format ["%1: Started.", _gh];
 DEBUG_RPT(_msg, _curFunc);

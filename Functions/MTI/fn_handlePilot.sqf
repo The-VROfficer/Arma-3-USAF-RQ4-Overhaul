@@ -55,25 +55,25 @@ while { alive _gh } do {
 
 	// DEBUG LVL 3
 	private _msg = format ["%1: Listed pilot is player %2.", _gh, _gh getVariable "RQ4Tweak_pilot"];
-	//DEBUG_RPT(_msg, _curFunc);
+	DEBUG_RPT(_msg, _curFunc);
 
 	if ( count _pilotArr < 1 ) then {
 		if ( isNil {_gh getVariable "RQ4Tweak_pilot"} ) then {
 			// DEBUG LVL 3
 			private _msg = format ["%1: No players have connected to %1 yet. Exiting this iteration.", _gh];
-			//DEBUG_RPT(_msg, _curFunc);
+			DEBUG_RPT(_msg, _curFunc);
 		} else {
 			// Check if RQ4Tweak_pilot var has a pilot in it, this is the most recently disconnected player.
 			if ( (_gh getVariable "RQ4Tweak_pilot") isEqualTo objNull ) then {
 				// DEBUG LVL 3
 				private _msg = format ["%1: None connected to %1, no recent dc. Exiting this iteration. ( %2 )", _gh, _previousConnection];
-				//DEBUG_RPT(_msg, _curFunc);
+				DEBUG_RPT(_msg, _curFunc);
 			} else {
 				private _prevPilot = _gh getVariable "RQ4Tweak_pilot";
 				
 				// DEBUG LVL 3
 				private _msg = format ["%1: None connected to AV %1, %2 recently dc, cleaning up and exiting iteration. ( %3 )", _gh, _prevPilot, _previousConnection];
-				//DEBUG_RPT(_msg, _curFunc);
+				DEBUG_RPT(_msg, _curFunc);
 
 				// Add code to remove GUI actions HERE
 				//
@@ -94,7 +94,7 @@ while { alive _gh } do {
 						// If this wasn't here, the markers would be deleted on the clientside AND on the server.
 						// DEBUG LVL 3
 						private _msg = format ["%1: GRCAs to iterate: ( %2 )", _gh, _gh getVariable "RQ4Tweak_grcas"];
-						//DEBUG_RPT(_msg, _curFunc);
+						DEBUG_RPT(_msg, _curFunc);
 						
 						{
 							private _boxMarker = _x select 4;
@@ -141,7 +141,7 @@ while { alive _gh } do {
 
 		// DEBUG LVL 3
 		private _msg = format ["%1: Player %2 is the first user to connect to %1, adding actions.", _gh, _pilot];
-		//DEBUG_RPT(_msg, _curFunc);		
+		DEBUG_RPT(_msg, _curFunc);		
 
 		sleep _refreshRate;
 		continue;
@@ -151,7 +151,7 @@ while { alive _gh } do {
 	if ( (_gh getVariable "RQ4Tweak_pilot") isEqualTo _pilot ) then {
 		// DEBUG LVL 3
 		private _msg = format ["%1: Player %2 is still connected. Exiting this iteration.", _gh, _pilot];
-		//DEBUG_RPT(_msg, _curFunc);			
+		DEBUG_RPT(_msg, _curFunc);			
 		
 		sleep _refreshRate;
 		continue;
@@ -160,7 +160,7 @@ while { alive _gh } do {
 	// If pilot has made it this far, they are not the first person to connect and/or need actions added to them.
 	// DEBUG LVL 3
 	private _msg = format ["%1: Player %2 has connected, AV %1 is preowned. Adding actions. ( %3 )", _gh, _pilot, _previousConnection];
-	//DEBUG_RPT(_msg, _curFunc);
+	DEBUG_RPT(_msg, _curFunc);
 
 	// Some GRCAs exist, so render them on this new pilots map.
 	if ( (_gh getVariable ["RQ4Tweak_grcas", []]) isNotEqualTo [] ) then {
@@ -168,7 +168,7 @@ while { alive _gh } do {
 		
 		// DEBUG LVL 3
 		private _msg = format ["%1: GRCAs exist on AV %1, adding them to player %2's map.", _gh, _pilot];
-		//DEBUG_RPT(_msg, _curFunc);			
+		DEBUG_RPT(_msg, _curFunc);			
 		
 		if ( hasInterface and isServer ) then {	// This is iffy... would it work on player hosted servers?
 			{
@@ -184,7 +184,7 @@ while { alive _gh } do {
 
 				// DEBUG LVL 3
 				private _msg = format ["%1: Passing GRCA params ( %2, %3, %4, %5, %6, %7, %8 ).", _gh, _grcaID, _areaCenterX, _areaCenterY, _areaCenterTrue, _grca, _bottomRightMarker, _dotPos];
-				//DEBUG_RPT(_msg, _curFunc);	
+				DEBUG_RPT(_msg, _curFunc);	
 
 				[_grca, _grcaID, _areaCenterX, _areaCenterY, _areaCenterTrue, _bottomRightMarker, _dotPos] remoteExec ["MM_fnc_readdGRCA", _pilot];
 			} forEach (_gh getVariable "RQ4Tweak_grcas");

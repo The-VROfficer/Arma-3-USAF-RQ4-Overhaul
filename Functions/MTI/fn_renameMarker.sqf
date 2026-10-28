@@ -50,6 +50,8 @@ _foundMarker = if ( _nameSearch ) then {
 
         sleep 5;
         hintSilent "";
+
+        -1
     };
 
     // Check for duplicates and exit if any are found. Not efficient, but necessary.
@@ -58,6 +60,8 @@ _foundMarker = if ( _nameSearch ) then {
 
         sleep 5;
         hintSilent "";
+
+        -1
     };
 
     _foundMarkerStr = allMapMarkers select (allMapMarkers findIf { _searchID in ((_x call bis_fnc_markerParams) select 8) });
@@ -142,6 +146,8 @@ _foundMarker = if ( _nameSearch ) then {
 
 // Destroy that temp var or else you get "ghost clicks".
 missionNamespace setVariable ["RQ4Tweak_foundMarker", nil];
+
+if ( _foundMarker isEqualTo -1 ) exitWith {};
 
 // ---------------------------------
 // Invalid selection handling
