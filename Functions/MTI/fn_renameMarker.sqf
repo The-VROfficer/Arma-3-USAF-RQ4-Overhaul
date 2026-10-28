@@ -30,13 +30,15 @@ private _curFunc = "MM_fnc_renameMarker";
 params [
 	["_gh", objNull, [objNull]],
     ["_nameSearch", true, [true]],
-    ["_searchID", "", [""]],
-    ["_newName", "", [""]]
+    ["_searchID", "", [""]]
 ];
 
 // DEBUG LVL 3
-private _msg = format ["%1: Started - Params [%1, %2, %3, %4].", _gh, _nameSearch, _searchID, _newName];
+private _msg = format ["%1: Started - Params [%1, %2, %3, %4].", _gh, _nameSearch, _searchID];
 DEBUG_RPT(_msg, _curFunc);
+
+//cleanup vars
+uiNamespace setVariable ["RQ4Tweak_markerName", nil];
 
 // ---------------------------------
 // See if marker exists based on passed search method.
@@ -148,6 +150,24 @@ _foundMarker = if ( _nameSearch ) then {
 missionNamespace setVariable ["RQ4Tweak_foundMarker", nil];
 
 if ( _foundMarker isEqualTo -1 ) exitWith {};
+
+[ // query for new marker name
+    "RQ4Tweak_markerName",
+    "Enter a new marker name"
+] spawn MM_fnc_openTextEntryDialog;
+
+waitUntil { // wait til they close dialog or input
+    sleep 0.5; 
+    !(uiNamespace isNil "RQ4Tweak_markerName") || {isNull (findDisplay 1251)}
+};
+
+//evaluate if they actually entered a value or closed it
+if (uiNamespace isNil "RQ4Tweak_markerName" || {uiNamespace getVariable "RQ4Tweak_markerName" isEqualTo ""}) exitWith 
+{
+    hintSilent parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No marker name entered.";
+};
+
+private _newName = uiNamespace getVariable "RQ4Tweak_markerName";
 
 // ---------------------------------
 // Invalid selection handling

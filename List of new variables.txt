@@ -219,3 +219,17 @@ RQ4Tweak_allTOIMarkers
     Belongs to: The AV.
 
     0: <ARRAY of STRINGS> - The marker names for each TOI marker that belongs to the passed AV.
+
+RQ4Tweak_markerName
+    Used in: fn_renameMarker / findMarkerViaName; used as a holder for a new marker's name
+
+    Belongs to uiNamespace
+
+    0: <STRING> - The name to be used
+
+RQ4Tweak_marker
+    Used in: findMarkerViaName; used as a holder var to pass to fn_renameMarker
+
+    Belongs to uiNamespace
+
+    0: <STRING> - The name to be used

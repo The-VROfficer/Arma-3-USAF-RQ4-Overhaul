@@ -15,13 +15,23 @@ class RQ4_textEntryDialog
   enableSimulation = 0;
   class Controls
   {
+      class background : RscText
+      {
+        idc = 1608;
+        x = 0.0102 * safezoneW + safezoneX;
+        y = 0.016 * safezoneH + safezoneY;
+        w = 0.9797 * safezoneW;
+        h = 0.968 * safezoneH;
+        colorBackground[] = {0.00, 0.00, 0.00, 0.90};
+        colorShadow[] = {0.00, 0.00, 0.00, 0.50};
+      };
       class textEntryBackground : RscText
       {
         idc = 1000;
-        x = 8.50 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 9.03 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-        w = 23 * GUI_GRID_W;
-        h = 3 * GUI_GRID_H;
+        x = 0.1074 * safezoneW + safezoneX;
+        y = 0.4145 * safezoneH + safezoneY;
+        w = 0.3696 * safezoneW;
+        h = 0.0857 * safezoneH;
         colorBackground[] = {0.00, 0.00, 0.00, 0.90};
         colorShadow[] = {0.00, 0.00, 0.00, 0.50};
       };
@@ -29,10 +39,10 @@ class RQ4_textEntryDialog
       {
         idc = 1002;
         style = 0x40;
-        x = 9.00 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 9.53 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-        w = 16 * GUI_GRID_W;
-        h = 2 * GUI_GRID_H;
+        x = 0.1154 * safezoneW + safezoneX;
+        y = 0.4288 * safezoneH + safezoneY;
+        w = 0.2571 * safezoneW;
+        h = 0.0571 * safezoneH;
         colorBackground[] = {1.00, 1.00, 1.00, 0.70};
         autocomplete = false;
         colorSelection[] = {0.13, 0.54, 0.21, 1.00};
@@ -42,10 +52,10 @@ class RQ4_textEntryDialog
       {
         idc = 1600;
         style = 0x02;
-        x = 25.50 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 9.53 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-        w = 5.47 * GUI_GRID_CENTER_W;
-        h = 2.00 * GUI_GRID_CENTER_H;
+        x = 0.3806 * safezoneW + safezoneX;
+        y = 0.4288 * safezoneH + safezoneY;
+        w = 0.0879 * safezoneW;
+        h = 0.0571 * safezoneH;
         colorBackground[] = {1.00, 1.00, 1.00, 0.70};
         text = "ENTER";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
@@ -54,18 +64,25 @@ class RQ4_textEntryDialog
         colorBorder[] = {0.00, 0.00, 0.00, 1.00};
         borderSize = 0;
       };
+      class mapControl : RscMapControl
+      {
+        idc = 1607;
+        x = 0.5413 * safezoneW + safezoneX;
+        y = 0.049 * safezoneH + safezoneY;
+        w = 0.4383 * safezoneW;
+        h = 0.902 * safezoneH;
+      };
       class textEntryPrompt : RscStructuredText
       {
         idc = 1602;
         style = 0x102;
-        x = 11.67 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X;
-        y = 12.82 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y;
-        w = 16.67 * GUI_GRID_CENTER_W;
-        h = 1.99 * GUI_GRID_CENTER_H;
+        x = 0.1583 * safezoneW + safezoneX;
+        y = 0.5228 * safezoneH + safezoneY;
+        w = 0.2679 * safezoneW;
+        h = 0.0569 * safezoneH;
       };
   };
 };
-
 
 class RQ4dialog
 {
@@ -121,9 +138,9 @@ class RQ4dialog
       {
         idc = 1600;
         style = 0x02;
-        x = 0.0926562 * safezoneW + safezoneX;
+        x = 0.0861 * safezoneW + safezoneX;
         y = 0.115 * safezoneH + safezoneY;
-        w = 0.103125 * safezoneW;
+        w = 0.1097 * safezoneW;
         h = 0.055 * safezoneH;
         colorBackground[] = {1.00, 0.00, 0.00, 1.00};
         text = "Sensor: OFF";
@@ -697,7 +714,7 @@ class RQ4dialog
       class currentAltitude : RscText
       {
         idc = 1642;
-        style = 0x02 + 0x0C;
+        style = 0x02;
         x = 0.09 * safezoneW + safezoneX;
         y = 0.55 * safezoneH + safezoneY;
         w = 0.0979687 * safezoneW;
@@ -705,6 +722,7 @@ class RQ4dialog
         sizeEx = 0.05;
         colorText[] = {0.90, 0.90, 0.90, 1.00};
         colorBackground[] = {0.00, 0.00, 0.00, 0.50};
+        colorShadow[] = {0.00, 0.00, 0.00, 0.50};
         colorSelection[] = {0.13, 0.54, 0.21, 1.00};
       };
       class currentAltitudeText : RscStructuredText
@@ -732,10 +750,10 @@ class RQ4dialog
       {
         idc = 1620;
         style = 0x02;
-        x = 0.30 * safezoneW + safezoneX;
-        y = 0.39 * safezoneH + safezoneY;
-        w = 0.09 * safezoneW;
-        h = 0.04 * safezoneH;
+        x = 0.3 * safezoneW + safezoneX;
+        y = 0.3492 * safezoneH + safezoneY;
+        w = 0.061 * safezoneW;
+        h = 0.0633 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "Select Marker";
         onButtonClick = "[getConnectedUAV player] spawn MM_fnc_highlightMarker; [] call MM_fnc_focusDialogCatcher;";
@@ -749,10 +767,10 @@ class RQ4dialog
       {
         idc = 1621;
         style = 0x02;
-        x = 0.30 * safezoneW + safezoneX;
-        y = 0.45 * safezoneH + safezoneY;
-        w = 0.09 * safezoneW;
-        h = 0.04 * safezoneH;
+        x = 0.3 * safezoneW + safezoneX;
+        y = 0.4442 * safezoneH + safezoneY;
+        w = 0.061 * safezoneW;
+        h = 0.0633 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "Update Marker";
         onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
@@ -765,9 +783,9 @@ class RQ4dialog
       class markerSideText : RscStructuredText
       {
         idc = 1616;
-        x = 0.44 * safezoneW + safezoneX;
+        x = 0.4608 * safezoneW + safezoneX;
         y = 0.35 * safezoneH + safezoneY;
-        w = 0.0928125 * safezoneW;
+        w = 0.072 * safezoneW;
         h = 0.022 * safezoneH;
         sizeEx = 0.65 * GUI_GRID_H;
         colorBackground[] = {0.60, 0.60, 0.60, 1.00};
@@ -776,9 +794,9 @@ class RQ4dialog
       class markerTypeText : RscStructuredText
       {
         idc = 1614;
-        x = 0.44 * safezoneW + safezoneX;
-        y = 0.44 * safezoneH + safezoneY;
-        w = 0.0928125 * safezoneW;
+        x = 0.3713 * safezoneW + safezoneX;
+        y = 0.3496 * safezoneH + safezoneY;
+        w = 0.072 * safezoneW;
         h = 0.022 * safezoneH;
         sizeEx = 0.65 * GUI_GRID_H;
         colorBackground[] = {0.60, 0.60, 0.60, 1.00};
@@ -812,6 +830,7 @@ class RQ4dialog
         y = 0.38 * safezoneH + safezoneY;
         w = 0.072 * safezoneW;
         h = 0.04 * safezoneH;
+        default = 1;
         colorSelect[] = {0.00, 0.00, 0.00, 1.00};
         colorActive[] = {1.00, 0.00, 0.00, 1.00};
         soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
@@ -832,14 +851,20 @@ class RQ4dialog
           {
             default = 1;
             picture = "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa";
+            data = "b_";
+            tooltip = "BLUFOR";
           };
-          class REDFOR
+          class OPFOR
           {
             picture = "\a3\ui_f\data\Map\Markers\NATO\o_unknown.paa";
+            data = "o_";
+            tooltip = "OPFOR";
           };
           class INDFOR
           {
             picture = "\a3\ui_f\data\Map\Markers\NATO\n_unknown.paa";
+            data = "n_";
+            tooltip = "INDFOR";
           };
         };
       };
@@ -847,10 +872,11 @@ class RQ4dialog
       {
         idc = 1626;
         style = 0x210;
-        x = 0.4607 * safezoneW + safezoneX;
-        y = 0.47 * safezoneH + safezoneY;
+        x = 0.3712 * safezoneW + safezoneX;
+        y = 0.3796 * safezoneH + safezoneY;
         w = 0.072 * safezoneW;
         h = 0.04 * safezoneH;
+        default = 1;
         colorSelect[] = {0.00, 0.00, 0.00, 1.00};
         colorActive[] = {1.00, 0.00, 0.00, 1.00};
         soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
@@ -872,79 +898,192 @@ class RQ4dialog
           {
             default = 1;
             picture = "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa";
+            data = "unknown";
+            tooltip = "Unknown";
           };
-            class air
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_air.paa";
-            };
-            class antiair
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_antiair.paa";
-            };
-            class armor
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_armor.paa";
-            };
-            class art
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_art.paa";
-            };
-            class hq
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_hq.paa";
-            };
-            class inf
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa";
-            };
-            class installation
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_installation.paa";
-            };
-            class maint
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_maint.paa";
-            };
-            class mech_inf
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_mech_inf.paa";
-            };
-            class med
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_med.paa";
-            };
-            class mortar
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_mortar.paa";
-            };
-            class motor_inf
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_motor_inf.paa";
-            };
-            class naval
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_naval.paa";
-            };
-            class plane
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_plane.paa";
-            };
-            class recon
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_recon.paa";
-            };
-            class service
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_service.paa";
-            };
-            class support
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_support.paa";
-            };
-            class uav
-            {
-              picture = "\a3\ui_f\data\Map\Markers\NATO\b_uav.paa";
-            };
+          class air
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_air.paa";
+            data = "air";
+            tooltip = "Helicopter";
+          };
+          class antiair
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_antiair.paa";
+            data = "antiair";
+            tooltip = "Air Defence";
+          };
+          class armor
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_armor.paa";
+            data = "armor";
+            tooltip = "Armor";
+          };
+          class art
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_art.paa";
+            data = "art";
+            tooltip = "Artillery";
+          };
+          class hq
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_hq.paa";
+            data = "hq";
+            tooltip = "Headquarters";
+          };
+          class inf
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa";
+            data = "inf";
+            tooltip = "Infantry";
+          };
+          class installation
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_installation.paa";
+            data = "installation";
+            tooltip = "Installation";
+          };
+          class maint
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_maint.paa";
+            data = "maint";
+            tooltip = "Maintenance";
+          };
+          class mech_inf
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_mech_inf.paa";
+            data = "mech_inf";
+            tooltip = "Mechanized Infantry";
+          };
+          class med
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_med.paa";
+            data = "med";
+            tooltip = "Medical";
+          };
+          class mortar
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_mortar.paa";
+            data = "mortar";
+            tooltip = "Mortar";
+          };
+          class motor_inf
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_motor_inf.paa";
+            data = "inf";
+            tooltip = "Motorized Infantry";
+          };
+          class naval
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_naval.paa";
+            data = "naval";
+            tooltip = "Naval";
+          };
+          class plane
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_plane.paa";
+            data = "plane";
+            tooltip = "Plane";
+          };
+          class recon
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_recon.paa";
+            data = "recon";
+            tooltip = "Recon";
+          };
+          class service
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_service.paa";
+            data = "service";
+            tooltip = "R3P";
+          };
+          class support
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_support.paa";
+            data = "support";
+            tooltip = "Sustainment";
+          };
+          class uav
+          {
+            picture = "\a3\ui_f\data\Map\Markers\NATO\b_uav.paa";
+            data = "uav";
+            tooltip = "UAS";
+          };
+        };
+      };
+      class markerColorTextCombo : RscStructuredText
+      {
+        idc = 1631;
+        x = 0.4168 * safezoneW + safezoneX;
+        y = 0.4383 * safezoneH + safezoneY;
+        w = 0.072 * safezoneW;
+        h = 0.022 * safezoneH;
+        sizeEx = 0.65 * GUI_GRID_H;
+        colorBackground[] = {0.60, 0.60, 0.60, 1.00};
+        text = "<t size='0.65' t align='center' t font='PuristaBold'>Marker Color</t>  ";
+      };
+      class markerColorCombo : RscCombo
+      {
+        idc = 1632;
+        style = 0x210;
+        x = 0.4167 * safezoneW + safezoneX;
+        y = 0.4683 * safezoneH + safezoneY;
+        w = 0.072 * safezoneW;
+        h = 0.04 * safezoneH;
+        default = 1;
+        colorSelect[] = {0.00, 0.00, 0.00, 1.00};
+        colorActive[] = {1.00, 0.00, 0.00, 1.00};
+        soundSelect[] = {"\A3\ui_f\data\sound\RscCombo\soundSelect", 0.1, 1};
+        soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand", 0.1, 1};
+        soundCollapse[] = {"\A3\ui_f\data\sound\RscCombo\soundCollapse", 0.1, 1};
+        colorSelectBackground[] = {1.00, 1.00, 1.00, 0.70};
+        colorScrollbar[] = {1.00, 0.00, 0.00, 1.00};
+        colorPicture[] = {1.00, 1.00, 1.00, 1.00};
+        colorPictureSelected[] = {1.00, 1.00, 1.00, 1.00};
+        colorPictureDisabled[] = {1.00, 1.00, 1.00, 0.25};
+        wholeHeight = 0.45;
+        rowHeight = 0.04;
+        maxHistoryDelay = 1;
+        arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa";
+        arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa";
+        class Items
+        {
+          class ColorEAST
+          {
+            text = "";
+            data = "ColorEAST";
+            picture = "#(argb,8,8,3)color(0.5,0,0,1)";
+            tooltip = "OPFOR";
+          };
+          class ColorCIV
+          {
+            text = "";
+            data = "ColorCIV";
+            picture = "#(argb,8,8,3)color(0.4,0,0.5,1)";
+            tooltip = "Civilian";
+          };
+          class ColorUNKNOWN
+          {
+            text = "";
+            data = "ColorUNKNOWN";
+            picture = "#(argb,8,8,3)color(0.7,0.6,0,1)";
+            tooltip = "Unknown";
+          };
+          class ColorGUER
+          {
+            text = "";
+            data = "ColorGUER";
+            picture = "#(argb,8,8,3)color(0,0.5,0,1)";
+            default = 1;
+            tooltip = "INDFOR";
+          };
+          class ColorWEST
+          {
+            text = "";
+            data = "ColorWEST";
+            picture = "#(argb,8,8,3)color(0,0.3,0.6,1)";
+            tooltip = "BLUFOR";
+          };
         };
       };
   };
