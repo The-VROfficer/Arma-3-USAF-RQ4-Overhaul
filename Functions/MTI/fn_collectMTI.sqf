@@ -145,8 +145,9 @@ if ( ( count _curMTIRecipients < 1) or (count _curSideRecipients < 1) ) exitWith
 
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
-
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
+
+	_gh setVariable ["RQ4Tweak_collectMTIRunning", nil, true];
 };
 
 // DEBUG LVL 3
@@ -311,8 +312,8 @@ if ( _collectionLoop isEqualTo "DEAD" ) then {
 
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
-
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
+	
 };
 
 if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
