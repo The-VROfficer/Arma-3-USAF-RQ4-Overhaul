@@ -151,6 +151,7 @@ DEBUG_RPT(_msg, _curFunc);
 _gh setVariable ["RQ4Tweak_allTOIMarkers", (_gh getVariable "RQ4Tweak_allTOIMarkers") - [_marker], true];
 deleteMarker ((_target getVariable "RQ4Tweak_mtiMarkerParams") select 0 select 0);
 
+_target setVariable ["RQ4Tweak_mtiUserStyle", nil, true];
 _target setVariable ["RQ4Tweak_mtiSector", nil, true];
 _target setVariable ["RQ4Tweak_mtiMarkerParams", nil, true];
 _target setVariable ["RQ4Tweak_lastSeen", nil, true];

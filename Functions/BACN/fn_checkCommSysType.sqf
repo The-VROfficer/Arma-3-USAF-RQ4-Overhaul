@@ -15,8 +15,6 @@
 		call MM_fnc_checkCommSysType;
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start, Evaluation, and Returns
 // ---------------------------------

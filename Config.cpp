@@ -24,4 +24,4 @@ class CfgPatches
 #include "CfgSounds.hpp"
 #include "CfgRemoteExec.hpp"
 #include "\a3\ui_f\hpp\defineCommonGrids.inc"
-#include "Functions\GUI\RscDisplayName.hpp"
+#include "Functions\GUI\RscGlobalHawkGUI.hpp"

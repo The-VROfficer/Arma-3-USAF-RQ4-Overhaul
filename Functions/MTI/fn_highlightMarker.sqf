@@ -74,7 +74,7 @@ addMissionEventHandler [
             [_foundMarker, _gh] spawn {
                 params ["_foundMarker", "_gh"];
 
-                while { ((missionNamespace getVariable ["RQ4Tweak_markerSelected", false]) select 0) isEqualTo true } do {
+                while { (missionNamespace getVariable ["RQ4Tweak_markerSelected", [false]]) select 0 } do {
                     private _seriesID = (_foundMarker splitString "_") select 1;
 
                     // Find which object this _foundMarker belongs too. Filtered list to improve efficiency.
@@ -100,6 +100,11 @@ addMissionEventHandler [
 
                         hintSilent "";
                     };
+
+                    // Add the marker owner to the markerSelected var.
+                    private _data = missionNamespace getVariable "RQ4Tweak_markerSelected";
+                    _data set [2, _markerOwner];
+                    missionNamespace setVariable ["RQ4Tweak_markerSelected", _data, true];
 
                     // AV that spotted this target.
                     private _spottedBy = (_markerOwner getVariable "RQ4Tweak_lastSeen") select 2;
@@ -130,21 +135,28 @@ addMissionEventHandler [
             // Create additional EH to deselect click
             // ---------------------------------
 
+            // If player changes the marker via fn_updateMarker, this EH gets deleted in there.
             private _deselectClickEH = addMissionEventHandler [
                 "MapSingleClick",
                 {
                     _thisArgs params ["_foundMarker", "_storedColor"];
 
-                    _foundMarker setMarkerColorLocal _storedColor;
+                    // If mtiParams has not changed (user has not changed marker color via fn_updateMarker), then reset the marker color to its original.
+                    if ( _storedColor isEqualTo ((((missionNamespace getVariable "RQ4Tweak_markerSelected") select 2) getVariable "RQ4Tweak_mtiMarkerParams") select 4) ) then {
+                        _foundMarker setMarkerColorLocal _storedColor;
+                    };
 
                     removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
 
                     missionNamespace setVariable ["RQ4Tweak_markerSelected", nil];
-
                     hintSilent "";
                 },
                 [_foundMarker, _storedColor]
             ];
+
+            private _data = missionNamespace getVariable "RQ4Tweak_markerSelected";
+            _data set [3, _deselectClickEH];
+            missionNamespace setVariable ["RQ4Tweak_markerSelected", _data];
 
             // ---------------------------------
             // Create custom EH that resets marker and stops data box execution if map is closed before deselect.

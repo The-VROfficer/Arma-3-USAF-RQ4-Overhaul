@@ -17,8 +17,6 @@
 		[_myGlobalHawk, apc_69] call MM_fnc_createMTIMarker
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Setup
 // ---------------------------------

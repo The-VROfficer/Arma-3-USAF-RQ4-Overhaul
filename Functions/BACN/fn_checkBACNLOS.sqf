@@ -17,8 +17,6 @@
 		[myGlobalHawk, dude_69] call MM_fnc_checkBACNLOS;
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Params
 // ---------------------------------

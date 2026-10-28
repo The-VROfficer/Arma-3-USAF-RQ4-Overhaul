@@ -198,6 +198,8 @@ RQ4Tweak_markerSelected
 
     0: <BOOLEAN> - True if the local client has the marker selected on their map, otherwise nil.
     1: <MARKER> - The marker that is currently highlighted on that local machine.
+    2: <OBJECT> - The target the marker belongs to.
+    3: <NUMBER> - The EH ID of the "deselect click" event handler in fn_highlightMarker.
 
 RQ4Tweak_handlePilotRunning
     Used in: fn_handlePilot / Prevents duplicate executions of fn_handlePilot on a single AV.
@@ -230,6 +232,14 @@ RQ4Tweak_markerName
 RQ4Tweak_marker
     Used in: findMarkerViaName; used as a holder var to pass to fn_renameMarker
 
-    Belongs to uiNamespace
+    Belongs to: Local client's uiNamespace
 
     0: <STRING> - The name to be used
+
+RQ4Tweak_mtiUserStyle
+    Used in: fn_updateMarker / fn_updateMTIMarker ; Saves the local user's TOI marker customizations, is then referenced in follow-up executions of fn_updateMTIMarker so they don't get overwritten.
+
+    Belongs to: The target.
+
+    0: <STRING> - The marker color from CfgMarkerColor.
+    1: <STRING> - The type (symbol) of marker to display.

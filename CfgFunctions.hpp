@@ -42,10 +42,12 @@ class CfgFunctions
 			file = "\x\usaf_rq4a_tweak_v2\Functions\GUI";
 			class clearRecipients {};
 			class executeFlightControls {};
+            class findMarkerViaName {};
+            class findUpcomingLoiterWaypoint {};
 			class focusDialogCatcher {};
-			class findUpcomingLoiterWaypoint {};
 			class onDialogUnload {};
 			class openDialog {};
+            class openTextEntryDialog {};
 			class pushFromRecipients {};
 			class pushToRecipients {};
 			class refreshPlayerLists {};
@@ -54,8 +56,7 @@ class CfgFunctions
             class toggleFOR {};
             class toggleMTIMode {};
             class toggleSensorState {};
-            class findMarkerViaName {};
-            class openTextEntryDialog {};
+            class updateMarker {};
 		};
     };
 };

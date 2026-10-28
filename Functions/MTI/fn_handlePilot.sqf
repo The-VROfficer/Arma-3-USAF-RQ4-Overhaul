@@ -75,8 +75,11 @@ while { alive _gh } do {
 				private _msg = format ["%1: None connected to AV %1, %2 recently dc, cleaning up and exiting iteration. ( %3 )", _gh, _prevPilot, _previousConnection];
 				DEBUG_RPT(_msg, _curFunc);
 
-				// Add code to remove GUI actions HERE
-				//
+				[{
+					player removeAction (player getVariable "RQ4Tweak_gcsAction");
+
+					player setVariable ["RQ4Tweak_gcsAction", nil];
+				}] remoteExec ["spawn", _prevPilot];
 
 				// Delete all GRCAs and FOR displays, if they exist.
 				if ( _grcas isNotEqualTo [] ) then {
@@ -136,8 +139,21 @@ while { alive _gh } do {
 
 		// No need to run the function to add existing GRCAs, there should be none.
 
-		// Add code to add GUI actions HERE
-		//
+		[{
+			
+			private _actionID = player addAction [
+				"<t font='PuristaSemibold'>Open Global Hawk GCS</t>",
+				{
+					[] call MM_fnc_openDialog;
+				},
+				[],
+				12,
+				false,
+				true
+			];
+
+			player setVariable ["RQ4Tweak_gcsAction", _actionID];
+		}] remoteExec ["spawn", _pilot];
 
 		// DEBUG LVL 3
 		private _msg = format ["%1: Player %2 is the first user to connect to %1, adding actions.", _gh, _pilot];
@@ -191,8 +207,21 @@ while { alive _gh } do {
 		};
 	};
 	
-	// Add code to add GUI actions HERE
-	//
+	[{
+			
+		private _actionID = player addAction [
+		"<t font='PuristaSemibold'>Open Global Hawk GCS</t>",
+		{
+			[] call MM_fnc_openDialog;
+		},
+		[],
+		12,
+		false,
+		true
+		];
+
+		player setVariable ["RQ4Tweak_gcsAction", _actionID];
+	}] remoteExec ["spawn", _pilot];
 
 	_gh setVariable ["RQ4Tweak_pilot", _pilot, true];
 

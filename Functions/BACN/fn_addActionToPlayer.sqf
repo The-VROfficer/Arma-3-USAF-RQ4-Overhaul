@@ -19,8 +19,6 @@
 		[myGlobalHawk, _actionContent, "ACRE"] call MM_fnc_addActionToPlayer;
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Params
 // ---------------------------------

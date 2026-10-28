@@ -18,8 +18,6 @@
 		["ACRE", myGlobalHawk, "SNIPER 20 (RQ4)"] spawn MM_fnc_bacnConnectAction;
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Params
 // ---------------------------------

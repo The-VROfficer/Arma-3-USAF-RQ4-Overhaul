@@ -26,7 +26,7 @@ class CfgVehicles
 		editorSubcategory="EdSubCat_USAF_Drones";
 		editorPreview="USAF_RQ4A\data\UI\preview.jpg";
 		displayName="RQ-4B Global Hawk (B40)";
-		icon="\A3\Drones_F\Air_F_Gamma\UAV_02\Data\UI\Map_UAV_02_CA.paa";
+		icon="x\usaf_rq4a_tweak_v2\Icons\rq4_ca.paa";
 		picture="\A3\Drones_F\Air_F_Gamma\UAV_02\Data\UI\UAV_02_base_F.paa";
 		unitInfoType="RscOptics_AV_airplane_pilot";
 		attenuationEffectType="OpenHeliAttenuation";
@@ -36,7 +36,9 @@ class CfgVehicles
 		scope=2;
 		side=1;
 		faction="USAF";
+		isUAV = 1;
 		crew="B_UAV_AI";
+		class Turrets {};
 		class Components: Components
 		{
 			class SensorsManagerComponent
@@ -357,7 +359,7 @@ class CfgVehicles
 			minFov=0.30000001;
 			maxFov=1.2;
 			visionMode[]={"Ti"};
-			thermalMode[]={1};
+			thermalMode[]={0};
 		};
 		class AnimationSources: AnimationSources
 		{

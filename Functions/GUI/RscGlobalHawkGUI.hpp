@@ -773,7 +773,7 @@ class RQ4dialog
         h = 0.0633 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "Update Marker";
-        onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[] call MM_fnc_updateMarker; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -783,8 +783,8 @@ class RQ4dialog
       class markerSideText : RscStructuredText
       {
         idc = 1616;
-        x = 0.4608 * safezoneW + safezoneX;
-        y = 0.35 * safezoneH + safezoneY;
+        x = 0.3713 * safezoneW + safezoneX;
+        y = 0.3496 * safezoneH + safezoneY;
         w = 0.072 * safezoneW;
         h = 0.022 * safezoneH;
         sizeEx = 0.65 * GUI_GRID_H;
@@ -794,7 +794,7 @@ class RQ4dialog
       class markerTypeText : RscStructuredText
       {
         idc = 1614;
-        x = 0.3713 * safezoneW + safezoneX;
+        x = 0.4608 * safezoneW + safezoneX;
         y = 0.3496 * safezoneH + safezoneY;
         w = 0.072 * safezoneW;
         h = 0.022 * safezoneH;
@@ -826,8 +826,8 @@ class RQ4dialog
       {
         idc = 1625;
         style = 0x210;
-        x = 0.4607 * safezoneW + safezoneX;
-        y = 0.38 * safezoneH + safezoneY;
+        x = 0.3712 * safezoneW + safezoneX;
+        y = 0.3796 * safezoneH + safezoneY;
         w = 0.072 * safezoneW;
         h = 0.04 * safezoneH;
         default = 1;
@@ -872,7 +872,7 @@ class RQ4dialog
       {
         idc = 1626;
         style = 0x210;
-        x = 0.3712 * safezoneW + safezoneX;
+        x = 0.4607 * safezoneW + safezoneX;
         y = 0.3796 * safezoneH + safezoneY;
         w = 0.072 * safezoneW;
         h = 0.04 * safezoneH;

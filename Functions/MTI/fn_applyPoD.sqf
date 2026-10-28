@@ -16,8 +16,6 @@
 		[[truck_sector1, car_sector1], [tank_sector2], [boat_sector3]] spawn MM_fnc_applyPoD
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Setup
 // ---------------------------------

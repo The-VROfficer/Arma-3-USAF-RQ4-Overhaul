@@ -21,8 +21,6 @@
 // Script Start and Setup
 // ---------------------------------
 
-#define DEBUG_ENABLED
-
 #include "..\debug_defines.hpp"
 private _curFunc = "MM_fnc_updateMTIMarker";
 
@@ -72,6 +70,8 @@ if ( count _text < 1 ) exitWith {
 
 // Set marker opacity back to 100% and (hopefully) undo all fading previously done by fn_fadeMarkerLocal.
 _mtiMarker setMarkerAlphaLocal 1.0;
+
+// setMarkerColor is PURPOSEFULLY left out, otherwise it overwrites the highlighted marker a user may have selected in their GUI.
 
 // Update marker's name to reflect the most recent "lastSeen" time.
 private _spotTimeData = _target getVariable ["RQ4Tweak_lastSeen", []];
@@ -145,8 +145,15 @@ private _mtiRecipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients",
 // Pass the track dot over to the mtiRecipient clients. Local marker creation and fadeout will be handled on the client's machine.
 [_gh, _target, _trackDot call BIS_fnc_markerParams] remoteExec ["MM_fnc_clientTrackDotUpdate", _mtiRecipients];
 
-// Update mtiMarkerParams variable data, broadcast globally.
 _mtiMarkerParams = _mtiMarker call BIS_fnc_markerParams;
+
+// Re-apply any user-selected style so the server's marker doesn't overwrite it.
+private _style = _target getVariable ["RQ4Tweak_mtiUserStyle", []];
+if ( _style isNotEqualTo [] ) then {
+    _mtiMarkerParams set [3, _style select 0];   // color
+    _mtiMarkerParams set [4, _style select 1];   // type
+};
+
 _target setVariable ["RQ4Tweak_mtiMarkerParams", _mtiMarkerParams, true];
 
 // ---------------------------------

@@ -17,8 +17,6 @@
 		[myGlobalHawk] call MM_fnc_setupBACN;
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Setup
 // ---------------------------------

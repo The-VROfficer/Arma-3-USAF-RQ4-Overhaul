@@ -18,8 +18,6 @@
 		[myGlobalHawk, mrap_1] spawn MM_fnc_clientTrackDotUpdate
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Setup
 // ---------------------------------

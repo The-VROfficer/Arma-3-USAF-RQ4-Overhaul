@@ -21,8 +21,6 @@
 // Script Start and Setup
 // ---------------------------------
 
-#define DEBUG_ENABLED
-
 #include "gh_defines.hpp"
 #include "..\debug_defines.hpp"
 private _curFunc = "MM_fnc_genericFilter";

@@ -18,8 +18,6 @@
 		[myGlobalHawk, mrap_1] call MM_fnc_clientMarkerUpdate
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Setup
 // ---------------------------------

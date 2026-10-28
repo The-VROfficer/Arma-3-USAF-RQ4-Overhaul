@@ -17,8 +17,6 @@
 		[false, "acre_prc152_id_1"] call MM_fnc_bacnACREAmplify;
 */
 
-#define DEBUG_ENABLED
-
 // ---------------------------------
 // Script Start and Params
 // ---------------------------------
