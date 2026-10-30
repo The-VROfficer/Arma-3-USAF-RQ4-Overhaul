@@ -8,7 +8,7 @@
 
 	Parameter(s):
 		0: <OBJECT> - The AV the target belongs to.
-		1: <MARKER> - The target the TOI marker belongs to.
+		1: <OBJECT> - The target the TOI marker belongs to.
 
 	Returns:
 		None
@@ -40,6 +40,13 @@ if ( not (_target getVariable ["RQ4Tweak_isFadingLocal", []] isEqualTo []) ) exi
 	ERROR_RPT(_msg, _curFunc);
 };
 
+// Prevent accidental revealing of hidden targets (if user was just removed from mtiRecipients list).
+if ( (_target getVariable ["RQ4Tweak_isTOIHidden", []]) isNotEqualTo [] ) exitWith {
+	// DEBUG LVL 2
+	private _msg = format ["%1 - %2: Fadeout called, but requested marker is hidden. User must have been removed from mtiRecipients. Exiting.", _gh, _target];
+	ERROR_RPT(_msg, _curFunc);
+};
+
 _target setVariable ["RQ4Tweak_isFadingLocal", true];
 
 // ---------------------------------
@@ -59,7 +66,7 @@ if ( _marker isEqualTo [] ) exitWith {
 private _markerOpacity = 1.0;
 
 // Create loop to fade out marker. If target is respotted by the AV loop and script stop.
-while { (_target getVariable ["RQ4Tweak_isFading", false]) and (_markerOpacity > 0.01)} do {
+while { (_target getVariable ["RQ4Tweak_isFading", false]) and (_markerOpacity > 0.01) and ( (_target getVariable ["RQ4Tweak_isTOIHidden", []]) isEqualTo [] )} do {
 	_markerOpacity = (_markerOpacity - (1 / parseNumber MM_RQ4_Fade_Time)) max 0;
         
 	_marker setMarkerAlphaLocal _markerOpacity;
@@ -91,7 +98,15 @@ if ( (_target getVariable ["RQ4Tweak_isFading", []]) isEqualTo [] ) exitWith {
 
 if ( not (_target getVariable "RQ4Tweak_isFading") ) exitWith {
 	//DEBUG LVL 3
-	private _msg = format ["%1 - %2: Fadeout exit, %1 was respotted by an AV.", _gh, _target];
+	private _msg = format ["%1 - %2: Fadeout exit, %2 was respotted by an AV.", _gh, _target];
+	DEBUG_RPT(_msg, _curFunc);
+
+	_target setVariable ["RQ4Tweak_isFadingLocal", nil];
+};
+
+if ( ( (_target getVariable ["RQ4Tweak_isTOIHidden", []]) isNotEqualTo [] ) ) exitWith {
+	//DEBUG LVL 3
+	private _msg = format ["%1 - %2: Fadeout exit, %2 isTOIHidden=true.", _gh, _target];
 	DEBUG_RPT(_msg, _curFunc);
 
 	_target setVariable ["RQ4Tweak_isFadingLocal", nil];

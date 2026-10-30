@@ -149,7 +149,9 @@ while { alive _gh } do {
 				[],
 				12,
 				false,
-				true
+				true,
+				"",
+				" _this == (getConnectedUAV _this) getVariable 'RQ4Tweak_pilot' "
 			];
 
 			player setVariable ["RQ4Tweak_gcsAction", _actionID];
@@ -217,7 +219,9 @@ while { alive _gh } do {
 		[],
 		12,
 		false,
-		true
+		true,
+		"",
+		" _this == (getConnectedUAV _this) getVariable 'RQ4Tweak_pilot' "
 		];
 
 		player setVariable ["RQ4Tweak_gcsAction", _actionID];

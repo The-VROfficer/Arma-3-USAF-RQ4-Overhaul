@@ -142,14 +142,14 @@ addMissionEventHandler [
                     _thisArgs params ["_foundMarker", "_storedColor"];
 
                     // If mtiParams has not changed (user has not changed marker color via fn_updateMarker), then reset the marker color to its original.
-                    if ( _storedColor isEqualTo ((((missionNamespace getVariable "RQ4Tweak_markerSelected") select 2) getVariable "RQ4Tweak_mtiMarkerParams") select 4) ) then {
+                    if ( _storedColor isEqualTo ((((missionNamespace getVariable "RQ4Tweak_markerSelected") select 2) getVariable "RQ4Tweak_mtiMarkerParams") select 3) ) then {
                         _foundMarker setMarkerColorLocal _storedColor;
                     };
 
-                    removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
-
                     missionNamespace setVariable ["RQ4Tweak_markerSelected", nil];
                     hintSilent "";
+
+                    removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
                 },
                 [_foundMarker, _storedColor]
             ];

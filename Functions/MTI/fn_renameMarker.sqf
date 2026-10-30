@@ -74,76 +74,15 @@ _foundMarker = if ( _nameSearch ) then {
 
     _foundMarkerStr
 } else {
-    _foundMarkerStr = "";
-    
-    hint "Click on a marker to rename it.";
+    private _markerSelected = missionNamespace getVariable ["RQ4Tweak_markerSelected", []];
 
-    _markerClickEH = addMissionEventHandler [ 
-        "MapSingleClick",
-        {
-            params ["_units", "_pos"];
-            private _gh = _thisArgs select 0;
-            private _foundMarkerStr = _thisArgs select 1;
-
-            if ( isNull _gh ) exitWith {};
-            if ( not alive _gh ) exitWith {};
-
-            [_pos, _gh] spawn {
-                params ["_pos", "_gh"];
-                private _closestDist = 50;
-                private _foundMarkerStr = "";
-
-                // determine nearest marker to cursor that contains "TOI_" w/in a 50m radius
-                {
-                    if ((_x find "TOI_") == 0) then {
-                        private _markerPos = getMarkerPos _x;
-                        private _dist = sqrt (((_markerPos select 0) - (_pos select 0))^2 + ((_markerPos select 1) - (_pos select 1))^2);
-                    
-                        if (_dist < _closestDist) then {
-                            _closestDist = _dist;
-                            _foundMarkerStr = _x;
-                        };
-                    };
-                } forEach allMapMarkers;
-
-                // break condition if no map marker w/in 50m
-                if (_foundMarkerStr isEqualTo "") exitWith {
-                    missionNamespace setVariable ["RQ4Tweak_foundMarker", "NO MARK"];
-                };
-
-                missionNamespace setVariable ["RQ4Tweak_foundMarker", _foundMarkerStr];
-            };
-
-            removeMissionEventHandler ["MapSingleClick", _thisEventHandler];
-        },
-        [_gh, _foundMarkerStr]
-    ];
-
-    // Create custom EH that deletes the click EH if GUI is closed before clicking.
-    [_markerClickEH] spawn {
-        params ["_markerClickEH"];
-
-        waitUntil { sleep 0.5; str (findDisplay 1250) isEqualTo "No Display" };
-
-        if (true) exitWith {
-            removeMissionEventHandler ["MapSingleClick", _markerClickEH];
-            hintSilent "Rename action canceled.";
-            sleep 5;
-            hintSilent "";
-
-            // DEBUG LVL 3
-            private _msg = format ["%1: Exiting due to GUI closed.", _gh];
-            DEBUG_RPT(_msg, _curFunc);
-        };
+    if ( _markerSelected isEqualTo [] ) then {
+        hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No marker is currently selected.";
+        
+        -1
+    } else {
+        _markerSelected select 1
     };
-
-    waitUntil { sleep 1; (missionNamespace getVariable ["RQ4Tweak_foundMarker", false]) isNotEqualTo false };
-
-    // DEBUG LVL 3
-    private _msg = format ["%1: Found marker via click is - %2", _gh, missionNamespace getVariable "RQ4Tweak_foundMarker"];
-    DEBUG_RPT(_msg, _curFunc);
-
-    missionNamespace getVariable "RQ4Tweak_foundMarker"
 };
 
 // Destroy that temp var or else you get "ghost clicks".

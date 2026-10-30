@@ -14,7 +14,7 @@
         Nothing.
 
     Examples:
-        onButtonClick = "[] call MM_fnc_pushFromRecipients;";
+        onButtonClick = "[] spawn MM_fnc_pushFromRecipients;";
 */
 
 private _display = findDisplay 1250;
@@ -27,21 +27,31 @@ if (_index < 0) exitWith {};
 private _netId = _ctrlRecipients lbData _index;
 private _playerObj = objectFromNetId _netId;
 
+// Remove the player from the list of MTI recipients, update the list globally. Prevents additional marker updates from being sent.
+_recipients = (missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]) - [_playerObj];
+missionNamespace setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
+
 if (!isNull _playerObj) then {
     // Turn off ALL targets from all AVs for this player.
     {
-        // Iterate twice to catch edge case of marker being created at same time as deletion.
-        for "_y" from 0 to 1 do {
-            private _gh = _x;
-
-            if ( isNull _gh ) exitWith { continue };
-
-            private _allTrackedTOIs = _gh getVariable ["RQ4Tweak_allTOIMarkers", []];
-            {
-            [_x, 0] remoteExec ["setMarkerAlphaLocal", _playerObj];
-            } forEach _allTrackedTOIs;
+        [_playerObj, _x] spawn {
+            params ["_playerObj", "_gh"];
             
-            sleep 1;
+            // Iterate twice to catch edge case of marker being created at same time as deletion.
+            for "_y" from 0 to 1 do {
+                if ( isNull _gh ) exitWith { continue };
+
+                // Adds this var to all tracked vehicle OBJECTS.
+                {
+                    [_x, ["RQ4Tweak_isTOIHidden", true]] remoteExec ["setVariable", _playerObj];
+                } forEach (_gh getVariable ["RQ4Tweak_trackedTargets", []]);
+
+                {
+                    [_x, 0] remoteExec ["setMarkerAlphaLocal", _playerObj];
+                } forEach (_gh getVariable ["RQ4Tweak_allTOIMarkers", []];);
+                
+                sleep 1;
+            };
         };
     } forEach (missionNamespace getVariable ["RQ4Tweak_allAVs", []]);
 
@@ -53,14 +63,6 @@ if (!isNull _playerObj) then {
             [_x] remoteExec ["deleteMarkerLocal", _playerObj];
         } forEach (allMapMarkers select {"_trackDot_" in _x});
     }] remoteExec ["spawn", 2];
-
-    /* {
-        [_x] remoteExec ["deleteMarkerLocal", _playerObj];
-    } forEach (allMapMarkers select {"_trackDot_" in _x}); */
-
-    // Remove the player from the list of MTI recipients, update the list globally.
-    _recipients = (missionNamespace getVariable ["RQ4Tweak_mtiRecipients", []]) - [_playerObj];
-    missionNamespace setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
 };
 
 _ctrlRecipients lbDelete _index;

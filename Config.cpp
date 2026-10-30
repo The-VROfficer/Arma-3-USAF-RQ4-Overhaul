@@ -2,18 +2,20 @@ class CfgPatches
 {
 	class usaf_rq4a_tweak_v2
 	{
-		author="USAF Mod Team & Myth";
+		author="Myth, Waylen, and the USAF Mod Team";
 		authorUrl="https://gitlab.com/usaf-a3/usaf-mod";
 		units[]=
 		{
-			"USAF_RQ4A"
+			"USAF_RQ4B_B40",
+			"USAF_RQ4B_B20"
 		};
 		weapons[]={};
 		requiredVersion=2.0;
 		requiredAddons[]=
 		{
 			"usaf_main",
-			"usaf_rq4a"
+			"usaf_rq4a",
+			"cba_xeh"
 		};
 	};
 };

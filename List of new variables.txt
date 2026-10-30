@@ -243,3 +243,10 @@ RQ4Tweak_mtiUserStyle
 
     0: <STRING> - The marker color from CfgMarkerColor.
     1: <STRING> - The type (symbol) of marker to display.
+
+RQ4Tweak_isTOIHidden
+    Used in: fn_pushFromRecipients / fn_pushToRecipients / fn_fadeMarkerLocal ; When user is removed from the mtiRecipients list, this variable is added to their TOI markers' owners LOCALLY to prevent markers from reappearing.
+
+    Belongs to: The target LOCALLY.
+
+    0: <BOOLEAN> - True if TOI should be kept hidden, otherwise nil.

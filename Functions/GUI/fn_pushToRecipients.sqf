@@ -48,6 +48,11 @@ if (_playerObj in _recipients) exitWith {};
 _recipients pushBack _playerObj;
 missionNamespace setVariable ["RQ4Tweak_mtiRecipients", _recipients, true];
 
+// Since player is being added to the list, remove the isTOIHidden status from all potential MTI targets.
+{
+    [_x, ["RQ4Tweak_isTOIHidden", nil]] remoteExec ["setVariable", _playerObj];
+} forEach (8 allObjects 8);
+
 private _newIndex = _ctrlRecipients lbAdd (name _playerObj);
 _ctrlRecipients lbSetData [_newIndex, netId _playerObj];
 

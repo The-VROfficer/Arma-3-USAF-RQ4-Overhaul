@@ -28,6 +28,9 @@ if (isNull _display) exitWith {};
 
 private _ctrlRecipients = _display displayCtrl 1501;
 
+// Remove all recipients globally to stop marker updates.
+missionNamespace setVariable ["RQ4Tweak_mtiRecipients", [], true];
+
 for "_i" from 0 to (lbSize _ctrlRecipients) - 1 do {
     _playerObjnetID = _ctrlRecipients lbData _i;
 
@@ -36,18 +39,25 @@ for "_i" from 0 to (lbSize _ctrlRecipients) - 1 do {
     if ( not isNull _playerObj ) then {
         // Turn off ALL targets from all AVs for this player.
         {
-            // Iterate twice to catch edge case of marker being created at same time as deletion.
-            for "_y" from 0 to 1 do {
-                private _gh = _x;
+            [_playerObj, _x] spawn {
+                // Iterate twice to catch edge case of marker being created at same time as deletion.
+                for "_y" from 0 to 1 do {
+                    params ["_playerObj", "_gh"];
 
-                if ( isNull _gh ) exitWith { continue };
+                    if ( isNull _gh ) exitWith { continue };
 
-                private _allTrackedTOIs = _gh getVariable ["RQ4Tweak_allTOIMarkers", []];
-                {
-                [_x, 0] remoteExec ["setMarkerAlphaLocal", _playerObj];
-                } forEach _allTrackedTOIs;
-                
-                sleep 1;
+                    // Adds this var to all tracked vehicle OBJECTS.
+                    {
+                        [_x, ["RQ4Tweak_isTOIHidden", true]] remoteExec ["setVariable", _playerObj];
+                    } forEach (_gh getVariable ["RQ4Tweak_trackedTargets", []]);
+
+                    // Performs this on all TOI MARKERS.
+                    {
+                        [_x, 0] remoteExec ["setMarkerAlphaLocal", _playerObj];
+                    } forEach (_gh getVariable ["RQ4Tweak_allTOIMarkers", []]);
+                    
+                    sleep 1;
+                };
             };
         } forEach (missionNamespace getVariable ["RQ4Tweak_allAVs", []]);
     
@@ -60,12 +70,7 @@ for "_i" from 0 to (lbSize _ctrlRecipients) - 1 do {
             } forEach (allMapMarkers select {"_trackDot_" in _x});
         }] remoteExec ["spawn", 2];
 
-        /* // Not working?
-        {
-            [_x] remoteExec ["deleteMarkerLocal", _playerObj];
-        } forEach (allMapMarkers select {"_trackDot_" in _x}); */
     };
 };
 
-missionNamespace setVariable ["RQ4Tweak_mtiRecipients", [], true];
 lbClear _ctrlRecipients;

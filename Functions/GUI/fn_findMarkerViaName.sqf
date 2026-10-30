@@ -11,8 +11,7 @@ uiNamespace setVariable ["RQ4Tweak_markerName", nil];
 ] spawn MM_fnc_openTextEntryDialog;
 
 waitUntil { // wait til they close dialog or input
-    sleep 0.5; 
-    !(uiNamespace isNil "RQ4Tweak_marker") || {isNull (findDisplay 1251)}
+    sleep 0.1; !(uiNamespace isNil "RQ4Tweak_marker") || {isNull (findDisplay 1251)}
 };
 // break condition in case they close dialog with ESC
 if (uiNamespace isNil "RQ4Tweak_marker" || {uiNamespace getVariable "RQ4Tweak_marker" isEqualTo ""}) exitWith 

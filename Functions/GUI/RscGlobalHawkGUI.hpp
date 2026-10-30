@@ -556,8 +556,8 @@ class RQ4dialog
         w = 0.0928 * safezoneW;
         h = 0.0407 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
-        text = "via Map Click";
-        onButtonClick = "[getConnectedUAV player, false, '', 'TEXT HERE'] spawn MM_fnc_renameMarker; [] call MM_fnc_focusDialogCatcher;";
+        text = "via Selected";
+        onButtonClick = "[getConnectedUAV player, false] spawn MM_fnc_renameMarker; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -686,7 +686,7 @@ class RQ4dialog
         sizeEx = 1.3 * GUI_GRID_H;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "<";
-        onButtonClick = "[] call MM_fnc_pushFromRecipients; [] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[] spawn MM_fnc_pushFromRecipients; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};

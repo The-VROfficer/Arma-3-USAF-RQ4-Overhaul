@@ -55,6 +55,16 @@ if ( _indexToDelete > -1 ) then {
 	DEBUG_RPT(_msg, _curFunc);
 };
 
+// If target is another Global Hawk, delete it.
+private _indexToDelete = _unsortedTargets findIf { ((typeOf _x) isEqualTo "USAF_RQ4B_B40") or ((typeOf _x) isEqualTo "USAF_RQ4B_B20") };
+if ( _indexToDelete > -1 ) then {
+	_unsortedTargets deleteAt _indexToDelete;
+
+	// DEBUG LVL 3
+	private _msg = format ["%1: Found %1 in unsortedTargets, deleting %1 from that array.", _gh];
+	DEBUG_RPT(_msg, _curFunc);
+};
+
 private _targetsToDelete = [];
 
 {

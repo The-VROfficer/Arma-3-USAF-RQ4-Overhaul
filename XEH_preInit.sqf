@@ -297,7 +297,7 @@ private _modName = "USAF RQ-4 Tweak";
 ] call CBA_fnc_addSetting;
 
 // ---- Psuedo-DGS settings
-[
+/* [
 	"MM_RQ4_Recipient_Items",
 	"EDITBOX",
 	["Item(s) Needed to Receive TOIs", "Classnames of the items the player must have to receive MTI TOIs from the aircraft, separated by comma.
@@ -307,7 +307,7 @@ private _modName = "USAF RQ-4 Tweak";
 	1,
 	{},
 	true
-] call CBA_fnc_addSetting;
+] call CBA_fnc_addSetting; */
 
 [
 	"MM_RQ4_Fade_Time",
