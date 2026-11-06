@@ -18,11 +18,6 @@
 
     Examples:
         onCheckedChanged = "[_this select 0, _this select 1, 'colorOPFOR'] call MM_fnc_selectMTIMarkerColor;";
-
-    NOTE - The marker-color setting is stored on the connected UAV and broadcast
-    to other clients and systems. During a deliberate color change, the new value
-    is stored before other checkboxes are unchecked so their events do not restore
-    the old selection. If no UAV is connected, the GUI still updates locally.
 */
 
 disableSerialization;

@@ -146,6 +146,7 @@ private _mtiRecipients = missionNamespace getVariable ["RQ4Tweak_mtiRecipients",
 [_gh, _target, _trackDot call BIS_fnc_markerParams] remoteExec ["MM_fnc_clientTrackDotUpdate", _mtiRecipients];
 
 _mtiMarkerParams = _mtiMarker call BIS_fnc_markerParams;
+_mtiMarkerParams set [3, _color];	// Prevents color from being stuck yellow from marker highlighting.
 
 // Re-apply any user-selected style so the server's marker doesn't overwrite it.
 private _style = _target getVariable ["RQ4Tweak_mtiUserStyle", []];

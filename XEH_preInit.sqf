@@ -1,4 +1,4 @@
-private _modName = "USAF RQ-4 Tweak";
+private _modName = "USAF RQ-4 Overhaul";
 
 // BACN Setup
 [
@@ -41,28 +41,11 @@ private _modName = "USAF RQ-4 Tweak";
 
 // Section Ranges
 [
-	"MM_RQ4_RangesSimple",
-	"CHECKBOX",
-	["Standardized radar ranges (RECOMMENDED)","ENABLING THIS SETTING OVERWRITES ALL RANGE INPUTS!
-	
-	Sets all radar ranges to the most balanced ranges, making the RQ-4 extremely
-	useful but not TOO overpowered.
-
-	S1: 1000 - 2900 m, S2: 3000 - 5999 m, S3: 6000 - 12000 m
-	"],
-	[_modName, "Radar Ranges"],
-	true,
-	1,
-	{},
-	true
-] call CBA_fnc_addSetting;
-
-[
 	"MM_RQ4_Ranges_S1_Min",
 	"EDITBOX",
 	"Sector 1 lower-bound range [meters]",
 	[_modName, "Radar Ranges"],
-	"1000",
+	"3000",
 	1,
 	{},
 	true
@@ -73,7 +56,7 @@ private _modName = "USAF RQ-4 Tweak";
 	"EDITBOX",
 	"Sector 1 higher-bound range [meters]",
 	[_modName, "Radar Ranges"],
-	"2999",
+	"5999",
 	1,
 	{},
 	true
@@ -84,7 +67,7 @@ private _modName = "USAF RQ-4 Tweak";
 	"EDITBOX",
 	"Sector 2 lower-bound range [meters]",
 	[_modName, "Radar Ranges"],
-	"3000",
+	"6000",
 	1,
 	{},
 	true
@@ -95,7 +78,7 @@ private _modName = "USAF RQ-4 Tweak";
 	"EDITBOX",
 	"Sector 2 higher-bound range [meters]",
 	[_modName, "Radar Ranges"],
-	"5999",
+	"11999",
 	1,
 	{},
 	true
@@ -106,7 +89,7 @@ private _modName = "USAF RQ-4 Tweak";
 	"EDITBOX",
 	"Sector 3 lower-bound range [meters]",
 	[_modName, "Radar Ranges"],
-	"6000",
+	"12000",
 	1,
 	{},
 	true
@@ -117,7 +100,7 @@ private _modName = "USAF RQ-4 Tweak";
 	"EDITBOX",
 	"Sector 3 higher-bound range [meters]",
 	[_modName, "Radar Ranges"],
-	"12000",
+	"18000",
 	1,
 	{},
 	true
@@ -338,7 +321,7 @@ private _modName = "USAF RQ-4 Tweak";
 	"EDITBOX",
 	"Starting number for TOI marker naming",
 	[_modName, "Psuedo-DGS"],
-	"000",
+	"0",
 	1,
 	{},
 	true

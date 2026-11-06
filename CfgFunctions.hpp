@@ -52,11 +52,17 @@ class CfgFunctions
 			class pushToRecipients {};
 			class refreshPlayerLists {};
 			class selectMTIMarkerColor {};
+            class selectSAR {};
 			class setSlewSide {};
             class toggleFOR {};
             class toggleMTIMode {};
             class toggleSensorState {};
             class updateMarker {};
 		};
+        class SAR
+        {
+            file = "\x\usaf_rq4a_tweak_v2\Functions\SAR";
+            class doSAR {};
+        };
     };
 };

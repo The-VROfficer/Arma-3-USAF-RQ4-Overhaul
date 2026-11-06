@@ -205,20 +205,6 @@ class CfgVehicles
 			1,
 			150
 		};
-		soundFlapsUp[]=
-		{
-			"A3\Sounds_F_EPC\CAS_01\Flaps_Up",
-			0.63095737,
-			1,
-			100
-		};
-		soundFlapsDown[]=
-		{
-			"A3\Sounds_F_EPC\CAS_01\Flaps_Down",
-			0.63095737,
-			1,
-			100
-		};
 		class Sounds
 		{
 			class EngineLowOut
@@ -430,14 +416,23 @@ class CfgVehicles
 				hitpoint="HitRRudder";
 			};
 		};
-		maxSpeed=588;
-		envelope[]={0,0.30000001,1.15,2.2,4.3499999,5.1999998,6,6.5500002,6.6500001,6.8000002,3.5999999,1.8,0};
-		landingSpeed=150;
+		maxSpeed=600;
+		envelope[] = { 0, 0.15, 0.85, 1.5, 2.3, 2.5, 2.5, 2.5, 2.4, 2.3, 2.1 };   // LRN 1015 Airfoil
+		thrustCoef[] = {1.5, 2.1, 2.65, 1.9, 1.35, 1.15, 1.0, 0.66, 0.5, 0.2, 0, 0, 0};
+		flaps=0;
+		simulation="airplanex";
+		landingSpeed=195;
+		stallSpeed=160;
+		stallWarningTreshold=0.2;
 		altFullForce=13000;
 		altNoForce=18300;
-		aileronSensitivity=1.5;
-		elevatorSensitivity=1.5;
+		aileronSensitivity=0.66;
+		elevatorCoef[] = { 0.6, 0.9, 0.5, 0.4, 0.35, 0.3, 0.3 };
+		elevatorSensitivity=0.8;
 		wheelSteeringSensitivity=3;
+		gearsUpFrictionCoef = 0.25;
+		gearUpTime = 7;
+		gearDownTime = 7;
 		rudderInfluence=0.07;
 		rudderControlsSensitivitycoef=4;
 		rudderCoef[]={0.60000002,1,1,0.89999998,0.80000001,0.69999999,0.60000002};
@@ -736,21 +731,6 @@ class CfgVehicles
 			class HitGlass2: HitGlass1
 			{
 				armor=0.5;
-			};
-		};
-		class UserActions
-		{
-			class SAR_ON
-			{
-				displayName="<t color='#00ff00'>Activate SAR</t>";
-				onlyforplayer=1;
-				position="pilot_action";
-				radius=8;
-				showWindow=1;
-				hideOnUse = 1;
-				priority=100;
-				condition="(remoteControlled player == driver this) && (isEngineOn this)";
-				statement="null = [] spawn USAF_PXS_fnc_startSatellite;";
 			};
 		};
 	};

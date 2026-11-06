@@ -244,7 +244,7 @@ class RQ4dialog
         h = 0.055 * safezoneH;
         colorBackground[] = {0.85, 0.85, 0.85, 1.00};
         text = "Take SAR Image";
-        onButtonClick = "[] call MM_fnc_focusDialogCatcher;";
+        onButtonClick = "[] spawn MM_fnc_selectSAR; [] call MM_fnc_focusDialogCatcher;";
         colorFocused[] = {0.00, 0.00, 0.00, 1.00};
         colorBackgroundDisabled[] = {0.00, 0.00, 0.00, 0.50};
         colorShadow[] = {0.00, 0.00, 0.00, 0.00};
@@ -897,115 +897,115 @@ class RQ4dialog
           class unknown
           {
             default = 1;
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_unknown.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_unknown.paa";
             data = "unknown";
             tooltip = "Unknown";
           };
           class air
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_air.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_air.paa";
             data = "air";
             tooltip = "Helicopter";
           };
           class antiair
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_antiair.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_antiair.paa";
             data = "antiair";
             tooltip = "Air Defence";
           };
           class armor
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_armor.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_armor.paa";
             data = "armor";
             tooltip = "Armor";
           };
           class art
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_art.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_art.paa";
             data = "art";
             tooltip = "Artillery";
           };
           class hq
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_hq.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_hq.paa";
             data = "hq";
             tooltip = "Headquarters";
           };
           class inf
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_inf.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_inf.paa";
             data = "inf";
             tooltip = "Infantry";
           };
           class installation
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_installation.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_installation.paa";
             data = "installation";
             tooltip = "Installation";
           };
           class maint
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_maint.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_maint.paa";
             data = "maint";
             tooltip = "Maintenance";
           };
           class mech_inf
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_mech_inf.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_mech_inf.paa";
             data = "mech_inf";
             tooltip = "Mechanized Infantry";
           };
           class med
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_med.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_med.paa";
             data = "med";
             tooltip = "Medical";
           };
           class mortar
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_mortar.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_mortar.paa";
             data = "mortar";
             tooltip = "Mortar";
           };
           class motor_inf
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_motor_inf.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_motor_inf.paa";
             data = "inf";
             tooltip = "Motorized Infantry";
           };
           class naval
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_naval.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_naval.paa";
             data = "naval";
             tooltip = "Naval";
           };
           class plane
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_plane.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_plane.paa";
             data = "plane";
             tooltip = "Plane";
           };
           class recon
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_recon.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_recon.paa";
             data = "recon";
             tooltip = "Recon";
           };
           class service
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_service.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_service.paa";
             data = "service";
             tooltip = "R3P";
           };
           class support
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_support.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_support.paa";
             data = "support";
             tooltip = "Sustainment";
           };
           class uav
           {
-            picture = "\a3\ui_f\data\Map\Markers\NATO\b_uav.paa";
+            picture = "\a3\ui_f\data\Map\Markers\NATO\n_uav.paa";
             data = "uav";
             tooltip = "UAS";
           };

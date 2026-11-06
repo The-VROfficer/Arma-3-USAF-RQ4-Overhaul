@@ -141,7 +141,12 @@ if ( ( count _curMTIRecipients < 1) or (count _curSideRecipients < 1) ) exitWith
 	private _msg = format ["%1: Exiting at MTI recipient check - Total recipients: %2, Sames-side recipients: %3", _gh, _curMTIRecipients, _curSideRecipients];
 	DEBUG_RPT(_msg, _curFunc);
 
-	[parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />There are no suitable MTI recipients on your side."] remoteExecCall ["hintSilent", _pilot];
+	[_pilot] spawn {
+		params ["_pilot"];
+		[parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />There are no suitable MTI recipients on your side."] remoteExecCall ["hintSilent", _pilot];
+		sleep 5;
+		[""] remoteExec ["hintSilent", _pilot];
+	};
 
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
