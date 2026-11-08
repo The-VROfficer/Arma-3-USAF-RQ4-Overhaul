@@ -307,18 +307,21 @@ if ( isNull _gh ) exitWith {
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
 	[parseText "<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
+	sleep 5;
+	[""] remoteExec ["hintSilent", _pilot];
 
 	// Figure out if we need additional logic for cleanup if AV is deleted HERE 
 	//
 };
 
 if ( _collectionLoop isEqualTo "DEAD" ) then {
-	[parseText "<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
-
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
 	
+	[parseText "<t font='PuristaBold'>CONNECTION LOST</t><br /><br />CGS was unable to ping the AV."] remoteExecCall ["hintSilent", _pilot];
+	sleep 5;
+	[""] remoteExec ["hintSilent", _pilot];
 };
 
 if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
@@ -326,21 +329,23 @@ if ( _collectionLoop isEqualTo "LOW_ALT" ) then {
 	//
 
 	// Notifying connected UAV operator that the AV has gotten too low.
-	[parseText format ["<t font='PuristaBold'>SENSOR OFF</t><br /><br />AV descended below the minimum collection altitude [%1 ft/AGL | %2 m/AGL].", ((parseNumber MM_RQ4_Min_Altitude) * 3.28) toFixed 0, parseNumber MM_RQ4_Min_Altitude]] remoteExecCall ["hintSilent", _pilot];
-
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
-
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
+
+	[parseText format ["<t font='PuristaBold'>SENSOR OFF</t><br /><br />AV descended below the minimum collection altitude [%1 ft/AGL | %2 m/AGL].", ((parseNumber MM_RQ4_Min_Altitude) * 3.28) toFixed 0, parseNumber MM_RQ4_Min_Altitude]] remoteExecCall ["hintSilent", _pilot];
+	sleep 5;
+	[""] remoteExec ["hintSilent", _pilot];
 };
 
 if ( _collectionLoop isEqualTo "NO_SIDE_RECIPIENTS" ) then {
-	[parseText "<t font='PuristaBold'>SENSOR OFF</t><br /><br />There are no suitable MTI recipients on your side."] remoteExecCall ["hintSilent", _pilot];
-
 	[true] remoteExec ["MM_fnc_toggleSensorState", _pilot];
 
-
 	_gh setVariable ["RQ4Tweak_sensorOn", false, true];
+
+	[parseText "<t font='PuristaBold'>SENSOR OFF</t><br /><br />There are no suitable MTI recipients on your side."] remoteExecCall ["hintSilent", _pilot];
+	sleep 5;
+	[""] remoteExec ["hintSilent", _pilot];
 };
 
 // Fade all currently tracked targets

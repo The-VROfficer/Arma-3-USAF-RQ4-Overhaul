@@ -45,7 +45,11 @@ if ((_uav getVariable ["RQ4Tweak_slewSide", MM_RQ4_StartSlew]) isEqualTo _slewSi
         "RIGHT"
     };
 
-    hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Sensor already slewed %1.", _side];
+    [_side] spawn {
+        hintSilent parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Sensor already slewed %1.", _this select 0];
+        sleep 5;
+        hintSilent "";
+	};
 };
 
 [_uav,player] spawn MM_fnc_slewSensor;

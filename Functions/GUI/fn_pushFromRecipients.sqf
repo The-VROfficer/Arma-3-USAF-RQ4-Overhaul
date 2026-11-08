@@ -48,7 +48,7 @@ if (!isNull _playerObj) then {
 
                 {
                     [_x, 0] remoteExec ["setMarkerAlphaLocal", _playerObj];
-                } forEach (_gh getVariable ["RQ4Tweak_allTOIMarkers", []];);
+                } forEach (_gh getVariable ["RQ4Tweak_allTOIMarkers", []]);
                 
                 sleep 1;
             };

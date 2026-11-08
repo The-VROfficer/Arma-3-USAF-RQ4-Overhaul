@@ -7,6 +7,7 @@ class RscStructuredText;
 class RscFrame;
 class RscCheckbox;
 class RscListbox;
+class RscXSliderH;
 
 class RQ4_textEntryDialog
 {
@@ -268,11 +269,34 @@ class RQ4dialog
         colorBorder[] = {0.00, 0.00, 0.00, 1.00};
         borderSize = 0;
       };
+      class sarResolutionText : RscStructuredText
+      {
+        idc = 1643;
+        x = 0.09 * safezoneW + safezoneX;
+        y = 0.420 * safezoneH + safezoneY;
+        w = 0.0979687 * safezoneW;
+        h = 0.022 * safezoneH;
+        sizeEx = 0.65 * GUI_GRID_H;
+        colorBackground[] = {0.60, 0.60, 0.60, 1.00};
+        text = "<t size='0.65' align='center' font='PuristaBold'>SAR Resolution: 60</t>";
+      };
+      class sarResolutionSlider : RscXSliderH
+      {
+        idc = 1630;
+        x = 0.0204687 * safezoneW + safezoneX;
+        y = 0.450 * safezoneH + safezoneY;
+        w = 0.2371878 * safezoneW;
+        h = 0.0275 * safezoneH;
+        sliderRange[] = {20, 80};
+        sliderPosition = 50;
+        sliderStep = 1;
+        onSliderPosChanged = "((ctrlParent (_this select 0)) displayCtrl 1643) ctrlSetStructuredText parseText format [""<t size='0.65' align='center' font='PuristaBold'>SAR Resolution: %1</t>"", round (_this select 1)];";
+      };
       class altitudeText : RscStructuredText
       {
         idc = 1102;
         x = 0.02 * safezoneW + safezoneX;
-        y = 0.64 * safezoneH + safezoneY;
+        y = 0.6895 * safezoneH + safezoneY;
         w = 0.0979687 * safezoneW;
         h = 0.022 * safezoneH;
         sizeEx = 0.65 * GUI_GRID_H;
@@ -283,7 +307,7 @@ class RQ4dialog
       {
         idc = 1103;
         x = 0.16 * safezoneW + safezoneX;
-        y = 0.64 * safezoneH + safezoneY;
+        y = 0.6895 * safezoneH + safezoneY;
         w = 0.0928125 * safezoneW;
         h = 0.022 * safezoneH;
         sizeEx = 0.65 * GUI_GRID_H;
@@ -295,7 +319,7 @@ class RQ4dialog
         idc = 1300;
         style = 0x140;
         x = 0.02 * safezoneW + safezoneX;
-        y = 0.67 * safezoneH + safezoneY;
+        y = 0.7195 * safezoneH + safezoneY;
         w = 0.0979687 * safezoneW;
         h = 0.055 * safezoneH;
         sizeEx = 0.05;
@@ -310,7 +334,7 @@ class RQ4dialog
         idc = 1301;
         style = 0x140;
         x = 0.16 * safezoneW + safezoneX;
-        y = 0.67 * safezoneH + safezoneY;
+        y = 0.7195 * safezoneH + safezoneY;
         w = 0.0928125 * safezoneW;
         h = 0.055 * safezoneH;
         sizeEx = 0.05;
@@ -325,7 +349,7 @@ class RQ4dialog
         idc = 1607;
         style = 0x02;
         x = 0.11 * safezoneW + safezoneX;
-        y = 0.75 * safezoneH + safezoneY;
+        y = 0.7995 * safezoneH + safezoneY;
         w = 0.06 * safezoneW;
         h = 0.03 * safezoneH;
         sizeEx = 1.5 * GUI_GRID_H;
@@ -716,7 +740,7 @@ class RQ4dialog
         idc = 1642;
         style = 0x02;
         x = 0.09 * safezoneW + safezoneX;
-        y = 0.55 * safezoneH + safezoneY;
+        y = 0.5995 * safezoneH + safezoneY;
         w = 0.0979687 * safezoneW;
         h = 0.055 * safezoneH;
         sizeEx = 0.05;
@@ -729,7 +753,7 @@ class RQ4dialog
       {
         idc = 1641;
         x = 0.09 * safezoneW + safezoneX;
-        y = 0.52 * safezoneH + safezoneY;
+        y = 0.5695 * safezoneH + safezoneY;
         w = 0.0979687 * safezoneW;
         h = 0.022 * safezoneH;
         sizeEx = 0.65 * GUI_GRID_H;
@@ -740,7 +764,7 @@ class RQ4dialog
       {
         idc = 1021;
         x = 0.02 * safezoneW + safezoneX;
-        y = 0.45 * safezoneH + safezoneY;
+        y = 0.4995 * safezoneH + safezoneY;
         w = 0.24 * safezoneW;
         h = 0.02 * safezoneH;
         colorBackground[] = {0.26, 0.26, 0.26, 0.50};

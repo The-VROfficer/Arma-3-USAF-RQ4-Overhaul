@@ -23,7 +23,7 @@ params [
 	["_gh", objNull, [objNull]]
 ];
 
-hint "Click on a marker to highlight it.";
+hintSilent "Click on a marker to highlight it.";
 
 addMissionEventHandler [ 
     "MapSingleClick",
@@ -55,7 +55,11 @@ addMissionEventHandler [
             // break condition if no map marker w/in 50m
             if (_foundMarker isEqualTo "") exitWith
             {
-                hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No TOI marker found.";
+                [] spawn {
+                    hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No TOI marker found.";
+                    sleep 3;
+                    hintSilent "";
+                };
             };
 
             private _foundMarkerName = (_foundMarker call BIS_fnc_markerParams) select 8;

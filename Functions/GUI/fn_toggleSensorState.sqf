@@ -33,8 +33,6 @@ if ( _doSensorOff ) exitWith {
     (findDisplay 1250 displayCtrl 1600) ctrlSetText "Sensor: OFF";
 };
 
-hintSilent "";
-
 // Query AV's sensor state, if undefined default to false (off).
 private _sensorState = _uav getVariable ["RQ4Tweak_sensorOn", false];
 

@@ -4,7 +4,7 @@
     Locality: Server.
 
 	Description:
-		Checks every 0.5s to see if a player has connected/disconnected from the UAV. Adds/removes user actions as appropriate.
+		Checks every 0.5s to see if a player has connected/disconnected from the passed UAV. Adds/removes user actions as appropriate.
 
 	Parameter(s):
 		0: <OBJECT> - The AV.
@@ -27,6 +27,9 @@ params [
 	["_gh", objNull, [objNull]],
 	["_refreshRate", 1, [1]]
 ];
+
+// Prevents the creation of the GUI action for the B20. Seeyalater stinky.
+if ( typeOf _gh != "USAF_RQ4B_B40" ) exitWith {};
 
 // Add duplicate execution protection. Exit if it's duped.
 if ( _gh getVariable ["RQ4Tweak_handlePilotRunning", []] isNotEqualTo [] ) exitWith {
@@ -75,11 +78,7 @@ while { alive _gh } do {
 				private _msg = format ["%1: None connected to AV %1, %2 recently dc, cleaning up and exiting iteration. ( %3 )", _gh, _prevPilot, _previousConnection];
 				DEBUG_RPT(_msg, _curFunc);
 
-				[{
-					player removeAction (player getVariable "RQ4Tweak_gcsAction");
-
-					player setVariable ["RQ4Tweak_gcsAction", nil];
-				}] remoteExec ["spawn", _prevPilot];
+				["REMOVE"] remoteExec ["MM_fnc_handleGCSAction", _prevPilot];
 
 				// Delete all GRCAs and FOR displays, if they exist.
 				if ( _grcas isNotEqualTo [] ) then {
@@ -139,23 +138,7 @@ while { alive _gh } do {
 
 		// No need to run the function to add existing GRCAs, there should be none.
 
-		[{
-			
-			private _actionID = player addAction [
-				"<t font='PuristaSemibold'>Open Global Hawk GCS</t>",
-				{
-					[] call MM_fnc_openDialog;
-				},
-				[],
-				12,
-				false,
-				true,
-				"",
-				" _this == (getConnectedUAV _this) getVariable 'RQ4Tweak_pilot' "
-			];
-
-			player setVariable ["RQ4Tweak_gcsAction", _actionID];
-		}] remoteExec ["spawn", _pilot];
+		["ADD"] remoteExec ["MM_fnc_handleGCSAction", _pilot];
 
 		// DEBUG LVL 3
 		private _msg = format ["%1: Player %2 is the first user to connect to %1, adding actions.", _gh, _pilot];
@@ -209,23 +192,7 @@ while { alive _gh } do {
 		};
 	};
 	
-	[{
-			
-		private _actionID = player addAction [
-		"<t font='PuristaSemibold'>Open Global Hawk GCS</t>",
-		{
-			[] call MM_fnc_openDialog;
-		},
-		[],
-		12,
-		false,
-		true,
-		"",
-		" _this == (getConnectedUAV _this) getVariable 'RQ4Tweak_pilot' "
-		];
-
-		player setVariable ["RQ4Tweak_gcsAction", _actionID];
-	}] remoteExec ["spawn", _pilot];
+	["ADD"] remoteExec ["MM_fnc_handleGCSAction", _pilot];
 
 	_gh setVariable ["RQ4Tweak_pilot", _pilot, true];
 

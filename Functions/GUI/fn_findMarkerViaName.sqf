@@ -17,6 +17,8 @@ waitUntil { // wait til they close dialog or input
 if (uiNamespace isNil "RQ4Tweak_marker" || {uiNamespace getVariable "RQ4Tweak_marker" isEqualTo ""}) exitWith 
 {
     hintSilent parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No marker name entered.";
+    sleep 5;
+    hintSilent "";
 };
 
 private _marker = uiNamespace getVariable "RQ4Tweak_marker";

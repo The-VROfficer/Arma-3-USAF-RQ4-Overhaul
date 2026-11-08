@@ -27,7 +27,7 @@ params [
 private _msg = format ["%1: Started - Params: [%1]", _gh];
 DEBUG_RPT(_msg, _curFunc);
 
-hint parseText "Click to place the <t color='#ff0000'>TOP LEFT</t> of the GRCA.";
+hintSilent parseText "Click to place the <t color='#ff0000'>TOP LEFT</t> of the GRCA.";
 
 addMissionEventHandler [
 	"MapSingleClick",
@@ -60,7 +60,7 @@ addMissionEventHandler [
 
 			sleep 0.5;
 
-			hint parseText "Click to place the <t color='#2bff00'>BOTTOM RIGHT</t> of the GRCA.";
+			hintSilent parseText "Click to place the <t color='#2bff00'>BOTTOM RIGHT</t> of the GRCA.";
 
 			addMissionEventHandler [
 				"MapSingleClick",

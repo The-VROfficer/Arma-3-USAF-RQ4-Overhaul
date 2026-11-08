@@ -95,12 +95,17 @@ private _msg = format ["%1: Filtered targets: %2", _gh, _filteredTargets];
 DEBUG_RPT(_msg, _curFunc);
 
 // Sort filtered targets into their corresponding range sector
+private _s1Min = parseNumber MM_RQ4_Ranges_S1_Min;  private _s1Max = parseNumber MM_RQ4_Ranges_S1_Max;
+private _s2Min = parseNumber MM_RQ4_Ranges_S2_Min;  private _s2Max = parseNumber MM_RQ4_Ranges_S2_Max;
+private _s3Min = parseNumber MM_RQ4_Ranges_S3_Min;  private _s3Max = parseNumber MM_RQ4_Ranges_S3_Max;
+
 {
-	switch (true) do {
-		case (((_gh distance _x) >= parseNumber MM_RQ4_Ranges_S1_Min) and ((_gh distance _x) <= parseNumber MM_RQ4_Ranges_S1_Max)): { _s1Targets pushBackUnique _x };
-		case (((_gh distance _x) >= parseNumber MM_RQ4_Ranges_S2_Min) and ((_gh distance _x) <= parseNumber MM_RQ4_Ranges_S2_Max)): { _s2Targets pushBackUnique _x };
-		case (((_gh distance _x) >= parseNumber MM_RQ4_Ranges_S3_Min) and ((_gh distance _x) <= parseNumber MM_RQ4_Ranges_S3_Max)): { _s3Targets pushBackUnique _x };
-	};
+    private _d = _gh distance _x;
+    switch (true) do {
+        case (_d >= _s1Min and _d <= _s1Max): { _s1Targets pushBackUnique _x };
+        case (_d >= _s2Min and _d <= _s2Max): { _s2Targets pushBackUnique _x };
+        case (_d >= _s3Min and _d <= _s3Max): { _s3Targets pushBackUnique _x };
+    };
 } forEach _filteredTargets;
 
 // If collection mode is RRCA, skip the rest of the script and push returns back to MM_fnc_collectMTI.

@@ -43,7 +43,10 @@ _backing attachTo [_table, [0, 0, -2.475]];
 _light setPosASL ((getPosASLVisual _table) vectorAdd [0, 0, 5]);
 _light setVectorDirAndUp [[0, 0, -1], [0, 1, 0]];   // pointing straight down
 
-private _terrainResolution = 80;
+private _display = findDisplay 1250;
+if (isNull _display) exitWith {};
+private _terrainResolution = round (sliderPosition (_display displayCtrl 1630));
+
 private _scaleMultiplier = 2;
 private _useTerrainHeight = true;
 
@@ -58,16 +61,6 @@ if (isNil "_table" || {
         }
     }
 }) exitWith {};
-
-[] spawn {
-	missionNamespace setVariable ["RQ4Tweak_sarTimer", true];
-	private _timer = 15;
-	while { _timer > 1 } do {
-		_timer = _timer - 1;
-		sleep 1;
-	};
-	missionNamespace setVariable ["RQ4Tweak_sarTimer", nil];
-};
 
 // Returns true if the ray is blocked by terrain or by anything that is NOT a tree/rock-type map object.
 private _fnc_radarBlocked = {
@@ -114,7 +107,17 @@ _objects append ((_markerPos nearObjects ["LandVehicle", _squareDist]) inAreaArr
 _objects append ((_markerPos nearObjects ["Air", _squareDist]) inAreaArray _marker);
 _objects append ((_markerPos nearObjects ["Ship", _squareDist]) inAreaArray _marker);
 
-_objects = _objects arrayIntersect _objects; // removes duplicates
+private _uniqueObjects = [];
+private _seenObjects = createHashMap;
+{
+    private _key = str _x;
+
+    if (isNil {_seenObjects get _key}) then {
+        _seenObjects set [_key, true];
+        _uniqueObjects pushBack _x;
+    };
+} forEach _objects;
+_objects = _uniqueObjects;
 
 private _dummy = "Land_HelipadEmpty_F" createVehicleLocal _markerPos;
 _markerPos set [2, (0 max getTerrainHeightASL _markerPos) + 1];
@@ -131,7 +134,7 @@ if ( not isNull _av ) then {
 };
 
 // Kill switch helpers.
-private _fnc_killRequested = { _killSwitchArmed and { isNull (findDisplay 1250) } };
+private _fnc_killRequested = { (_killSwitchArmed and { isNull (findDisplay 1250) }) or not ((getConnectedUAV player) getVariable ["RQ4Tweak_sensorOn", false]) };   // If user closes the GUI or the AV's sensor turns off, stop script.
 
 // Deletes everything this run created and resets state so a new SAR can be started. Must be called from a scheduled context (it sleeps).
 private _fnc_abortSAR = {
@@ -153,9 +156,7 @@ private _fnc_abortSAR = {
 
     // Reset state.
     missionNamespace setVariable ["RQ4Tweak_sarRunning", nil];
-    missionNamespace setVariable ["RQ4Tweak_sarProg", nil];
     missionNamespace setVariable ["RQ4Tweak_table_base", nil];
-    missionNamespace setVariable ["RQ4_table_table", nil];
 };
 
 private _zOffset = if (_useTerrainHeight) then {
@@ -169,6 +170,11 @@ private _zOffset = if (_useTerrainHeight) then {
 };
 private _vectorDiff = [0, 0, _tableHeight/2 + (_zOffset * _scale) + 0.05]; // neatly fit all the stuff on the top of the table
 
+hintSilent parseText "<t font='PuristaBold'>SAR Progress</t><br /><br />Initializing.";
+
+// Config counter.
+private _objIter = 0;
+private _totalIters = count _objects;
 {
     if ( call _fnc_killRequested ) then {
         call _fnc_abortSAR;
@@ -178,41 +184,51 @@ private _vectorDiff = [0, 0, _tableHeight/2 + (_zOffset * _scale) + 0.05]; // ne
     if (_model != "" && !(isObjectHidden _x) && {(((boundingBoxReal  _x)#2) * _scale * getObjectScale _x ) > 0.005}) then {
 
         private _visible = true;
-        if ( _sensorPos isNotEqualTo [] ) then {
+
+        if (_sensorPos isNotEqualTo []) then {
             private _target = (getPosASL _x) vectorAdd [0, 0, 1];
             private _vis = [_av, "VIEW", _x] checkVisibility [_sensorPos, _target];
 
-            if ( _vis < _visThreshold ) then {
-                _visible = not ([_sensorPos, _target, _av, _x] call _fnc_radarBlocked);
+            if (_vis < _visThreshold) then {
+                _visible = not (
+                    [_sensorPos, _target, _av, _x] call _fnc_radarBlocked
+                );
             };
         };
-        if ( not _visible ) exitWith {};
 
-        isNil {
-            private _relCentre = _dummy worldToModel (ASLtoAGL getPosWorld _x);
-            private _relVectDir = _dummy vectorWorldToModel (vectorDir _x);
-            private _relVectUp = _dummy vectorWorldToModel (vectorUp _x);
-            private _tableObj = if ( _x isKindOf "AllVehicles" ) then {
-                createSimpleObject [typeOf _x, [0, 0, 0], true];	// Syntax 2, class name, has texturing.
-            } else {
-                createSimpleObject [_model, [0, 0, 0], true];	// Syntax 1, .p3d, no texturing.
-            };
-            private _scaledPos = _relCentre vectorMultiply _scale;
-            private _newPos = if (_useTerrainHeight) then {(_table modelToWorldWorld (_scaledPos vectorAdd _vectorDiff))}
-            else
-            {_table modelToWorldWorld (_scaledPos vectorAdd _vectorDiff)}; 
-            _tableObj setPosWorld _newPos;
-            _tableObj setVectorDirAndUp [_table vectorModelToWorld _relVectDir, _table vectorModelToWorld _relVectUp];
-            if ( _x isKindOf "AllVehicles" ) then {
-                for "_i" from 0 to 10 do {
-                    _tableObj setObjectTexture [_i, "#(rgb,8,8,3)color(0.9,0,0.75,1)"];
+        if (_visible) then {
+            isNil {
+                private _relCentre = _dummy worldToModel (ASLtoAGL getPosWorld _x);
+                private _relVectDir = _dummy vectorWorldToModel (vectorDir _x);
+                private _relVectUp = _dummy vectorWorldToModel (vectorUp _x);
+                private _tableObj = if ( _x isKindOf "AllVehicles" ) then {
+                    createSimpleObject [typeOf _x, [0, 0, 0], true];	// Syntax 2, class name, has texturing.
+                } else {
+                    createSimpleObject [_model, [0, 0, 0], true];	// Syntax 1, .p3d, no texturing.
                 };
+                private _scaledPos = _relCentre vectorMultiply _scale;
+                private _newPos = if (_useTerrainHeight) then {(_table modelToWorldWorld (_scaledPos vectorAdd _vectorDiff))}
+                else
+                {_table modelToWorldWorld (_scaledPos vectorAdd _vectorDiff)}; 
+                _tableObj setPosWorld _newPos;
+                _tableObj setVectorDirAndUp [_table vectorModelToWorld _relVectDir, _table vectorModelToWorld _relVectUp];
+                if ( _x isKindOf "AllVehicles" ) then {
+                    for "_i" from 0 to 10 do {
+                        _tableObj setObjectTexture [_i, "#(rgb,8,8,3)color(0.9,0,0.75,1)"];
+                    };
+                };
+                _tableObj setObjectScale _scale * getObjectScale _x;
+                _tableObjects pushBack _tableObj;
             };
-            _tableObj setObjectScale _scale * getObjectScale _x;
-            _tableObjects pushBack _tableObj;
         };
     };
+
+    // Iterate counter.
+    _objIter = _objIter + 1;
+    private _pctDone = (round ((_objIter / _totalIters) * 100)) min 100;
+    hintSilent parseText format ["<t font='PuristaBold'>SAR Progress</t><br /><br />Scanning - %1%% Complete.", _pctDone];
 } forEach _objects;
+
 
 private _step = 2/_terrainResolution;
 private _dirAndUp = [vectorDir _table, vectorUp _table];
@@ -222,14 +238,19 @@ private _totalCells = (_terrainResolution + 1) ^ 2;
 private _cellsDone = 0;
 private _lastPct = -1;
 
-for "_posX" from -1 to 1 step _step do {
-    for "_posY" from -1 to 1 step _step do {
+for "_xIndex" from 0 to _terrainResolution do {
+    private _posX = -1 + (_xIndex * _step);
+
+    for "_yIndex" from 0 to _terrainResolution do {
+        private _posY = -1 + (_yIndex * _step);
+
         if ( call _fnc_killRequested ) then {
             call _fnc_abortSAR;
             breakOut "RQ4_doSAR";
         };
+
         isNil {
-            private _tablePos = [_posX*_tableSize, _posY*_tableSize, 0];
+            private _tablePos = [_posX * _tableSize, _posY * _tableSize, 0];
             private _worldPos = (_dummy modelToWorld (_tablePos vectorMultiply 1/_scale)); // divide by scale to scale back up
 
             private _visible = true;
@@ -247,30 +268,23 @@ for "_posX" from -1 to 1 step _step do {
             private _texture = if (!isNull _road) then {getRoadInfo _road select 3} else {surfaceTexture _worldPos};
             private _normal = vectorUp _table;
             private _cubeSize = _step * _tableSize;
-            if (_useTerrainHeight) then {
-                private _normals = [];
-                private _averageStep = _step/2;
-                // Sample normals over cube area:
-                for "_normalX" from -2*_averageStep to 2*_averageStep step _averageStep do {
-                    for "_normalY" from -2*_averageStep to 2*_averageStep step _averageStep do {
-                        private _checkPos = _worldPos vectorAdd [_normalX, _normalY];
-                        _normals pushBack (surfaceNormal _checkPos);
-                    };
-                };
-                {
-                    _normal = _normal vectorAdd _x;
-                } forEach _normals;
-                // You don't need to average the normals for the normal to look good.
-                // _normal = _normal vectorMultiply 1/count _normals;
-                // I have no idea why.
-                _normal = [_normal, _tableDir -_markerDir, 2] call BIS_fnc_rotateVector3D; // Not sure why I have to do this.
-                private _cos = abs (vectorUp _table vectorCos _normal);
-                private _dynamicSize = 1.1/_cos; // scale cubes based on angle
-                _cubeSize = _cubeSize * _dynamicSize; // 
-                _tablePos set [2, -(_worldPos#2 * _scale + _cubeSize/(2*_cos) + 0.5)]; // Z flip from worldpos. wtf?.
-            } else {
-                _tablePos set [2, -0.5 - _cubeSize/2]
-            };
+            
+            private _averageStep = _step / 2;
+            // Sample four corners of the cube.
+            {
+                _normal = _normal vectorAdd (surfaceNormal (_worldPos vectorAdd _x));
+            } forEach [
+                [-_averageStep, -_averageStep],
+                [-_averageStep,  _averageStep],
+                [ _averageStep, -_averageStep],
+                [ _averageStep,  _averageStep]
+            ];
+            _normal = [_normal, _tableDir - _markerDir, 2] call BIS_fnc_rotateVector3D;
+            private _cos = abs (vectorUp _table vectorCos _normal);
+            private _dynamicSize = 1.1 / _cos;
+            _cubeSize = _cubeSize * _dynamicSize;
+            _tablePos set [2, -(_worldPos#2 * _scale + _cubeSize/(2*_cos) + 0.5)];
+
             private _groundObject = createSimpleObject ["Land_VR_Shape_01_cube_1m_F", [0,0,0], true];
             _groundObject enableSimulation false;
             _groundObject setPosASL (_table modelToWorldWorld (_tablePos vectorAdd _vectorDiff));
@@ -288,18 +302,14 @@ for "_posX" from -1 to 1 step _step do {
         private _pct = (round ((_cellsDone / _totalCells) * 100)) min 100;
         if ( _pct != _lastPct ) then {
             _lastPct = _pct;
-            hintSilent format ["SAR Progress: %1%%", _pct];
-            missionNamespace setVariable ["RQ4Tweak_sarProg", _pct];
+            hintSilent parseText format ["<t font='PuristaBold'>SAR Progress</t><br /><br />Rendering - %1%% Complete.", _pct];
         };
     };
 };
 
-missionNamespace setVariable ["RQ4_table_table", _table];
 _table setVariable ["RQ4Tweak_table_tableObjects", _tableObjects];
 deleteVehicle _dummy;
 
-// Prevent the camera and "close" action from be created before the SAR is done.
-waitUntil { sleep 1; (missionNamespace getVariable ["RQ4Tweak_sarProg", 0]) > 99 };
 
 if ( call _fnc_killRequested ) then {
     call _fnc_abortSAR;
@@ -320,6 +330,10 @@ private _camASL = _targetASL vectorAdd [
     (cos (_tableDir + 180)) * _camBack,
     _camHeight
 ];
+
+if ( (str findDisplay 1250) != "No display" ) then {
+    missionNamespace setVariable ["RQ4Tweak_displayWasOpen", true];
+};
 
 private _sarCam = "camera" camCreate (ASLToAGL _camASL);
 _sarCam cameraEffect ["INTERNAL", "BACK"];
@@ -381,6 +395,12 @@ private _RQ4Tweak_sarKeyEH = (findDisplay 46) displayAddEventHandler ["KeyDown",
     };
     missionNamespace setVariable ["RQ4Tweak_sarCamera", nil];
 
+    // If display was open before the SAR was rendered, reopen it.
+    if ( missionNamespace getVariable ["RQ4Tweak_displayWasOpen", false] ) then {
+        missionNamespace setVariable ["RQ4Tweak_displayWasOpen", nil];
+        [] call MM_fnc_openDialog;
+    };
+
     // Turn the SAR post-processing off again.
     { _x ppEffectEnable false; ppEffectDestroy _x; } forEach [RQ4Tweak_sarCC, RQ4Tweak_sarBlur, RQ4Tweak_sarGrain];
 
@@ -388,19 +408,35 @@ private _RQ4Tweak_sarKeyEH = (findDisplay 46) displayAddEventHandler ["KeyDown",
 	missionNamespace setVariable ["RQ4Tweak_sarRunning", "CLEANUP"];
 
 	[] spawn {
-		private _table = missionNamespace getVariable "RQ4_table_table";
-		private _tableObjects = _table getVariable ["RQ4Tweak_table_tableObjects", []];
-		for "_i" from 0 to (round ((count _tableObjects) * 0.25) - 1) do {
-			deleteVehicle (_tableObjects select _i);
-			sleep 0.001;
-		};
+        private _table = (missionNamespace getVariable "RQ4Tweak_table_base") select 0;
+        private _tableObjects = _table getVariable ["RQ4Tweak_table_tableObjects", []];
 
-		{deleteVehicle _x} forEach _tableObjects;
-		
-		_table setVariable ["RQ4Tweak_table_tableObjects", []];
-		missionNamespace setVariable ["RQ4Tweak_sarRunning", nil];
-        missionNamespace setVariable ["RQ4Tweak_sarProg", nil];
-	};
+        private _count = count _tableObjects;
+        private _firstBatch = round (_count * 0.25);
+
+        sleep 1.5;
+
+        // Delete first batch.
+        for "_i" from 0 to (_firstBatch - 1) do {
+            deleteVehicle (_tableObjects select _i);
+
+            if ((_i + 1) % 250 == 0) then {
+                sleep 0.01;
+            };
+        };
+
+        // Delete remaining objects.
+        for "_i" from _firstBatch to (_count - 1) do {
+            deleteVehicle (_tableObjects select _i);
+
+            if ((_i - _firstBatch + 1) % 250 == 0) then {
+                sleep 0.01;
+            };
+        };
+
+        _table setVariable ["RQ4Tweak_table_tableObjects", nil];
+        missionNamespace setVariable ["RQ4Tweak_sarRunning", nil];
+    };
 
     // Delete the display table things.
     {

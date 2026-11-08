@@ -23,7 +23,11 @@ disableSerialization;
 
 private _uav = getConnectedUAV player;
 if (isNull _uav) exitWith {
-    hint "Connect to a UAV before executing flight controls.";
+    [] spawn {
+        hintSilent parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Connect to a UAV before executing flight controls.";
+        sleep 5;
+        hintSilent "";
+	};
 };
 
 private _display = findDisplay 1250;
@@ -57,10 +61,18 @@ private _isNonNegativeNumber = {
 };
 
 if !([_altitudeText] call _isNonNegativeNumber) exitWith {
-    hint "Enter a valid non-negative number for altitude (ft MSL).";
+    [] spawn {
+        hintSilent parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Enter a valid non-negative number for altitude (ft MSL).";
+        sleep 5;
+        hintSilent "";
+	};
 };
 if !([_loiterText] call _isNonNegativeNumber) exitWith {
-    hint "Enter a valid non-negative number for loiter radius (m).";
+    [] spawn {
+        hintSilent parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Enter a valid non-negative number for loiter radius (m).";
+        sleep 5;
+        hintSilent "";
+	};
 };
 
 private _altitudeFeet = parseNumber _altitudeText;

@@ -84,7 +84,9 @@ if ( _create ) then {
         if (isNull _gh) exitWith {};
 		
 		private _pos = getPosASLVisual _gh;
-		private _dist = sqrt((parseNumber MM_RQ4_Ranges_S3_Max)^2) - sqrt((_pos select 2)^2);
+		private _slant = parseNumber MM_RQ4_Ranges_S3_Max;
+		private _alt = (_pos select 2) - (0 max getTerrainHeightASL _pos);
+		private _dist = sqrt (0 max ((_slant * _slant) - (_alt * _alt)));
 		_pos set [2,0];
 
 		private _dir = if (%2 == 0) then {

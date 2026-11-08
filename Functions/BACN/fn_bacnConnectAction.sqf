@@ -127,14 +127,19 @@ private _addActionContent = if ( _parentPath isEqualTo "ACRE_Interact" ) then {
 					while { (alive _player) and (_player getVariable ["RQ4Tweak_connectedToBACN", []] isNotEqualTo []) } do {
 						
 						// If LOS is greated than 25% allow the connection, otherwise hold connection and pass hint (if enabled).
+						// Added additional check to see if AV GUI is open. If it is, DO NOT display hints, it fucks with a bunch of stuff in the GUI.
 						if ( [_gh, _player] call MM_fnc_checkBACNLOS ) then {
-							hintSilent "";
+							if ( MM_RQ4_DoLOSMsg and (str (findDisplay 1250) isEqualTo "No Display") ) then {
+								hintSilent "";
+							};
 							
 							[true] call MM_fnc_bacnACREAmplify;
 
 							_player setVariable ["RQ4Tweak_bacnConnectionHeld", nil, true];
 						} else {	
-							hintSilent "LOS to BACN obstructed, holding connection.";
+							if ( MM_RQ4_DoLOSMsg and (str (findDisplay 1250) isEqualTo "No Display") ) then {
+								hintSilent "LOS to BACN obstructed, holding connection.";
+							};
 							
 							[false] call MM_fnc_bacnACREAmplify;
 

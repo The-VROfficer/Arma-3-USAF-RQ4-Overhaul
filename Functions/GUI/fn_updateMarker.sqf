@@ -16,8 +16,6 @@
 		onButtonClick = " [] call MM_fnc_updateMarker; "; 
 */
 
-hintSilent "";
-
 private _uav = getConnectedUAV player;
 
 if ( isNull _uav ) exitWith {};
@@ -101,4 +99,5 @@ _target setVariable ["RQ4Tweak_mtiUserStyle", [_markerColor, _markerTypeComplete
 removeMissionEventHandler ["MapSingleClick", (missionNamespace getVariable "RQ4Tweak_markerSelected") select 3];
 
 missionNamespace setVariable ["RQ4Tweak_markerSelected", nil];
-hintSilent "";
+
+hintSilent "";	// Keep this to avoid issues where MTI Analysis box stays stuck on screen.

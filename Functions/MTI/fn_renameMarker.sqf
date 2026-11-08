@@ -48,21 +48,23 @@ _foundMarker = if ( _nameSearch ) then {
     // Perform quick search to locate the marker. If no such marker exists, display error for user and log it.
     // This allMapMarkers search is LOCAL, so other "hidden" markers from other AVs and other sources will be protected.
     if ( (allMapMarkers findIf { _searchID in ((_x call bis_fnc_markerParams) select 8) }) == -1 ) exitWith {
-        hint parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No TOI markers contain ID [%1].", _searchID];
-
-        sleep 5;
-        hintSilent "";
+        [] spawn {
+            hint parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No TOI markers contain ID [%1].", _searchID];
+            sleep 3;
+            hintSilent "";
+        };
 
         -1
     };
 
     // Check for duplicates and exit if any are found. Not efficient, but necessary.
     if ( ({ _searchID in ((_x call bis_fnc_markerParams) select 8) } count allMapMarkers) > 1 ) exitWith {
-        hint parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Too many markers containing [%1].", _searchID];
-
-        sleep 5;
-        hintSilent "";
-
+        [] spawn {
+            hint parseText format ["<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />Too many markers containing [%1].", _searchID];
+            sleep 3;
+            hintSilent "";
+        };
+        
         -1
     };
 
@@ -77,8 +79,12 @@ _foundMarker = if ( _nameSearch ) then {
     private _markerSelected = missionNamespace getVariable ["RQ4Tweak_markerSelected", []];
 
     if ( _markerSelected isEqualTo [] ) then {
-        hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No marker is currently selected.";
-        
+        [] spawn {
+            hint parseText "<t font='PuristaBold'>COMMAND REJECTED</t><br /><br />No marker is currently selected.";
+            sleep 3;
+            hintSilent "";
+        };
+
         -1
     } else {
         _markerSelected select 1
@@ -120,7 +126,7 @@ if ( isNil { _foundMarker } ) exitWith {
     private _msg = format ["%1: Marker %2 is invalid! Exiting.", _gh, _foundMarker];
     ERROR_RPT(_msg, _curFunc);
 
-    sleep 5;
+    sleep 3;
     hintSilent "";
 };
 
@@ -131,7 +137,7 @@ if ( not ("TOI_" in (_foundMarker call BIS_fnc_markerParams select 0 select 0)))
     private _msg = format ["%1: Marker %2 is invalid! Exiting.", _gh, _foundMarker];
     ERROR_RPT(_msg, _curFunc);
 
-    sleep 5;
+    sleep 3;
     hintSilent "";
 };
 
@@ -169,7 +175,5 @@ _foundMarker setMarkerTextLocal _newCombinedName;
 private _markerData = _markerOwner getVariable "RQ4Tweak_mtiMarkerParams";
 _markerData set [8, _newCombinedName];
 _markerOwner setVariable ["RQ4Tweak_mtiMarkerParams", _markerData, true];
-
-hintSilent "";
 
 true;

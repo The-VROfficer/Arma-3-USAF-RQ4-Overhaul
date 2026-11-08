@@ -250,3 +250,38 @@ RQ4Tweak_isTOIHidden
     Belongs to: The target LOCALLY.
 
     0: <BOOLEAN> - True if TOI should be kept hidden, otherwise nil.
+
+RQ4Tweak_table_base
+    Used in: fn_doSAR ; Keeps a list of the LOCAL objects that make up the "SAR" table, including the table itself, the black background, and the overhead light.
+
+    Belongs to: LOCAL player's missionNamespace.
+
+    0: <ARRAY of OBJECTS> - The three objects mentioned above.
+
+RQ4Tweak_sarRunning
+    Used in: fn_selectSAR / fn_doSAR ; Flags whether or not a SAR is being processed, prevents duplicate calling while SAR is running.
+
+    Belongs to: LOCAL player's missionNamespace
+
+    0: <STRING> - "RUNNING" if computations are running, "CLEANUP" if player has exited the SAR view, and nil otherwise.
+
+RQ4Tweak_table_tableObjects
+    Used in: fn_doSAR ; Contains a list of ALL terrain objects within the scope of the SAR.
+
+    Belongs to: The LOCAL _table object in fn_doSAR.
+
+    0: <ARRAY of OBJECTS> - Every terrain object within the 200x200 area of the SAR. If SAR is closed, defaults to nil.
+
+RQ4Tweak_sarCamera
+    Used in: fn_doSAR
+
+    Belongs to: LOCAL player's missionNamespace
+
+    0: <OBJECT> - The created camera that simulates the SAR image.
+
+RQ4Tweak_displayWasOpen
+    Used in: fn_doSAR ; Used to determine if the GUI should be automatically opened once the user exits the SAR view.
+
+    Belongs to: LOCAL player's missionNamespace
+
+    0: <BOOLEAN> - True if the user had the UAV GUI open when the SAR was generated, otherwise nil.

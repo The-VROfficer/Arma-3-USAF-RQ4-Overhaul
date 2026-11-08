@@ -28,6 +28,7 @@ class CfgFunctions
             class genericFilter {};
             class handleFadeMarker {};
             class handleFOR {};
+            class handleGCSAction {};
             class handleMTIMarker {};
             class handlePilot {};
             class highlightMarker {};

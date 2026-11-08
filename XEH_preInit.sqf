@@ -2,6 +2,16 @@ private _modName = "USAF RQ-4 Overhaul";
 
 // BACN Setup
 [
+	"MM_RQ4_DoLOSMsg",
+	"CHECKBOX",
+	["Enable LOS obstructed messages", "Enables the 'LOS to BACN obstructed, holding connection.' message being displayed.
+	Uncheck the box to disable the messages if you find them annoying."],
+	[_modName, "BACN Settings"],
+	true,
+	0	// The individual player gets to make the choice, setting is not sync'd globally.
+] call CBA_fnc_addSetting;
+
+[
 	"MM_RQ4_MaxBACNUsers",
 	"EDITBOX",
 	["Maximum concurrent connections", "Sets how many individual users may be connected to the BACN at any one time."],
@@ -17,8 +27,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	"CHECKBOX",
 	["Enable BACN LOS calculations","Enables the use of Line-of-Sight (LOS) calculations by the BACN payload. If a
 	player walks into a building, or their LOS to the aircraft is obstructed, their connection
-	will be 'held' until at least 25% LOS is regained.
-	"],
+	will be 'held' until at least 25% LOS is regained."],
 	[_modName, "BACN Settings"],
 	true,
 	1,
@@ -36,7 +45,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	[0, 50, 5, 0, false],
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 // Section Ranges
@@ -140,7 +149,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	false,
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -152,7 +161,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	true,
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -164,7 +173,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	true,
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -175,7 +184,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	"5",
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -183,7 +192,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	"EDITBOX",
 	["Minimum collection altitude [m]","If the aircraft is below this altitude, MTI cannot be collected."],
 	[_modName, "Radar Performance"],
-	"4000",
+	"5000",
 	1,
 	{},
 	true
@@ -197,7 +206,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	"10",
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -208,7 +217,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	"200",
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -220,7 +229,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	[0.01, 1.00, 0.90, 2, false],
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -232,7 +241,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	["0.001"],
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -243,7 +252,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	[0.01, 1.00, 0.75, 2, false],
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -254,7 +263,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	["0.005"],
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -265,7 +274,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	[0.01, 1.00, 0.50, 2, false],
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -276,7 +285,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	["0.015"],
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 // ---- Psuedo-DGS settings
@@ -298,10 +307,10 @@ private _modName = "USAF RQ-4 Overhaul";
 	["Time to fade out unseen TOIs [seconds]", "Time it takes for a TOI to completely fade off the map. Fading begins the moment a target goes 
 	unseen by the radar and ends if the target is relocated."],
 	[_modName, "Psuedo-DGS"],
-	"20",
+	"45",
 	1,
 	{},
-	false
+	true
 ] call CBA_fnc_addSetting;
 
 [
@@ -310,7 +319,7 @@ private _modName = "USAF RQ-4 Overhaul";
 	["Time TOI must be unseen to be forgotten [seconds]", "When DGS 'forgets' a TOI, the target will be assigned a new TOI number when it is reacquired. 
 	The 'forget' countdown begins after the target fades off the map."],
 	[_modName, "Psuedo-DGS"],
-	"20",
+	"60",
 	0,
 	{},
 	true
