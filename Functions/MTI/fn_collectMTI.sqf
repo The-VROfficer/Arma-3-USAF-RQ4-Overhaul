@@ -60,12 +60,7 @@ private _ghDeletedEH = _gh addEventHandler ["Deleted",{
 
 		_entity setVariable ["RQ4Tweak_forEH_guiMap", nil, true];
 
-		// Run it again, but modified to delete the main map FOR lines.
-		(_entity getVariable "RQ4Tweak_forEH_mainMap") params ["_forEH", "_mapCtrl"];
-
 		_mapCtrl ctrlRemoveEventHandler ["Draw", _forEH];
-
-		_entity setVariable ["RQ4Tweak_forEH_mainMap", nil, true];
 
 		// DEBUG LVL 3
 		private _msg = format ["%1: FOR deleted as part of deletion protection.", _entity];

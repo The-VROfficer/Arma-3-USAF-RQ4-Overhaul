@@ -23,13 +23,12 @@
 // ---------------------------------
 
 #include "..\debug_defines.hpp"
-#include "color_defines.hpp"
+#include "..\color_defines.hpp"
 private _curFunc = "MM_fnc_handleFOR";
 
 params [
 	["_gh", objNull, [objNull]],
-	["_create", true, [true]],
-	["_guiMapOnly", false, [false]]
+	["_create", true, [true]]
 ];
 
 // DEBUG LVL 3
@@ -43,7 +42,7 @@ DEBUG_RPT(_msg, _curFunc);
 private _forEH_guiMap = _gh getVariable ["RQ4Tweak_forEH_guiMap", []];
 
 // Attempted to create FOR, but it's already rendered.
-if ( _create and (_forEH_guiMap isNotEqualTo []) and not _guiMapOnly) exitWith {
+if ( _create and (_forEH_guiMap isNotEqualTo []) ) exitWith {
 	// DEBUG LVL 2
 	private _msg = format ["%1: Abnormal exit, attempted to draw FOR, but FOR already exists for %1!", _gh];
 	ERROR_RPT(_msg, _curFunc);
@@ -119,12 +118,6 @@ if ( _create ) then {
 	_forEH_guiMap = (findDisplay 1250 displayCtrl 1801) ctrlAddEventHandler ["Draw", _str];
 	_gh setVariable ["RQ4Tweak_forEH_guiMap", [_forEH_guiMap, findDisplay 1250 displayCtrl 1801], true];
 	
-	if ( not _guiMapOnly ) then {
-		// Draw FOR lines on main map.
-		_forEH_mainMap = (findDisplay 12 displayCtrl 51) ctrlAddEventHandler ["Draw", _str];
-		_gh setVariable ["RQ4Tweak_forEH_mainMap", [_forEH_mainMap, findDisplay 12 displayCtrl 51], true];
-	};
-	
 	// DEBUG LVL 3
 	private _msg = format ["%1: Complete, FOR is drawn.", _gh];
 	DEBUG_RPT(_msg, _curFunc);
@@ -138,13 +131,7 @@ if ( _create ) then {
 
 	_gh setVariable ["RQ4Tweak_forEH_guiMap", nil, true];
 
-	// Run the same thing again but modified for main map FOR lines.
-
-	(_gh getVariable "RQ4Tweak_forEH_mainMap") params ["_forEH", "_mapCtrl"];
-
 	_mapCtrl ctrlRemoveEventHandler ["Draw", _forEH];
-
-	_gh setVariable ["RQ4Tweak_forEH_mainMap", nil, true];
 
 	// DEBUG LVL 3
 	private _msg = format ["%1: Complete, FOR is deleted.", _gh];

@@ -45,33 +45,43 @@ if ( not hasInterface ) exitWith {
 	ERROR_RPT(_msg, _curFunc);
 };
 
-private _id = player getVariable ["RQ4Tweak_gcsAction", -1];
+// Removes EVERY "Open Global Hawk GCS" action on the player. Guarantees there is never more than one.
+private _fnc_sweep = {
+	{
+		if ( ((player actionParams _x) select 0) find "Open Global Hawk GCS" >= 0 ) then {
+			player removeAction _x;
+		};
+	} forEach (actionIDs player);
+
+	player setVariable ["RQ4Tweak_gcsAction", nil];
+};
 
 switch ( _mode ) do {
     case "ADD": {
-        if ( _id < 0 ) then {
-            _id = player addAction [
-                "<t font='PuristaSemibold'>Open Global Hawk GCS</t>",
-                { [] call MM_fnc_openDialog },
-                [], 12, false, true, "",
-                " _this == (getConnectedUAV _this) getVariable 'RQ4Tweak_pilot' "
-            ];
-            player setVariable ["RQ4Tweak_gcsAction", _id];
-        };
+        // Clear any existing copies (including strays added by other code), then add exactly one.
+        call _fnc_sweep;
+
+        private _id = player addAction [
+            "<t font='PuristaSemibold'>Open Global Hawk GCS</t>",
+            { [] call MM_fnc_openDialog },
+            [], 12, false, true, "",
+            " _this == (getConnectedUAV _this) getVariable 'RQ4Tweak_pilot' "
+        ];
+        player setVariable ["RQ4Tweak_gcsAction", _id];
 
         // If AV + crew belongs to the server, localize it for better performance/responsiveness.
-        if ( not local _gh ) then {
+        if ( not isNull _gh and { not local _gh } ) then {
             [_gh, clientOwner] remoteExec ["setOwner", 2];
             [group driver _gh, clientOwner] remoteExec ["setGroupOwner", 2];
         };
     };
 
     case "REMOVE": {
-        private _stillConnected = (not isNull _gh) and { _gh isKindOf "USAF_RQ4B_B40" };
+        // Exact class match: a B20 must not count as "still connected to a Hawk".
+        private _stillConnected = (typeOf _gh) isEqualTo "USAF_RQ4B_B40";
 
-        if ( _id >= 0 and not _stillConnected ) then {
-            player removeAction _id;
-            player setVariable ["RQ4Tweak_gcsAction", nil];
+        if ( not _stillConnected ) then {
+            call _fnc_sweep;
         };
     };
 };

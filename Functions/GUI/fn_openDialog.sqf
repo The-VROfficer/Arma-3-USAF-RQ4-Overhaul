@@ -71,7 +71,7 @@ private _forEH = _uav getVariable ["RQ4Tweak_forEH_guiMap", []];
 // Check to see if GUI FOR got deleted on GUI close (it usually does). If it did, re-render it.
 if ( _forEH isNotEqualTo [] ) then {
     if ( _forEH select 0 == 0 ) then {
-        [_uav, true, true] spawn MM_fnc_handleFOR;
+        [_uav, true] spawn MM_fnc_handleFOR;
     };
 };
 
@@ -148,3 +148,5 @@ private _markerColorOptions = [
 // Keep both player lists synchronized while the dialog remains open.
 [] spawn MM_fnc_refreshPlayerLists;
 
+// Setup the pseudo-UAV Terminal
+[] spawn MM_fnc_handlePseudoTerminal;

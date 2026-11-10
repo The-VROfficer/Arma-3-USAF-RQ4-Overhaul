@@ -46,6 +46,7 @@ class CfgFunctions
             class findMarkerViaName {};
             class findUpcomingLoiterWaypoint {};
 			class focusDialogCatcher {};
+            class handlePseudoTerminal {};
 			class onDialogUnload {};
 			class openDialog {};
             class openTextEntryDialog {};
