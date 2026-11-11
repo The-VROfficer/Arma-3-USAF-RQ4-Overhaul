@@ -24,7 +24,7 @@ class CfgVehicles
 	{
 		author="USAF";
 		editorSubcategory="EdSubCat_USAF_Drones";
-		editorPreview="USAF_RQ4A\data\UI\preview.jpg";
+		editorPreview="USAF_RQ4A\data\UI\preview.jpg";              // TODO: path prefix differs from the model's (\x\rq4a_tweak_v2\...)
 		displayName="RQ-4B Global Hawk (B40)";
 		icon="x\usaf_rq4a_tweak_v2\Icons\rq4_ca.paa";
 		picture="\A3\Drones_F\Air_F_Gamma\UAV_02\Data\UI\UAV_02_base_F.paa";
@@ -307,13 +307,13 @@ class CfgVehicles
 		{
 			description="$STR_A3_CfgVehicles_UAV_02_base_Armory0";
 		};
-		model="\USAF_RQ4A\USAF_RQ4A.p3d";
+		model="\x\usaf_rq4a_tweak_v2\Models\RQ4B_GlobalHawk_B40.p3d";  // CHANGED: new model. Prefix matches the folder pboProject packs (\x\usaf_rq4a_tweak_v2); file name must match the CfgModels class in model.cfg
 		class TransportItems
 		{
 		};
-		uavCameraDriverPos="PiP0_pos";
+		uavCameraDriverPos="PiP0_pos";                               // memory point added (under the nose)
 		uavCameraDriverDir="PiP0_dir";
-		memoryPointLDust="DustLeft";
+		memoryPointLDust="DustLeft";                                 // memory points added (behind each main wheel)
 		memoryPointRDust="DustRight";
 		memoryPointDriverOptics="PiP0_pos";
 		driverOpticsModel="A3\drones_f\Weapons_F_Gamma\Reticle\UGV_01_Optics_Driver_F.p3d";
@@ -321,6 +321,19 @@ class CfgVehicles
 		class WingVortices
 		{
 		};
+		// NEW: engine exhaust effect (memory points exhaust1 / exhaust1_dir at the nozzle)
+		class Exhausts
+		{
+			class Exhaust1
+			{
+				position="exhaust1";
+				direction="exhaust1_dir";
+				effect="ExhaustsEffectPlane";
+			};
+		};
+		// NEW: spoilers are driven by the "speedBrake" animation source in model.cfg
+		airBrake=1;
+		airBrakeFrictionCoef=2.5;                                    // tune to taste
 		class ViewPilot: ViewPilot
 		{
 			initFov=1;
@@ -418,9 +431,14 @@ class CfgVehicles
 		};
 		maxSpeed=600;
 		envelope[] = { 0, 0.15, 0.85, 1.5, 2.3, 2.5, 2.5, 2.5, 2.4, 2.3, 2.1 };   // LRN 1015 Airfoil
-		thrustCoef[] = {1.5, 2.1, 2.65, 1.9, 1.35, 1.15, 1.0, 0.66, 0.5, 0.2, 0, 0, 0};
+		angleOfIndicence = 6 * 3.1415 / 180;	// 6 degrees
+		thrustCoef[] = { 0.9, 0.8, 0.9, 1.3, 1.2, 1.2, 1.1, 1, 0.9, 0.2, 0.1, 0, 0 };	// A-164 Wipeout
 		flaps=0;
 		simulation="airplanex";
+		maxOmega=3000;
+		dampingRateFullThrottle=0.03;
+		dampingRateZeroThrottleClutchEngaged=0.03;
+		dampingRateZeroThrottleClutchDisengaged=0.03;
 		landingSpeed=195;
 		stallSpeed=160;
 		stallWarningTreshold=0.2;
@@ -430,7 +448,7 @@ class CfgVehicles
 		elevatorCoef[] = { 0.6, 0.9, 0.5, 0.4, 0.35, 0.3, 0.3 };
 		elevatorSensitivity=0.8;
 		wheelSteeringSensitivity=3;
-		gearsUpFrictionCoef = 0.25;
+		gearsUpFrictionCoef = 0.35;
 		gearUpTime = 7;
 		gearDownTime = 7;
 		rudderInfluence=0.07;
@@ -445,20 +463,17 @@ class CfgVehicles
 		class Damage
 		{
 			tex[]={};
-			mat[]=
-			{
-				"A3\Drones_F\Air_F_Gamma\UAV_02\Data\UAV_02.rvmat",
-				"A3\Drones_F\Air_F_Gamma\UAV_02\Data\UAV_02_damage.rvmat",
-				"A3\Drones_F\Air_F_Gamma\UAV_02\Data\UAV_02_destruct.rvmat"
-			};
+			mat[]={};   // CHANGED: removed the Greyhawk (UAV_02) rvmats - they belong to a different UV layout. Add original/damage/destroyed rvmat triplets once the RQ-4B has its own materials.
 		};
 		hiddenSelections[]=
 		{
-			"camo1"
+			"camo1",
+			"camo2"
 		};
 		hiddenSelectionsTextures[]=
 		{
-			"A3\Drones_F\Air_F_Gamma\UAV_02\Data\UAV_02_CO.paa"
+			"\x\usaf_rq4a_tweak_v2\Data\rq4_co.paa",
+			"\x\usaf_rq4a_tweak_v2\Data\rq4_co.paa"   // camo2: V-tail (same texture sheet by default; point this at a copy with tail art)
 		};
 		weapons[]={};
 		magazines[]={};
@@ -471,10 +486,10 @@ class CfgVehicles
 			{
 				color[]={7000,7500,10000,1};
 				ambient[]={100,100,100,0};
-				position="light_1_pos";
-				direction="light_1_dir";
-				hitpoint="L svetlo";
-				selection="L svetlo";
+				position="light_landing_pos";
+				direction="light_landing_dir";
+				hitpoint="light_landing";
+				selection="light_landing";
 				size=1;
 				innerAngle=20;
 				outerAngle=60;
@@ -496,10 +511,10 @@ class CfgVehicles
 		{
 			class RedStill
 			{
-				name="cerveny pozicni";
+				name="light_nav_l_pos";                              // left (port) wingtip
 				color[]={0.80000001,0,0};
 				ambient[]={0.079999998,0,0};
-				intensity=75;
+				intensity=100;
 				drawLight=1;
 				drawLightSize=0.15000001;
 				drawLightCenterSize=0.039999999;
@@ -510,10 +525,10 @@ class CfgVehicles
 			};
 			class GreenStill
 			{
-				name="zeleny pozicni";
+				name="light_nav_r_pos";                              // right (starboard) wingtip
 				color[]={0,0.80000001,0};
 				ambient[]={0,0.079999998,0};
-				intensity=75;
+				intensity=100;
 				drawLight=1;
 				drawLightSize=0.15000001;
 				drawLightCenterSize=0.039999999;
@@ -522,45 +537,62 @@ class CfgVehicles
 				dayLight=0;
 				useFlare=0;
 			};
-			class WhiteBlinking
+			class WhiteSteadyL
 			{
-				name="bily pozicni blik";
-				color[]={1,1,1,1};
-				ambient[]={0.2,0.2,0.2,1};
-				intensity=75;
-				blinking=1;
-				blinkingPattern[]={0.1,0.89999998};
-				blinkingPatternGuarantee=0;
-				drawLightSize=0.2;
-				drawLightCenterSize=0.039999999;
+				name="light_strobe_l_pos";
+				color[]={1,1,1};
+				ambient[]={0.1,0.1,0.1};
+				intensity=200;                                        // low state: tune to taste
+				drawLight=1;
+				drawLightSize=0.12;
+				drawLightCenterSize=0.03;
+				activeLight=0;
+				blinking=0;
+				dayLight=0;
+				useFlare=0;
 			};
-			class WhiteBlinking2
+			class WhiteSteadyR: WhiteSteadyL
 			{
-				name="bily pozicni blik2";
-				color[]={1,1,1,1};
-				ambient[]={0.2,0.2,0.2,1};
-				intensity=75;
+				name="light_strobe_r_pos";
+			};
+			// High-intensity state: on for 1.0 s, then off for 0.5 s (showing the steady low state), repeating
+			// every 1.5 s. Both sides use the same pattern, so they flash together.
+			class WhiteStrobeL
+			{
+				name="light_strobe_l_pos";
+				color[]={1,1,1};
+				ambient[]={0.2,0.2,0.2};
+				intensity=400;                                      // high state: tune to taste
+				drawLight=1;
+				drawLightSize=0.6;
+				drawLightCenterSize=0.15;
+				activeLight=1;                                       // lights up nearby surfaces during the flash
 				blinking=1;
-				blinkingPattern[]={0.1,0.89999998};
-				blinkingPatternGuarantee=0;
-				drawLightSize=0.2;
-				drawLightCenterSize=0.039999999;
+				blinkingPattern[]={0.5,1.5};                         // {seconds high, seconds low}
+				blinkingPatternGuarantee=1;
+				dayLight=0;                                          // not drawn in daylight
+				useFlare=1;
+				flareSize=1;
+			};
+			class WhiteStrobeR: WhiteStrobeL
+			{
+				name="light_strobe_r_pos";
 			};
 		};
 		driveOnComponent[]=
 		{
-			"wheel_1",
-			"wheel_2",
-			"wheel_3"
+			"wheel_nose",
+			"wheel_main_l",
+			"wheel_main_r"
 		};
 		numberPhysicalWheels=3;
 		class Wheels
 		{
-			class wheel_1
+			class wheel_nose
 			{
-				boneName="wheel_1";
-				boundary="Wheel_1_rim";
-				center="Wheel_1_axis";
+				boneName="wheel_nose";
+				boundary="wheel_nose_bound";
+				center="wheel_nose_center";
 				dampingRate=0.25;
 				dampingRateDamaged=1;
 				dampingRateDestroyed=1000;
@@ -577,41 +609,43 @@ class CfgVehicles
 				latStiffY=180;
 				longitudinalStiffnessPerUnitGravity=5000;
 				mass=150;
-				maxBrakeTorque=1500;
-				maxCompression=0.15000001;
-				maxDroop=0.15000001;
+				maxBrakeTorque=900;
+				maxCompression=0.05;   // CHANGED: was 0.15 - small travel since the wheels are no longer animated by the damper
+				maxDroop=0.05;         // CHANGED: was 0.15
 				maxHandBrakeTorque=0;
 				MOI=2;
 				side="left";
-				springDamperRate=37000;
-				springStrength=149000;
-				sprungMass=2500;
+				springDamperRate=56710;   // CHANGED: rescaled with springStrength (same damping ratio as your original)
+				springStrength=349950;    // CHANGED: static sag 0.025 m = half of maxCompression 0.05
+				sprungMass=891.8;
 				steering=1;
-				suspForceAppPointOffset="Wheel_1_axis";
+				suspForceAppPointOffset="wheel_nose_center";
 				suspTravelDirection[]={0,-1,0};
-				tireForceAppPointOffset="Wheel_1_axis";
-				width=0.30000001;
+				tireForceAppPointOffset="wheel_nose_center";
+				width=0.18;
 			};
-			class wheel_2: wheel_1
+			class wheel_main_l: wheel_nose
 			{
-				boneName="wheel_2";
-				boundary="Wheel_2_rim";
-				center="Wheel_2_axis";
-				springDamperRate=23883;
-				springStrength=95531;
-				sprungMass=2134;
+				boneName="wheel_main_l";
+				boundary="wheel_main_l_bound";
+				center="wheel_main_l_center";
+				springDamperRate=83060;   // CHANGED: rescaled with springStrength (same damping ratio as your original)
+				springStrength=1155500;   // CHANGED: static sag 0.025 m = half of maxCompression 0.05
+				sprungMass=2944.6;
 				steering=0;
-				suspForceAppPointOffset="Wheel_2_axis";
-				tireForceAppPointOffset="Wheel_2_axis";
+				side="left";
+				suspForceAppPointOffset="wheel_main_l_center";
+				tireForceAppPointOffset="wheel_main_l_center";
+				width=0.23;
 			};
-			class wheel_3: wheel_2
+			class wheel_main_r: wheel_main_l
 			{
-				boneName="wheel_2";
-				boundary="Wheel_2_rim";
-				center="Wheel_2_axis";
+				boneName="wheel_main_r";
+				boundary="wheel_main_r_bound";
+				center="wheel_main_r_center";
 				side="right";
-				suspForceAppPointOffset="Wheel_2_axis";
-				tireForceAppPointOffset="Wheel_2_axis";
+				suspForceAppPointOffset="wheel_main_r_center";
+				tireForceAppPointOffset="wheel_main_r_center";
 			};
 		};
 		class HitPoints
@@ -720,108 +754,29 @@ class CfgVehicles
 				radius=0.25;
 				visual="HitLCRudder";
 			};
-			class HitGlass1
+			class HitRRudder: HitLCRudder
+			{
+				name="HitRRudder";
+				visual="HitRRudder";
+			};
+			class HitGear
 			{
 				armor=2;
+				depends="0";
+				explosionShielding=2;
 				material=-1;
-				name="glass1";
-				visual="glass1";
-				passThrough=0;
-			};
-			class HitGlass2: HitGlass1
-			{
-				armor=0.5;
+				minimalHit=0.1;
+				name="HitGear";
+				passThrough=0.3;
+				radius=0.3;
+				visual="HitGear";
 			};
 		};
 	};
-	class USAF_RQ4B_B20 : USAF_RQ4B_B40
-	{
-		displayName="RQ-4B Global Hawk (B20)";
-		class UserActions {};
-	};
+	   class USAF_RQ4B_B20 : USAF_RQ4B_B40
+   {
+       displayName="RQ-4B Global Hawk (B20)";
+       model="\x\usaf_rq4a_tweak_v2\Models\RQ4B_GlobalHawk_BACN.p3d";
+       class UserActions {};
+   };
 };
-// Add "Add BACN Payload" option to other airframes too
-// Fix this later since the statement formatting is wrong and all needs to be on the same line
-/* class USAF_MQ9
-{
-	class ACE_MainActions 
-	{
-		class addBACNPayload
-		{
-			displayName = "Add BACN payload";
-			condition = " ({(_x call ace_repair_fnc_isRepairVehicle) == true} count ((getPosATLVisual _target) nearEntities 30)) > 0 ";
-			exceptions[] = {};
-			statement = "
-				[_player] spawn { 
-					params [""_player""];
-					_player playActionNow ""Civil"";
-					sleep 2.267;
-					_player switchMove [""InBaseMoves_repairVehicleKnl"",0,0.1,false];
-				};
-				[
-					2.267+25,
-					[_player, _target],
-					{
-						[_this select 0 select 1] call MM_fnc_setupBACN;
-					},
-					{
-						[_this select 0 select 0] spawn {
-							_this select 0 switchMove ["""", 0, 0.1, false];
-							_this select 0 playActionNow ""Stand"";
-						};
-					},
-					""Installing BACN payload""
-				] call ace_common_fnc_progressBar;
-			";
-			icon = "";	//Add a +BACN icon at some point.
-		};
-		class removeBACNPayload
-		{
-			displayName = "Remove BACN payload";
-			condition = " ({(_x call ace_repair_fnc_isRepairVehicle) == true} count ((getPosATLVisual _target) nearEntities 30)) > 0 ";
-			exceptions[] = {};
-			statement = "
-				[_player] spawn { 
-					params [""_player""];
-					_player playActionNow ""Civil"";
-					sleep 2.267;
-					_player switchMove [""InBaseMoves_repairVehicleKnl"",0,0.1,false];
-				};
-				[
-					2.267+25,
-					[_player, _target],
-					{
-						{
-							if ( _x getVariable [""RQ4Tweak_connectedToBACN"", []] isEqualTo (_this select 0 select 1) ) then {
-								_x setVariable [""RQ4Tweak_connectedToBACN"", nil, true];
-								_x setVariable [""RQ4Tweak_bacnConnectionHeld"", nil, true];
-								_x setVariable [""RQ4Tweak_playerRadios"", nil, true];
-								
-								[false] remoteExecCall [""MM_fnc_bacnACREAmplify"", _x, true];
-
-								[""] remoteExec [""hint"", _x];
-							};
-						} forEach allPlayers;
-
-						[[_this select 0 select 1, 0, _this select 0 select 1 getVariable ""RQ4Tweak_bacnAddActionPath""]] remoteExec [""ace_interact_menu_fnc_removeActionFromObject""];
-						[[_this select 0 select 1, 0, _this select 0 select 1 getVariable ""RQ4Tweak_bacnRemoveActionPath""]] remoteExec [""ace_interact_menu_fnc_removeActionFromObject""];
-					},
-					{
-						[_this select 0 select 0] spawn {
-							_this select 0 switchMove ["""", 0, 0.1, false];
-							_this select 0 playActionNow ""Stand"";
-						};
-					},
-					""Installing BACN payload""
-				] call ace_common_fnc_progressBar;
-			";
-			icon = "";	//Add a +BACN icon at some point.
-		};
-	};
-};
-class STmod_airplane_MC130J_half : USAF_MQ9
-{};
-class STmod_airplane_MC130J_VIV : USAF_MQ9
-{};
-class STmod_airplane_MC130J_Base : USAF_MQ9
-{}; */
